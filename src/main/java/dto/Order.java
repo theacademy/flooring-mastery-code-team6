@@ -25,6 +25,8 @@ public class Order {
         this.state=state;
         this.productType=productType;
         this.area=area;
+
+        // a method that calculates total
     }
 
 

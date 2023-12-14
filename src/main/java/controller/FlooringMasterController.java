@@ -3,18 +3,19 @@ package controller;
 
 import java.util.Scanner;
 
+import dto.Order;
 import ui.FlooringMasterView;
 
 import service.FlooringMasterServiceLayer;
+import ui.UserIO;
+import ui.UserIOImpl;
 
 
 public class FlooringMasterController {
-
-/*
-
     private FlooringMasterView view;
+    private UserIO io = new UserIOImpl();
+
     private FlooringMasterServiceLayer service;
-    //private UserIO io = new UserIOConsoleImpl();
 
     public FlooringMasterController( FlooringMasterServiceLayer service, FlooringMasterView view) {
 
@@ -23,8 +24,6 @@ public class FlooringMasterController {
 
     }
 
-  */
-
 
     //Menu Selection
     public void run() {
@@ -32,7 +31,6 @@ public class FlooringMasterController {
         int menuSelection = 0;
         try {
             while (keepGoing) {
-
                 menuSelection = getMenuSelection();
 
                 switch (menuSelection) {
@@ -40,7 +38,7 @@ public class FlooringMasterController {
                         displayAllOrders();
                         break;
                     case 2:
-                        addOrder();
+                        view.promptUserAddOrder();
                         break;
                     case 3:
                         removeOrder();
@@ -68,10 +66,9 @@ public class FlooringMasterController {
     }
 
         private int getMenuSelection() {
-
             Scanner sc = new Scanner(System.in);
             int selection = Integer.parseInt(sc.nextLine());
-                   
+
             return selection;
         }
 
@@ -105,11 +102,12 @@ to the main menu.
         the next order number should be 5).
          */
     /*
-            Order retrieved = view.promptUserAddOrder();
-            service.addOrder(retrieved);
-            view.displayAddSuccessBanner();
-            view.pressEnterToGoBack();
+
      */
+            Order retrieved = view.promptUserAddOrder();
+//            service.addOrder(retrieved);
+//            view.displayAddSuccessBanner();
+//            view.pressEnterToGoBack();
         }
 
         private void removeOrder() {

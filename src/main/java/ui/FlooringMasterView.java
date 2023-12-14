@@ -5,6 +5,8 @@ import dto.Order;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 
 public class FlooringMasterView {
@@ -20,7 +22,7 @@ public class FlooringMasterView {
     public Order promptUserAddOrder(){
         io.print("");
         io.print("Enter your order details below: ");
-        String orderDate = io.readString("Enter the order date (MM-DD-YYYY): ");
+        String orderDate = io.readString("Enter the order date (YYYY-MM-DD): ");
         String customerName = io.readString("Enter customer's name: ");
         String state = io.readString("Enter state (e.g., NY for New York): ");
         String productType = io.readString("Enter product type: ");
@@ -28,13 +30,12 @@ public class FlooringMasterView {
         BigDecimal convertedArea = new BigDecimal(area);
 
 
-        while(area < 100){
+        while(area <= 100){
             io.print("Area must be at least 100 sq ft.");
             area = io.readDouble("Enter Area (minimum 100 sq ft): ");
         }
 
         Order order = new Order(LocalDate.parse(orderDate), customerName, state, productType, convertedArea);
-
         displayOrderSummary(order);
 
         char confirmation = io.readChar("Do you want to place this order? (Y/N): ");

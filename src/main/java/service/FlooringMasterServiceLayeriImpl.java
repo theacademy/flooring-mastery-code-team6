@@ -14,13 +14,14 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     FlooringMasterDao OrderDao;
     FlooringMasterView OrderView;
 
-    public FlooringMasterServiceLayeriImpl (FlooringMasterDao OrderDao,FlooringMasterView OrderView){
+    public FlooringMasterServiceLayeriImpl (FlooringMasterDao OrderDao){
         this.OrderDao= OrderDao;
-        this. OrderView= OrderView;
+//        this.OrderView= OrderView;
     }
 
     @Override
     public Order addOrder(LocalDate orderDate, String name, String State, String productType, BigDecimal area) {
+        // read from text file to get next orderNumber
         return null;
     }
 
