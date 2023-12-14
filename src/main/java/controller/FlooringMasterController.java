@@ -105,9 +105,9 @@ to the main menu.
 
      */
             Order retrieved = view.promptUserAddOrder();
-//            service.addOrder(retrieved);
-//            view.displayAddSuccessBanner();
-//            view.pressEnterToGoBack();
+            service.addOrder(retrieved);
+            view.displayAddSuccessBanner();
+            view.pressEnterToGoBack();
         }
 
         private void removeOrder() {
