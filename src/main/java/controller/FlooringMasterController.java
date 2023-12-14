@@ -72,6 +72,8 @@ public class FlooringMasterController {
 
             // display order
             System.out.println("display orders");
+            //Order test = view.promptUserAddOrder();
+            //test.printOrderInfo();
             // ask user for date
             // service get all orders by a particular date
             // print out all the orders
@@ -116,6 +118,7 @@ public class FlooringMasterController {
 
         private void unknownCommand() {
             System.out.println("unknown command");
+
 
         }
 
