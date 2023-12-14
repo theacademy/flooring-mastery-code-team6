@@ -2,6 +2,10 @@ package ui;
 
 import dto.Order;
 
+
+import java.time.LocalDate;
+
+
 public class FlooringMasterView {
 
     private final UserIO io;
@@ -25,7 +29,7 @@ public class FlooringMasterView {
             area = io.readDouble("Enter Area (minimum 100 sq ft): ");
         }
 
-        Order order = new Order(orderDate, customerName, state, productType, area);
+        Order order = new Order(LocalDate.parse(orderDate), customerName, state, productType, area);
 
         displayOrderSummary(order);
 

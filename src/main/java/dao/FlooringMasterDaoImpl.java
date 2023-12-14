@@ -46,8 +46,8 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
         Order added = orderInventory.put(orderNumber,order);
 
         //.getOrderDate() returns a LocalDate, needs to convert it to string to print
-        dateOrder.put(orderNumber,orderDate.toString());
-        orderInventory.put(orderNumber,order);
+
+        dateOrder.put( orderNumber,order.getOrderDate().toString());
         return added;
     }
 
