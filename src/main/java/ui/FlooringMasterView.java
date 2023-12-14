@@ -19,6 +19,18 @@ public class FlooringMasterView {
     }
 
 
+    public int displayMenu(){
+        io.print("<<Flooring Program>>");
+        io.print("1. Display Orders");
+        io.print("2. Add an Order");
+        io.print("3. Edit an Order");
+        io.print("4. Remove an Order");
+        io.print("5. Export All Data");
+        io.print("6. Quit");
+
+        return io.readInt("Please select from the choices (1-6): ");
+    }
+
     public Order promptUserAddOrder(){
         io.print("");
         io.print("Enter your order details below: ");
