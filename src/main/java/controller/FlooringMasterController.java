@@ -28,7 +28,7 @@ public class FlooringMasterController {
     //Menu Selection
     public void run() {
         boolean keepGoing = true;
-        int menuSelection = 0;
+        int menuSelection;
         try {
             while (keepGoing) {
                 menuSelection = getMenuSelection();
@@ -38,7 +38,7 @@ public class FlooringMasterController {
                         displayAllOrders();
                         break;
                     case 2:
-                        view.promptUserAddOrder();
+                        addOrder();
                         break;
                     case 3:
                         removeOrder();
@@ -66,10 +66,7 @@ public class FlooringMasterController {
     }
 
         private int getMenuSelection() {
-            Scanner sc = new Scanner(System.in);
-            int selection = Integer.parseInt(sc.nextLine());
-
-            return selection;
+            return view.displayMenu();
         }
 
 
@@ -105,9 +102,9 @@ to the main menu.
 
      */
             Order retrieved = view.promptUserAddOrder();
-//            service.addOrder(retrieved);
-//            view.displayAddSuccessBanner();
-//            view.pressEnterToGoBack();
+////            service.addOrder(retrieved);
+            view.displayAddSuccessBanner();
+            view.pressEnterToGoBack();
         }
 
         private void removeOrder() {
