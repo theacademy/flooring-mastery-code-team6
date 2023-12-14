@@ -1,7 +1,11 @@
 package controller;
 
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import java.io.IOException;
+
 import java.util.Scanner;
 
 import dto.Order;
@@ -14,11 +18,10 @@ import ui.UserIOImpl;
 
 public class FlooringMasterController {
     private FlooringMasterView view;
+    private FlooringMasterServiceLayer service;
     private UserIO io = new UserIOImpl();
 
-    private FlooringMasterServiceLayer service;
-
-    public FlooringMasterController( FlooringMasterServiceLayer service, FlooringMasterView view) {
+    public FlooringMasterController(FlooringMasterServiceLayer service, FlooringMasterView view) {
 
         this.service = service;
         this.view = view;
@@ -104,10 +107,14 @@ to the main menu.
      */
             Order retrieved = view.promptUserAddOrder();
 
+            LocalDate orderDate = retrieved.getOrderDate();
+            String name = retrieved.getCustomerName();
+            String state = retrieved.getState();
+            String productType = retrieved.getProductType();;
+            BigDecimal area = retrieved.getArea();
+
+            //service.addOrder(orderDate, name, state, productType, area);
             service.addOrder(retrieved);
-
-////            service.addOrder(retrieved);
-
             view.displayAddSuccessBanner();
             view.pressEnterToGoBack();
         }
