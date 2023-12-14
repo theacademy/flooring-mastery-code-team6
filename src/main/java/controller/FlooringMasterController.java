@@ -105,14 +105,6 @@ to the main menu.
 
      */
             Order retrieved = view.promptUserAddOrder();
-
-            LocalDate orderDate = retrieved.getOrderDate();
-            String name = retrieved.getCustomerName();
-            String state = retrieved.getState();
-            String productType = retrieved.getProductType();;
-            BigDecimal area = retrieved.getArea();
-
-            //service.addOrder(orderDate, name, state, productType, area);
             service.addOrder(retrieved);
             view.displayAddSuccessBanner();
             view.pressEnterToGoBack();
