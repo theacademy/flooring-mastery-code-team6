@@ -36,8 +36,16 @@ public class FlooringMasterView {
         return order;
     }
 
+    public void displayAddSuccessBanner(){
+        io.print("Order has been placed!");
+    }
+
+    public void pressEnterToGoBack(){
+        io.readString("Press Enter to continue. ");
+    }
+
     private void displayOrderSummary(Order order) {
-        System.out.println("\nOrder Summary:");
+        System.out.println("\nOrder Summary: ");
         System.out.println("Order Date: " + order.getOrderDate());
         System.out.println("Customer Name: " + order.getCustomerName());
         System.out.println("State: " + order.getState());
