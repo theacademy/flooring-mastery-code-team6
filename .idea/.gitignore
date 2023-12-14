@@ -3,9 +3,11 @@
 /workspace.xml
 /misc.xml
 /out
-**/out
 /bin
 /target
 /packages
 /node_modules
+
 .DS_Store
+
+**/out/
