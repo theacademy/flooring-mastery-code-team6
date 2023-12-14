@@ -19,6 +19,14 @@ public class Order {
     BigDecimal tax;
     BigDecimal total;
 
+    public Order(LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
+        this.orderDate = orderDate;
+        this.customerName=customerName;
+        this.state=state;
+        this.productType=productType;
+        this.area=area;
+    }
+
 
     // getters
 

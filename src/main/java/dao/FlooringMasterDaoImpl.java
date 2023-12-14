@@ -1,5 +1,7 @@
 package dao;
 
+import dto.Order;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -24,7 +26,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
         Order added = orderInventory.put(orderNumber,order);
 
         //.getOrderDate() returns a LocalDate, needs to convert it to string to print
-        dateOrder.put(Order.getOrderDate().toString(), orderNumber);
+        dateOrder.put(order.getOrderDate().toString(), orderNumber);
         return added;
     }
 
