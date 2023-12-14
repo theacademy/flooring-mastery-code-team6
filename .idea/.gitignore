@@ -2,6 +2,6 @@
 /shelf/
 /workspace.xml
 /misc.xml
-/out
+./out/
 .DS_Store
 
