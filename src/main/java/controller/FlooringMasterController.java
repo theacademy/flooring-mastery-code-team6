@@ -1,6 +1,7 @@
 package controller;
 
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import dto.Order;
@@ -85,7 +86,7 @@ to the main menu.
 
         }
 
-        private void addOrder() {
+        private void addOrder() throws IOException {
 
         /*
         Show a summary of the order once the calculations are completed
@@ -102,7 +103,11 @@ to the main menu.
 
      */
             Order retrieved = view.promptUserAddOrder();
+
+            service.addOrder(retrieved);
+
 ////            service.addOrder(retrieved);
+
             view.displayAddSuccessBanner();
             view.pressEnterToGoBack();
         }

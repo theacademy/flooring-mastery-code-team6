@@ -7,6 +7,8 @@ import ui.FlooringMasterView;
 import ui.UserIO;
 import ui.UserIOImpl;
 
+import java.io.IOException;
+
 public class App {
 
     public static void main(String[] args){
