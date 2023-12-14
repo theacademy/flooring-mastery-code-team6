@@ -37,7 +37,7 @@ public class FlooringMasterView {
     }
 
     private void displayOrderSummary(Order order) {
-        System.out.println("\nOrder Summary:");
+        System.out.println("\nOrder Summary: ");
         System.out.println("Order Date: " + order.getOrderDate());
         System.out.println("Customer Name: " + order.getCustomerName());
         System.out.println("State: " + order.getState());
