@@ -31,7 +31,7 @@ public class FlooringMasterView {
         io.print("5. Export All Data");
         io.print("6. Quit");
 
-        return io.readInt("Please select from the choices (1-6): ");
+        return Integer.parseInt(io.readString("Please select from the choices (1-6): "));
     }
 
     public Order promptUserAddOrder(){
@@ -43,6 +43,7 @@ public class FlooringMasterView {
         String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");
         LocalDate futureDate = LocalDate.parse(orderDate);
         LocalDate now = LocalDate.now();
+        now = now.plusDays(1);
         while (futureDate.isBefore(now)) {
             orderDate = io.readString("Date must be in the future (YYYY-MM-DD): ");
             futureDate = LocalDate.parse(orderDate);
@@ -57,7 +58,7 @@ public class FlooringMasterView {
             // Creating regex pattern by
             // creating object of Pattern class
             Pattern p = Pattern.compile(
-                    "[A-Za-z0-9]+\\.,", Pattern.CASE_INSENSITIVE);
+                    "^[a-zA-Z0-9.,\\s]+$", Pattern.CASE_INSENSITIVE);
 
             // Creating matcher for above pattern on our string
             Matcher m = p.matcher(customerName);
