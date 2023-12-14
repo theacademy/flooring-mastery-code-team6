@@ -1,6 +1,8 @@
 package controller;
 
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 import dto.Order;
@@ -13,11 +15,10 @@ import ui.UserIOImpl;
 
 public class FlooringMasterController {
     private FlooringMasterView view;
+    private FlooringMasterServiceLayer service;
     private UserIO io = new UserIOImpl();
 
-    private FlooringMasterServiceLayer service;
-
-    public FlooringMasterController( FlooringMasterServiceLayer service, FlooringMasterView view) {
+    public FlooringMasterController(FlooringMasterServiceLayer service, FlooringMasterView view) {
 
         this.service = service;
         this.view = view;
@@ -38,7 +39,7 @@ public class FlooringMasterController {
                         displayAllOrders();
                         break;
                     case 2:
-                        view.promptUserAddOrder();
+                        addOrder();
                         break;
                     case 3:
                         removeOrder();
@@ -105,7 +106,17 @@ to the main menu.
 
      */
             Order retrieved = view.promptUserAddOrder();
-//            service.addOrder(retrieved);
+
+            LocalDate orderDate = retrieved.getOrderDate();
+            String name = retrieved.getCustomerName();
+            String state = retrieved.getState();
+            String productType = retrieved.getProductType();;
+            BigDecimal area = retrieved.getArea();
+
+            retrieved.printOrderInfo();
+
+            service.addOrder(orderDate, name, state, productType, area);
+
 //            view.displayAddSuccessBanner();
 //            view.pressEnterToGoBack();
         }

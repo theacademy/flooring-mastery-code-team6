@@ -19,6 +19,10 @@ public class Order {
     BigDecimal tax;
     BigDecimal total;
 
+    public Order() {
+
+    }
+
     public Order(LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
         this.orderDate = orderDate;
         this.customerName=customerName;
@@ -139,6 +143,22 @@ public class Order {
 
     // other
 
+    public void printOrderInfo() {
+
+        System.out.println(this.toString());
+
+    }
+
+    @Override
+    public String toString() {
+        return "Order date: " + orderDate
+        + "\nCustomer Name: " + customerName
+        + "\nState: " + state
+        + "\nProduct Type: " + productType
+        + "\nArea: " + area;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -151,6 +171,8 @@ public class Order {
     public int hashCode() {
         return Objects.hash(orderNumber, customerName, orderDate, state, taxRate, productType, area, costPerSqFood, laborCostPerSqFoot, materialCost, tax, total);
     }
+
+
 
 
 }
