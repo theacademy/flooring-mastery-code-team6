@@ -1,12 +1,14 @@
 package ui;
 
 import dto.Order;
+import dto.Product;
 
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +36,7 @@ public class FlooringMasterView {
         return Integer.parseInt(io.readString("Please select from the choices (1-6): "));
     }
 
-    public Order promptUserAddOrder(){
+    public Order promptUserAddOrder(Map<String, Product> products){
         io.print("");
         io.print("Enter your order details below: ");
 
@@ -76,6 +78,7 @@ public class FlooringMasterView {
         while (!res);
 
         String state = io.readString("Enter state (e.g., NY for New York): ");
+        renderProductTypes(products);
         String productType = io.readString("Enter product type: ");
         double area = io.readDouble("Enter area (minimum 100 sq ft): ");
         BigDecimal convertedArea = new BigDecimal(area);
@@ -98,6 +101,7 @@ public class FlooringMasterView {
         return order;
     }
 
+
     public void displayAddSuccessBanner(){
         io.print("Order has been placed!");
     }
@@ -113,5 +117,20 @@ public class FlooringMasterView {
         System.out.println("State: " + order.getState());
         System.out.println("Product Type: " + order.getProductType());
         System.out.println("Area: " + order.getArea());
+    }
+
+    public void renderProductTypes(Map<String, Product> products) {
+        io.print("Available Product Types:");
+
+        for (Map.Entry<String, Product> entry : products.entrySet()) {
+            String productType = entry.getKey();
+            BigDecimal costPerSquareFoot = entry.getValue().getCostPerSquareFoot();
+            BigDecimal laborCostPerSquareFoot = entry.getValue().getLaborCostPerSquareFoot();
+
+            String productInfo = String.format("%s - Cost per Sq Ft: %s, Labor Cost per Sq Ft: %s",
+                    productType, costPerSquareFoot, laborCostPerSquareFoot);
+
+            io.print(productInfo);
+        }
     }
 }

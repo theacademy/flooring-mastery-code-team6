@@ -6,9 +6,11 @@ import java.time.LocalDate;
 
 import java.io.IOException;
 
+import java.util.Map;
 import java.util.Scanner;
 
 import dto.Order;
+import dto.Product;
 import ui.FlooringMasterView;
 
 import service.FlooringMasterServiceLayer;
@@ -104,15 +106,8 @@ to the main menu.
     /*
 
      */
-            Order retrieved = view.promptUserAddOrder();
-
-            LocalDate orderDate = retrieved.getOrderDate();
-            String name = retrieved.getCustomerName();
-            String state = retrieved.getState();
-            String productType = retrieved.getProductType();;
-            BigDecimal area = retrieved.getArea();
-
-            //service.addOrder(orderDate, name, state, productType, area);
+            Map<String, Product> products = service.getProducts();
+            Order retrieved = view.promptUserAddOrder(products);
             service.addOrder(retrieved);
             view.displayAddSuccessBanner();
             view.pressEnterToGoBack();
@@ -138,9 +133,6 @@ to the main menu.
             System.out.println("export all data");
 
         }
-
-
-
 
 }
 

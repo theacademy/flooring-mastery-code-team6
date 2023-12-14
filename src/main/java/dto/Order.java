@@ -34,10 +34,10 @@ public class Order {
         this.area = area;
 
         // a method that calculates total
-        materialCost = calculateMaterialCost();
-        laborCost = calculateLaborCost();
-        tax = calculateTax();
-        total = calculateTotal();
+//        this.materialCost = calculateMaterialCost();
+//        this.laborCost = calculateLaborCost();
+//        this.tax = calculateTax();
+//        this.total = calculateTotal();
 
     }
 

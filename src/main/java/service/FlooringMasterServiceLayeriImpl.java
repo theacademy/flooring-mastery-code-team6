@@ -2,6 +2,7 @@ package service;
 
 import dao.FlooringMasterDao;
 import dto.Order;
+import dto.Product;
 import enums.EditSpec;
 import ui.FlooringMasterView;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLayer{
@@ -90,6 +92,8 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
         return newNumber;
     }
 
-
+    public Map<String, Product> getProducts() {
+        return dao.getProducts();
+    }
 
 }

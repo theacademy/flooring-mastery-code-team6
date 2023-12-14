@@ -1,6 +1,8 @@
 package service;
 
 import dto.Order;
+import dto.Product;
+
 import enums.EditSpec;
 
 import java.awt.geom.Area;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface FlooringMasterServiceLayer {
 
@@ -23,4 +26,6 @@ public interface FlooringMasterServiceLayer {
 
     public int getNewOrderNumber() throws IOException;
 
+
+    Map<String, Product> getProducts();
 }
