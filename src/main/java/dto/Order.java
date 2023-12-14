@@ -38,7 +38,6 @@ public class Order {
         laborCost = calculateLaborCost();
         tax = calculateTax();
         total = calculateTotal();
-
     }
 
 
@@ -172,6 +171,20 @@ public class Order {
         return materialCost.add(calculateLaborCost()).add(tax);
     }
 
+
+    public void printOrderInfo() {
+
+        String orderInfo = "Order Numer: " + orderNumber
+                + "\nOrder Date: " + orderDate
+                + "\nCustomer Name: " + customerName
+                + "\nState: " + this.state
+                + "\nProduct Type: " + productType
+                + "\nArea: " + area;
+
+
+        System.out.println(orderInfo);
+
+    }
 
 
     // other
