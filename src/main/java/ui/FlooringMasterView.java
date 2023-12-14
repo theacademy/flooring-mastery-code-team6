@@ -1,5 +1,7 @@
 package ui;
 
+import dto.Order;
+
 public class FlooringMasterView {
 
     private final UserIO io;

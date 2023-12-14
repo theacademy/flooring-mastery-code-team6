@@ -1,30 +1,53 @@
 package dao;
 
+import dto.Order;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 
 public class FlooringMasterDaoImpl implements FlooringMasterDao{
 
 
-    HashMap<String, Integer> dateOrder;
+    HashMap<Integer,String> dateOrder;
 
     HashMap<Integer, Order> orderInventory;
     @Override
     public boolean checkValidOrder(int orderNumber, LocalDate orderdate) {
-        return false;
+        if(dateOrder.containsKey(orderdate.toString())){
+            if (dateOrder.get(orderdate.toString()) == orderNumber){
+                return true;
+
+            }
+            else {
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
     }
 
     @Override
     public Order removeOrder(int orderNumber, LocalDate orderDate) {
-        return null;
+
+
+        if (checkValidOrder(orderNumber, orderDate)) {
+            dateOrder.remove(orderNumber);
+            return orderInventory.remove(orderNumber);
+
+        } else {
+            return null;
+        }
     }
 
+
     @Override
-    public Order addOrder(int orderNumber, Order order) {
+    public Order addOrder(int orderNumber, LocalDate orderDate, Order order) {
         Order added = orderInventory.put(orderNumber,order);
 
         //.getOrderDate() returns a LocalDate, needs to convert it to string to print
-        dateOrder.put(Order.getOrderDate().toString(), orderNumber);
+        dateOrder.put(orderNumber,orderDate.toString());
+        orderInventory.put(orderNumber,order);
         return added;
     }
 

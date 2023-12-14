@@ -1,8 +1,12 @@
 package service;
 
+import dto.Order;
+import enums.EditSpec;
+
 import java.awt.geom.Area;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface FlooringMasterServiceLayer {
 
