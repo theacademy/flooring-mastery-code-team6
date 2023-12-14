@@ -19,6 +19,8 @@ public class Order {
     BigDecimal tax;
     BigDecimal total;
 
+    BigDecimal laborCost;
+
     public Order(LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
         this.orderDate = orderDate;
         this.customerName=customerName;
@@ -27,6 +29,11 @@ public class Order {
         this.area=area;
 
         // a method that calculates total
+        materialCost = calculateMaterialCost();
+        laborCost = calculateLaborCost();
+        tax = calculateTax();
+        total = calculateTotal();
+        
     }
 
 
@@ -135,6 +142,30 @@ public class Order {
     public void setTotal(BigDecimal total) {
         this.total = total;
     }
+
+
+
+    // material cost, labor cost, tax, total
+
+    public BigDecimal calculateMaterialCost() {
+
+        return area.multiply(costPerSqFood);
+    }
+
+    public BigDecimal calculateLaborCost() {
+        return area.multiply(laborCostPerSqFoot);
+    }
+    public BigDecimal calculateTax() {
+        BigDecimal material = this.calculateMaterialCost();
+        BigDecimal labor  = this.calculateLaborCost();
+
+        return material.multiply(labor).multiply((taxRate.divide(BigDecimal.valueOf(100))));
+    }
+
+    public BigDecimal calculateTotal() {
+        return materialCost.add(calculateLaborCost()).add(tax);
+    }
+
 
 
     // other
