@@ -14,7 +14,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
     @Override
     public boolean checkValidOrder(int orderNumber, LocalDate orderdate) {
         if(dateOrder.containsKey(orderdate.toString())){
-            if (dateOrder.get(orderdate.toString()) == orderNumber){
+            if (dateOrder.get(orderNumber).equals(orderdate.toString())){
                 return true;
 
             }
