@@ -1,6 +1,7 @@
 package controller;
 
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import dto.Order;
@@ -28,7 +29,7 @@ public class FlooringMasterController {
     //Menu Selection
     public void run() {
         boolean keepGoing = true;
-        int menuSelection = 0;
+        int menuSelection;
         try {
             while (keepGoing) {
                 menuSelection = getMenuSelection();
@@ -38,7 +39,7 @@ public class FlooringMasterController {
                         displayAllOrders();
                         break;
                     case 2:
-                        view.promptUserAddOrder();
+                        addOrder();
                         break;
                     case 3:
                         removeOrder();
@@ -66,10 +67,7 @@ public class FlooringMasterController {
     }
 
         private int getMenuSelection() {
-            Scanner sc = new Scanner(System.in);
-            int selection = Integer.parseInt(sc.nextLine());
-
-            return selection;
+            return view.displayMenu();
         }
 
 
@@ -88,7 +86,7 @@ to the main menu.
 
         }
 
-        private void addOrder() {
+        private void addOrder() throws IOException {
 
         /*
         Show a summary of the order once the calculations are completed
@@ -105,7 +103,11 @@ to the main menu.
 
      */
             Order retrieved = view.promptUserAddOrder();
+
             service.addOrder(retrieved);
+
+////            service.addOrder(retrieved);
+
             view.displayAddSuccessBanner();
             view.pressEnterToGoBack();
         }

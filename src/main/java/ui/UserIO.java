@@ -8,5 +8,7 @@ public interface UserIO {
 
     Double readDouble(String prompt);
 
-    char readChar(String s);
+    char readChar(String prompt);
+
+    int readInt(String prompt);
 }
