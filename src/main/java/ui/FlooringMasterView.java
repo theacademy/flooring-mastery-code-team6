@@ -3,6 +3,7 @@ package ui;
 import dto.Order;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -24,12 +25,15 @@ public class FlooringMasterView {
         String state = io.readString("Enter state (e.g., NY for New York): ");
         String productType = io.readString("Enter product type: ");
         double area = io.readDouble("Enter area (minimum 100 sq ft): ");
+        BigDecimal convertedArea = new BigDecimal(area);
+
+
         while(area < 100){
             io.print("Area must be at least 100 sq ft.");
             area = io.readDouble("Enter Area (minimum 100 sq ft): ");
         }
 
-        Order order = new Order(LocalDate.parse(orderDate), customerName, state, productType, area);
+        Order order = new Order(LocalDate.parse(orderDate), customerName, state, productType, convertedArea);
 
         displayOrderSummary(order);
 
