@@ -19,9 +19,7 @@ public class Order {
     BigDecimal tax;
     BigDecimal total;
 
-    public Order() {
-
-    }
+    BigDecimal laborCost;
 
     public Order(LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
         this.orderDate = orderDate;
@@ -31,6 +29,11 @@ public class Order {
         this.area=area;
 
         // a method that calculates total
+        materialCost = calculateMaterialCost();
+        laborCost = calculateLaborCost();
+        tax = calculateTax();
+        total = calculateTotal();
+
     }
 
 
@@ -141,23 +144,31 @@ public class Order {
     }
 
 
+
+    // material cost, labor cost, tax, total
+
+    public BigDecimal calculateMaterialCost() {
+
+        return area.multiply(costPerSqFood);
+    }
+
+    public BigDecimal calculateLaborCost() {
+        return area.multiply(laborCostPerSqFoot);
+    }
+    public BigDecimal calculateTax() {
+        BigDecimal material = this.calculateMaterialCost();
+        BigDecimal labor  = this.calculateLaborCost();
+
+        return material.multiply(labor).multiply((taxRate.divide(BigDecimal.valueOf(100))));
+    }
+
+    public BigDecimal calculateTotal() {
+        return materialCost.add(calculateLaborCost()).add(tax);
+    }
+
+
+
     // other
-
-    public void printOrderInfo() {
-
-        System.out.println(this.toString());
-
-    }
-
-    @Override
-    public String toString() {
-        return "Order date: " + orderDate
-        + "\nCustomer Name: " + customerName
-        + "\nState: " + state
-        + "\nProduct Type: " + productType
-        + "\nArea: " + area;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -171,8 +182,6 @@ public class Order {
     public int hashCode() {
         return Objects.hash(orderNumber, customerName, orderDate, state, taxRate, productType, area, costPerSqFood, laborCostPerSqFoot, materialCost, tax, total);
     }
-
-
 
 
 }
