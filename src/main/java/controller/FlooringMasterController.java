@@ -19,7 +19,6 @@ import ui.UserIOImpl;
 public class FlooringMasterController {
     private FlooringMasterView view;
     private FlooringMasterServiceLayer service;
-    private UserIO io = new UserIOImpl();
 
     public FlooringMasterController(FlooringMasterServiceLayer service, FlooringMasterView view) {
 

@@ -31,7 +31,7 @@ public class FlooringMasterView {
         io.print("5. Export All Data");
         io.print("6. Quit");
 
-        return io.readInt("Please select from the choices (1-6): ");
+        return Integer.parseInt(io.readString("Please select from the choices (1-6): "));
     }
 
     public Order promptUserAddOrder(){
