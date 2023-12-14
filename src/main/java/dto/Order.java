@@ -1,8 +1,13 @@
 package dto;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Order {
 
@@ -23,10 +28,10 @@ public class Order {
 
     public Order(LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
         this.orderDate = orderDate;
-        this.customerName=customerName;
-        this.state=state;
-        this.productType=productType;
-        this.area=area;
+        this.customerName = customerName;
+        this.state = state;
+        this.productType = productType;
+        this.area = area;
 
         // a method that calculates total
         materialCost = calculateMaterialCost();
@@ -57,6 +62,7 @@ public class Order {
     }
 
     ;
+
     public BigDecimal getTaxRate() {
         return taxRate;
     }
@@ -183,6 +189,37 @@ public class Order {
         return Objects.hash(orderNumber, customerName, orderDate, state, taxRate, productType, area, costPerSqFood, laborCostPerSqFoot, materialCost, tax, total);
     }
 
+    public void readProduct(String filePath) throws FileNotFoundException {
+        List<Product> products = new ArrayList<>();
+
+        try {
+            File file = new File(filePath);
+            Scanner scanner = new Scanner(file);
+
+            // Skip the header
+            if (scanner.hasNextLine()) {
+                scanner.nextLine(); // Skip the first line (header)
+            }
+
+            // Read and store product information
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] productData = line.split(",");
+                String productType = productData[0];
+                BigDecimal costPerSquareFoot = new BigDecimal(productData[1]);
+                BigDecimal laborCostPerSquareFoot = new BigDecimal(productData[2]);
+
+                // Create a Product object and add it to the list
+                products.add(new Product(productType, costPerSquareFoot, laborCostPerSquareFoot));
+            }
+
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + filePath);
+            e.printStackTrace();
+        }
+
+    }
 
 }
 
