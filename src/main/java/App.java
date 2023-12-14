@@ -17,7 +17,9 @@ public class App {
         FlooringMasterDao dao = new FlooringMasterDaoImpl();
         FlooringMasterServiceLayer service = new FlooringMasterServiceLayeriImpl(dao);
         FlooringMasterController fmc = new FlooringMasterController(service, view);
-        fmc.run();
+        //fmc.run();
+
+        view.promptUserAddOrder();
 
     }
 }
