@@ -38,7 +38,6 @@ public class Order {
         laborCost = calculateLaborCost();
         tax = calculateTax();
         total = calculateTotal();
-
     }
 
 

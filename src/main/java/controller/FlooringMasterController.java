@@ -28,7 +28,6 @@ public class FlooringMasterController {
 
     }
 
-
     //Menu Selection
     public void run() {
         boolean keepGoing = true;
