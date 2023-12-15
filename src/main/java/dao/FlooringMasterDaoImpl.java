@@ -87,30 +87,30 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
         return null;
     }
 
-//    public Product getUserSelectedProduct(String filePath) throws FileNotFoundException {
-//        List<Product> products = readProduct(filePath);
-//        Scanner scanner = new Scanner(System.in);
-//
-//        System.out.println("Please select a product type:");
-//
-//        // Display available product types for user selection
-//        for (int i = 0; i < products.size(); i++) {
-//            System.out.println((i + 1) + ". " + products.get(i).getProductType());
-//        }
-//        int selectedIndex;
-//        do {
-//            System.out.print("Enter the number corresponding to your choice: ");
-//            while (!scanner.hasNextInt()) {
-//                System.out.print("Invalid input. Please enter a number: ");
-//                scanner.next(); // consume non-integer input
-//            }
-//            selectedIndex = scanner.nextInt();
-//        } while (selectedIndex < 1 || selectedIndex > products.size());
-//
-//        // Retrieve the selected product
-//        Product selectedProduct = products.get(selectedIndex - 1);
-//        return selectedProduct;
-//    }
+/*    public Product getUserSelectedProduct(String filePath) throws FileNotFoundException {
+        List<Product> products = readProduct(filePath);
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Please select a product type:");
+
+        // Display available product types for user selection
+        for (int i = 0; i < products.size(); i++) {
+            System.out.println((i + 1) + ". " + products.get(i).getProductType());
+        }
+        int selectedIndex;
+        do {
+            System.out.print("Enter the number corresponding to your choice: ");
+            while (!scanner.hasNextInt()) {
+                System.out.print("Invalid input. Please enter a number: ");
+                scanner.next(); // consume non-integer input
+            }
+            selectedIndex = scanner.nextInt();
+        } while (selectedIndex < 1 || selectedIndex > products.size());
+
+        // Retrieve the selected product
+        Product selectedProduct = products.get(selectedIndex - 1);
+        return selectedProduct;
+ }
 
     /*
 
