@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public class Tax {
 
-    String stateAbbreviation;
-    String stateName;
-    BigDecimal taxRate;
+    private String stateAbbreviation;
+    private String stateName;
+    private BigDecimal taxRate;
 
     public Tax() {
         this.stateAbbreviation = "";
