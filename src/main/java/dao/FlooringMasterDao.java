@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import dto.Order;
@@ -24,6 +25,8 @@ public interface FlooringMasterDao {
     Order addOrder(int orderNumber, LocalDate orderDate, Order order) throws IOException;
 
     Order editOrder(int orderNumber, LocalDate orderDate);
+
+    List<Order> getAllOrders();
 
 
 }
