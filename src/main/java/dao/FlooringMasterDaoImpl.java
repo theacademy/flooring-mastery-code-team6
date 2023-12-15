@@ -10,9 +10,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
-public class FlooringMasterDaoImpl implements FlooringMasterDao{
+public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
-    Map<Integer,String> dateOrder;
+
+    Map<Integer, String> dateOrder;
     Map<Integer, Order> orderInventory;
     Map<String, Product> products;
     Map<String, Tax> taxes;
@@ -31,31 +32,27 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
     }
 
     @Override
-    public Map<String, Product> getAllProducts() throws FileNotFoundException {
-        readProduct();
-        return products;
+    public Map<String, Product> getAllProducts() {
+        return null;
     }
 
     @Override
 
     public Map<String, Tax> getAllTaxRates() throws FileNotFoundException {
-
         loadFromTaxFile(); // load the information from the taxes file
         return taxes; // return the state and tax rates information
     }
 
     @Override
     public boolean checkValidOrder(int orderNumber, LocalDate orderdate) {
-        if(dateOrder.containsKey(orderdate.toString())){
-            if (dateOrder.get(orderNumber).equals(orderdate.toString())){
+        if (dateOrder.containsKey(orderdate.toString())) {
+            if (dateOrder.get(orderNumber).equals(orderdate.toString())) {
                 return true;
 
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -76,11 +73,11 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 
     @Override
     public Order addOrder(int orderNumber, LocalDate orderDate, Order order) {
-        Order added = orderInventory.put(orderNumber,order);
+        Order added = orderInventory.put(orderNumber, order);
 
         //.getOrderDate() returns a LocalDate, needs to convert it to string to print
 
-        dateOrder.put( orderNumber,order.getOrderDate().toString());
+        dateOrder.put(orderNumber, order.getOrderDate().toString());
         return added;
     }
 
@@ -113,7 +110,9 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 //        Product selectedProduct = products.get(selectedIndex - 1);
 //        return selectedProduct;
 //    }
+
     /*
+
     public List<Product> readProduct(String filePath) throws FileNotFoundException {
         List<Product> products = new ArrayList<>();
 
@@ -143,15 +142,13 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 
             System.err.println("File not found: " + PRODUCT_FILE);
 
-            System.err.println("File not found: " + filePath);
-
             e.printStackTrace();
         }
 
         return products;
 
-    } */
 
+    } */
 
 
     public void readProduct() throws FileNotFoundException {
@@ -207,8 +204,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
             }
 
             // go through the file
-            while(sc.hasNextLine()) {
-
+            while (sc.hasNextLine()) {
                 Tax tax = unmarshallTax(sc.nextLine());
                 taxes.put(tax.getStateName(), tax);
             }
@@ -228,6 +224,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
     private Tax unmarshallTax(String taxLine) {
 
         // split the string into state abreviation, state, and tax rate
+
         String[] taxData = taxLine.split(DELIMITER);
 
         // store the values in a tax object and return it
