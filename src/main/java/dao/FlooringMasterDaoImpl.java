@@ -71,15 +71,18 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     }
 
 
-    //Incorrectly implemented, needs to change
+    /**
+     * Removes an order from the inventory based on the provided order number and order date.
+     *
+     * @param orderNumber The unique identifier of the order to be removed.
+     * @param orderDate   The date associated with the order to be removed.
+     * @return The removed order if it exists and is valid, null otherwise.
+     */
     @Override
     public Order removeOrder(int orderNumber, LocalDate orderDate) {
-
-
         if (checkValidOrder(orderNumber, orderDate)) {
             dateOrder.remove(orderNumber);
             return orderInventory.remove(orderNumber);
-
         } else {
             return null;
         }
