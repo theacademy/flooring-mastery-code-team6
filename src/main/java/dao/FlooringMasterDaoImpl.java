@@ -32,8 +32,9 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     }
 
     @Override
-    public Map<String, Product> getAllProducts() {
-        return null;
+    public Map<String, Product> getAllProducts () throws FileNotFoundException {
+        readProduct();
+        return products;
     }
 
     @Override
@@ -237,4 +238,5 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     }
 
 }
+
 
