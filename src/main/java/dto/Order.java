@@ -138,7 +138,9 @@ public class Order {
         this.total = total;
     }
 
-
+    public BigDecimal getLaborCost() {
+        return laborCost;
+    }
 
     // material cost, labor cost, tax, total
     public void calculateOrderCosts() {

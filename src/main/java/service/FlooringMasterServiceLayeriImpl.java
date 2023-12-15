@@ -26,8 +26,11 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
     @Override
     public Order addOrder(Order order) throws IOException {
+
         // read from text file to get next orderNumber
-        return dao.addOrder(1, order.getOrderDate(), order);
+        Order returnOrder = dao.addOrder(getNewOrderNumber(), order.getOrderDate(), order);
+        return returnOrder;
+
     }
 
     @Override
@@ -71,13 +74,25 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
         //Read in previous order number
         File myObj = new File("orderNumberTracker.txt");
-        Scanner myReader = new Scanner(myObj);
-        int retrievedNumber = myReader.nextInt();
-        int newNumber = retrievedNumber + 1;
+        int newNumber = 0;
 
+        //Try reading in the last number in orderNumberTracker.txt
+        //If there is no number, throw error and set newNumber to 1
+        Scanner myReader = new Scanner(myObj);
+        try {
+            String retrievedNumber = myReader.nextLine();
+            newNumber = Integer.parseInt(retrievedNumber) + 1;
+        }
+        catch (Exception e){
+            newNumber = newNumber + 1;
+        }
+
+
+
+        //Write the new order number to file
+        FileWriter myWriter = new FileWriter("orderNumberTracker.txt",false);
 
         //write the new order back to the file
-        FileWriter myWriter = new FileWriter("orderNumberTracker.txt",false);
         myWriter.write(Integer.toString(newNumber));
         myWriter.close();
 
