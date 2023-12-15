@@ -74,8 +74,10 @@ public class FlooringMasterView {
 
         }
         while (!res);
-
         String state = io.readString("Enter state (e.g., NY for New York): ");
+
+        // products are printed and then the user chooses
+        // method takes in the product list as an argument
         String productType = io.readString("Enter product type: ");
         double area = io.readDouble("Enter area (minimum 100 sq ft): ");
         BigDecimal convertedArea = new BigDecimal(area);
@@ -107,11 +109,11 @@ public class FlooringMasterView {
     }
 
     private void displayOrderSummary(Order order) {
-        System.out.println("\nOrder Summary: ");
-        System.out.println("Order Date: " + order.getOrderDate());
-        System.out.println("Customer Name: " + order.getCustomerName());
-        System.out.println("State: " + order.getState());
-        System.out.println("Product Type: " + order.getProductType());
-        System.out.println("Area: " + order.getArea());
+        io.print("\nOrder Summary: ");
+        io.print("Order Date: " + order.getOrderDate());
+        io.print("Customer Name: " + order.getCustomerName());
+        io.print("State: " + order.getState());
+        io.print("Product Type: " + order.getProductType());
+        io.print("Area: " + order.getArea());
     }
 }
