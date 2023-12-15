@@ -19,8 +19,8 @@ import java.util.*;
 
 
 public class FlooringMasterDaoImpl implements FlooringMasterDao {
-    HashMap<String, ArrayList<Integer>> dateOrder = new HashMap<>();
-    HashMap<Integer, Order> orderInventory = new HashMap<>();
+    Map<String, ArrayList<Integer>> dateOrder = new HashMap<>();
+    Map<Integer, Order> orderInventory = new HashMap<>();
 
     Map<String, Product> products;
 
@@ -38,6 +38,10 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
         products = new HashMap<>();
         taxes = new HashMap<>();
 
+    }
+
+    public Map<String, ArrayList<Integer>> getDateOrder(){
+        return dateOrder;
     }
 
     @Override
@@ -93,13 +97,13 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     public Order addOrder(Order order) throws IOException {
     // need to remove orderNumber and OrderDate from Signature
 
-        Order added = orderInventory.put(order.getOrderNumber(), order); // --> should change to Order added = orderInventory.put(order.getOrderNumber(),order)
+        orderInventory.put(order.getOrderNumber(), order);
 
 
 
         ArrayList<Integer> tempArray;
         try {
-             tempArray = dateOrder.get(order.getOrderDate().toString()); // need to replace with order.getOrderDate()
+             tempArray = dateOrder.get(order.getOrderDate().toString());
              if (tempArray== null)
                  tempArray = new ArrayList<>();
             tempArray.add(order.getOrderNumber());
@@ -112,7 +116,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
         dateOrder.put(order.getOrderDate().toString(),tempArray);
 
-        return added;
+        return order;
     }
 
     @Override
