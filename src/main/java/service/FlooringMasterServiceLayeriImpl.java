@@ -26,11 +26,6 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
     @Override
     public Order addOrder(Order order) throws IOException {
-
-
-
-
-
         // read from text file to get next orderNumber
         return dao.addOrder(getNewOrderNumber(), order.getOrderDate(), order);
     }

@@ -74,8 +74,10 @@ public class FlooringMasterView {
 
         }
         while (!res);
-
         String state = io.readString("Enter state (e.g., NY for New York): ");
+
+        // products are printed and then the user chooses
+        // method takes in the product list as an argument
         String productType = io.readString("Enter product type: ");
         double area = io.readDouble("Enter area (minimum 100 sq ft): ");
         BigDecimal convertedArea = new BigDecimal(area);
