@@ -12,6 +12,7 @@ import java.util.*;
 
 public class FlooringMasterDaoImpl implements FlooringMasterDao{
 
+
     Map<Integer,String> dateOrder;
     Map<Integer, Order> orderInventory;
     Map<String, Product> products;
@@ -36,6 +37,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
     }
 
     @Override
+
     public Map<String, Tax> getAllTaxRates() throws FileNotFoundException {
         loadFromTaxFile(); // load the information from the taxes file
         return taxes; // return the state and tax rates information
@@ -112,6 +114,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 //    }
 
     /*
+
     public List<Product> readProduct(String filePath) throws FileNotFoundException {
         List<Product> products = new ArrayList<>();
 
@@ -138,11 +141,14 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 
             scanner.close();
         } catch (FileNotFoundException e) {
+
             System.err.println("File not found: " + PRODUCT_FILE);
+
             e.printStackTrace();
         }
 
         return products;
+
 
     } */
 
@@ -221,6 +227,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
     private Tax unmarshallTax(String taxLine) {
 
         // split the string into state abreviation, state, and tax rate
+
         String[] taxData = taxLine.split(DELIMITER);
 
         // store the values in a tax object and return it
@@ -232,4 +239,3 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 
     }
 
-}
