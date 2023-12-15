@@ -38,4 +38,12 @@ public class UserIOImpl implements UserIO{
 
         return result;
     }
+
+    @Override
+    public int readInt(String prompt){
+        print(prompt);
+        int temp = sc.nextInt();
+        sc.nextLine();
+        return temp;
+    }
 }
