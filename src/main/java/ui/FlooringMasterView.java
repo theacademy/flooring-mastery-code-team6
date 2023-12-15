@@ -88,11 +88,13 @@ public class FlooringMasterView {
             area = io.readDouble("Enter Area (minimum 100 sq ft): ");
         }
 
+
+
         Order order = new Order(LocalDate.parse(orderDate), customerName, state, productType, convertedArea);
         displayOrderSummary(order);
 
-        char confirmation = io.readChar("Do you want to place this order? (Y/N): ");
-        if (confirmation == 'N') {
+        String confirmation = io.readString("Do you want to place this order? (Y/N): ");
+        if (confirmation.equalsIgnoreCase("N")) {
             io.print("Order canceled.");
             return null;
         }
