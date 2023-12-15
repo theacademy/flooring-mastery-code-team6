@@ -20,7 +20,7 @@ public class App {
         UserIO io = new UserIOImpl();
         FlooringMasterView view = new FlooringMasterView(io);
         FlooringMasterDao dao = new FlooringMasterDaoImpl();
-        FlooringMasterServiceLayer service = new FlooringMasterServiceLayeriImpl(dao);
+        FlooringMasterServiceLayer service = new FlooringMasterServiceLayeriImpl(dao, view);
         FlooringMasterController fmc = new FlooringMasterController(service, view);
         fmc.run();
 

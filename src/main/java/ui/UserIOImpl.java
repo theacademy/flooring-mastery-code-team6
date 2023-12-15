@@ -1,5 +1,6 @@
 package ui;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class UserIOImpl implements UserIO{
@@ -19,6 +20,12 @@ public class UserIOImpl implements UserIO{
     public Double readDouble(String prompt) {
         print(prompt);
         return Double.parseDouble(sc.nextLine());
+    }
+
+    @Override
+    public BigDecimal readBigDecimal(String prompt) {
+        print(prompt);
+        return new BigDecimal(sc.nextLine());
     }
 
     @Override

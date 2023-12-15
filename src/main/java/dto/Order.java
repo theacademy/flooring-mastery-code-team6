@@ -1,13 +1,8 @@
 package dto;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Order {
 
@@ -26,17 +21,16 @@ public class Order {
 
     private BigDecimal laborCost;
 
-    public Order() {
-
-    }
-
-    public Order(LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
+    public Order(int orderNumber, LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
+        this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.customerName = customerName;
         this.state = state;
         this.productType = productType;
         this.area = area;
+
     }
+
 
     // getters
 
@@ -205,64 +199,4 @@ public class Order {
     }
 
 
-    public Product getUserSelectedProduct(String filePath) throws FileNotFoundException {
-        List<Product> products = readProduct(filePath);
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Please select a product type:");
-
-        // Display available product types for user selection
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println((i + 1) + ". " + products.get(i).getProductType());
-        }
-        int selectedIndex;
-        do {
-            System.out.print("Enter the number corresponding to your choice: ");
-            while (!scanner.hasNextInt()) {
-                System.out.print("Invalid input. Please enter a number: ");
-                scanner.next(); // consume non-integer input
-            }
-            selectedIndex = scanner.nextInt();
-        } while (selectedIndex < 1 || selectedIndex > products.size());
-
-        // Retrieve the selected product
-        Product selectedProduct = products.get(selectedIndex - 1);
-        return selectedProduct;
-    }
-
-    public List<Product> readProduct(String filePath) throws FileNotFoundException {
-        List<Product> products = new ArrayList<>();
-
-        try {
-            File file = new File(filePath);
-            Scanner scanner = new Scanner(file);
-
-            // Skip the header
-            if (scanner.hasNextLine()) {
-                scanner.nextLine(); // Skip the first line (header)
-            }
-
-            // Read and store product information
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] productData = line.split(",");
-                String productType = productData[0];
-                BigDecimal costPerSquareFoot = new BigDecimal(productData[1]);
-                BigDecimal laborCostPerSquareFoot = new BigDecimal(productData[2]);
-
-                // Create a Product object and add it to the list
-                products.add(new Product(productType, costPerSquareFoot, laborCostPerSquareFoot));
-            }
-
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + filePath);
-            e.printStackTrace();
-        }
-
-        return products;
-
-    }
-
 }
-
