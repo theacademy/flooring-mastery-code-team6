@@ -75,6 +75,8 @@ public class FlooringMasterView {
         }
         while (!res);
 
+
+
         String state = io.readString("Enter state (e.g., NY for New York): ");
         String productType = io.readString("Enter product type: ");
         double area = io.readDouble("Enter area (minimum 100 sq ft): ");
