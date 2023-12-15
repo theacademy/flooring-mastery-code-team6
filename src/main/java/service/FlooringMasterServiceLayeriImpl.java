@@ -113,8 +113,7 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
         Product productType = view.promptProductType(dao.getAllProducts());
         BigDecimal area = view.promptArea();
 
-        int orderNumber = 1;
-//                getNewOrderNumber();
+        int orderNumber = getNewOrderNumber();
         Order order = new Order(orderNumber, futureDate, customerName, state.getStateAbbreviation(), productType.getProductType(), area);
         order.setTaxRate(state.getTaxRate());
         order.setCostPerSqFoot(productType.getCostPerSquareFoot());
