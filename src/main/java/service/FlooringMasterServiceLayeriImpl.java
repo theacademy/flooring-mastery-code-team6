@@ -86,4 +86,32 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     }
 
 
+    public Order promptUserAddOrder() throws IOException {
+        view.getIo().print("");
+        view.getIo().print("Enter your order details below: ");
+
+        LocalDate futureDate = view.promptFutureOrderDate();
+        String customerName = view.promptCustomerName();
+        String state = view.promptState(dao.getAllTaxRates());
+        String productType = view.promptProductType(dao.getAllProducts());
+        BigDecimal area = view.promptArea();
+
+        int orderNumber = getNewOrderNumber();
+        Order order = new Order(orderNumber, futureDate, customerName, state, productType, area);
+
+        view.displayOrderSummary(order);
+
+        char confirmation = view.getIo().readChar("Do you want to place this order? (Y/N): ");
+        if (confirmation == 'N') {
+            view.getIo().print("Order canceled.");
+            return null;
+        }
+
+        addOrder(order);
+        view.getIo().print("Order placed successfully. Order number: " + orderNumber);
+
+        return order;
+    }
+
+
 }

@@ -99,7 +99,7 @@ public class FlooringMasterController {
         /*
 
          */
-        Order retrieved = view.promptUserAddOrder();
+        Order retrieved = service.promptUserAddOrder();
         service.addOrder(retrieved);
         view.displayAddSuccessBanner();
         view.pressEnterToGoBack();

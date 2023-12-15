@@ -23,4 +23,5 @@ public interface FlooringMasterServiceLayer {
 
     public int getNewOrderNumber() throws IOException;
 
+    Order promptUserAddOrder() throws IOException;
 }

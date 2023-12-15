@@ -1,12 +1,17 @@
 package ui;
 
 import dto.Order;
+import dto.Product;
+import dto.Tax;
 
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,13 +21,15 @@ public class FlooringMasterView {
     private final UserIO io;
 
     // @Autowired
-    public FlooringMasterView(UserIO io){
+    public FlooringMasterView(UserIO io) {
         this.io = io;
     }
 
+    public UserIO getIo() {
+        return io;
+    }
 
-
-    public int displayMenu(){
+    public int displayMenu() {
         io.print("<<Flooring Program>>");
         io.print("1. Display Orders");
         io.print("2. Add an Order");
@@ -34,86 +41,95 @@ public class FlooringMasterView {
         return Integer.parseInt(io.readString("Please select from the choices (1-6): "));
     }
 
-    public Order promptUserAddOrder(){
-        io.print("");
-        io.print("Enter your order details below: ");
-
-
-        //Validation for order date. Date must be in the future
-        String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");
-        LocalDate futureDate = LocalDate.parse(orderDate);
-        LocalDate now = LocalDate.now();
-        now = now.plusDays(1);
-        while (futureDate.isBefore(now)) {
-            orderDate = io.readString("Date must be in the future (YYYY-MM-DD): ");
-            futureDate = LocalDate.parse(orderDate);
-            now = LocalDate.now();
-        }
-
-
-        String customerName = io.readString("Enter customer's name: ");
-
-        boolean res;
-        do {
-            // Creating regex pattern by
-            // creating object of Pattern class
-            Pattern p = Pattern.compile(
-                    "^[a-zA-Z0-9.,\\s]+$", Pattern.CASE_INSENSITIVE);
-
-            // Creating matcher for above pattern on our string
-            Matcher m = p.matcher(customerName);
-
-            // Now finding the matches for which
-            // let us set a boolean flag and
-            // imposing find() method
-            res = m.find();
-
-            if (!res){
-                customerName = io.readString("Name can only contain numbers, letters, period, and comma");
-            }
-
-        }
-        while (!res);
-        String state = io.readString("Enter state (e.g., NY for New York): ");
-
-        // products are printed and then the user chooses
-        // method takes in the product list as an argument
-        String productType = io.readString("Enter product type: ");
-        double area = io.readDouble("Enter area (minimum 100 sq ft): ");
-        BigDecimal convertedArea = new BigDecimal(area);
-
-
-        while (area <= 100) {
-            io.print("Area must be at least 100 sq ft.");
-            area = io.readDouble("Enter Area (minimum 100 sq ft): ");
-        }
-
-        Order order = new Order(LocalDate.parse(orderDate), customerName, state, productType, convertedArea);
-        displayOrderSummary(order);
-
-        char confirmation = io.readChar("Do you want to place this order? (Y/N): ");
-        if (confirmation == 'N') {
-            io.print("Order canceled.");
-            return null;
-        }
-
-        return order;
-    }
-
-    public void displayAddSuccessBanner(){
+    public void displayAddSuccessBanner() {
         io.print("Order has been placed!");
     }
 
-    public void pressEnterToGoBack(){
+    public void pressEnterToGoBack() {
         io.readString("Press Enter to continue. ");
     }
 
-    private void displayOrderSummary(Order order) {
+    public void displayOrderSummary(Order order) {
         io.print("\nOrder Summary: ");
         io.print("Order Date: " + order.getOrderDate());
         io.print("Customer Name: " + order.getCustomerName());
         io.print("State: " + order.getState());
         io.print("Product Type: " + order.getProductType());
         io.print("Area: " + order.getArea());
+    }
+
+    public LocalDate promptFutureOrderDate() {
+
+        LocalDate futureDate;
+        do {
+            String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");
+            futureDate = LocalDate.parse(orderDate);
+            if (futureDate.isBefore(LocalDate.now().plusDays(1))) {
+                io.print("Date must be in the future.");
+            }
+        } while (futureDate.isBefore(LocalDate.now().plusDays(1)));
+        return futureDate;
+    }
+
+    public String promptCustomerName() {
+        String customerName;
+        boolean validName;
+        do {
+            customerName = io.readString("Enter customer's name: ");
+            validName = customerName.matches("^[a-zA-Z0-9.,\\s]+$");
+            if (!validName) {
+                io.print("Name can only contain numbers, letters, period, and comma.");
+            }
+        } while (!validName);
+        return customerName;
+    }
+
+    public String promptState(Map<String, Tax> taxes) {
+        String state;
+        do {
+            state = io.readString("Enter state (e.g., NY for New York): ");
+            if (!taxes.containsKey(state)) {
+                io.print("Sorry, we cannot sell in " + state + ". Please choose a different state.");
+            }
+        } while (!taxes.containsKey(state));
+        return state;
+    }
+
+    public String promptProductType(Map<String, Product>  products) {
+        io.print("Available Products:");
+        boolean keepGoing = true;
+        for (String productType : products.keySet()) {
+            BigDecimal costPerSquareFoot = products.get(productType).getCostPerSquareFoot();
+            BigDecimal laborCostPerSquareFoot = products.get(productType).getLaborCostPerSquareFoot();
+
+            io.print(String.format("%s - Cost: $%.2f per sq ft, Labor Cost: $%.2f per sq ft",
+                    productType, costPerSquareFoot, laborCostPerSquareFoot));
+        }
+
+        String selectedProductType;
+        do {
+            selectedProductType = io.readString("Enter the product type: ");
+            if (products.containsKey(selectedProductType)) {
+               keepGoing = false;
+            }
+            else{
+                io.print("Invalid product type. Please choose from the available products.");
+
+            }
+        } while (keepGoing);
+
+        return selectedProductType;
+    }
+
+
+    public BigDecimal promptArea() {
+        BigDecimal area;
+        do {
+            area = io.readBigDecimal("Enter area (minimum 100 sq ft): ");
+            if (area.compareTo(new BigDecimal(100.0)) < 0) {
+                io.print("Area must be at least 100 sq ft.");
+            }
+        } while (area.compareTo(new BigDecimal(100.0)) < 0);
+        return area;
     }
 }

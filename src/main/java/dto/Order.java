@@ -1,13 +1,8 @@
 package dto;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Order {
 
@@ -26,17 +21,16 @@ public class Order {
 
     private BigDecimal laborCost;
 
-    public Order() {
-
-    }
-
-    public Order(LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
+    public Order(int orderNumber, LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
+        this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.customerName = customerName;
         this.state = state;
         this.productType = productType;
         this.area = area;
+
     }
+
 
     // getters
 
