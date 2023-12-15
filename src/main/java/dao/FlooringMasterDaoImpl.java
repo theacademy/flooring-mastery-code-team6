@@ -85,7 +85,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     @Override
     public Order removeOrder(int orderNumber, LocalDate orderDate) {
         if (checkValidOrder(orderNumber, orderDate)) {
-            dateOrder.remove(orderNumber);
+            dateOrder.remove(orderDate);
             return orderInventory.remove(orderNumber);
         } else {
             return null;

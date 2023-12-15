@@ -44,11 +44,13 @@ class FlooringMasterServiceLayeriImplTest {
         Order resultOrder = service.addOrder(testOrder);
 
         // Verify that dao.addOrder was called with the correct parameters
-        verify(dao).addOrder(eq(testOrder));
-        verify(dao.getAllOrders().contains(testOrder));
-
-        // Verify that the returned order matches the expected test order
         assertEquals(testOrder, resultOrder, "Returned order should match the test order");
+
+        // Verify that getAllOrders has order
+        assertTrue(dao.getAllOrders().contains(testOrder));
+
+        dao.removeOrder()
+
 
     }
 
