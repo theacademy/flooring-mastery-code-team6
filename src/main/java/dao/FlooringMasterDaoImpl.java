@@ -106,7 +106,6 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
 
         dateOrder.put(order.getOrderDate().toString(),tempArray);
-        writeOrderToFile();
 
         return added;
     }
