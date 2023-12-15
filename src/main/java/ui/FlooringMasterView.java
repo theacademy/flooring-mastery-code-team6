@@ -56,6 +56,7 @@ public class FlooringMasterView {
         io.print("State: " + order.getState());
         io.print("Product Type: " + order.getProductType());
         io.print("Area: " + order.getArea());
+        io.print("Tax Rate: $" + order.getTaxRate());
     }
 
     public LocalDate promptFutureOrderDate() {
@@ -84,18 +85,21 @@ public class FlooringMasterView {
         return customerName;
     }
 
-    public String promptState(Map<String, Tax> taxes) {
+    public Tax promptState(Map<String, Tax> taxes) {
         String state;
+        Tax selectedState = null;
         do {
             state = io.readString("Enter state (e.g., NY for New York): ");
+            selectedState = taxes.get(state);
+
             if (!taxes.containsKey(state)) {
                 io.print("Sorry, we cannot sell in " + state + ". Please choose a different state.");
             }
         } while (!taxes.containsKey(state));
-        return state;
+        return selectedState;
     }
 
-    public String promptProductType(Map<String, Product>  products) {
+    public Product promptProductType(Map<String, Product>  products) {
         io.print("Available Products:");
         boolean keepGoing = true;
         for (String productType : products.keySet()) {
@@ -118,7 +122,7 @@ public class FlooringMasterView {
             }
         } while (keepGoing);
 
-        return selectedProductType;
+        return products.get(selectedProductType);
     }
 
 
