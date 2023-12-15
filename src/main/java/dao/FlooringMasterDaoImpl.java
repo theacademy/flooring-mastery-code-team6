@@ -87,21 +87,23 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
 
     @Override
-    public Order addOrder(int orderNumber, LocalDate orderDate, Order order) throws IOException {
+    public Order addOrder(Order order) throws IOException {
+    // need to remove orderNumber and OrderDate from Signature
+
+        Order added = orderInventory.put(order.getOrderNumber(), order); // --> should change to Order added = orderInventory.put(order.getOrderNumber(),order)
 
 
-        Order added = orderInventory.put(orderNumber,order);
 
         ArrayList<Integer> tempArray;
         try {
-             tempArray = dateOrder.get(orderDate.toString());
+             tempArray = dateOrder.get(order.getOrderDate().toString()); // need to replace with order.getOrderDate()
              if (tempArray== null)
                  tempArray = new ArrayList<>();
-            tempArray.add(orderNumber);
+            tempArray.add(order.getOrderNumber());
         }
         catch (Exception e){
             tempArray = new ArrayList<>();
-            tempArray.add(orderNumber);
+            tempArray.add(order.getOrderNumber());
         }
 
 
