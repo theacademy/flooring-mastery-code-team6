@@ -205,14 +205,4 @@ public class FlooringMasterView {
         }
         return null;
     }
-    public void displayAllOrders(List<Order> orders) {
-        if (orders.isEmpty()) {
-            io.print("No orders found.");
-        } else {
-            io.print("All Orders:");
-            for (Order order : orders) {
-                displayOrderSummary(order);
-            }
-        }
-    }
 }
