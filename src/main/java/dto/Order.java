@@ -161,7 +161,10 @@ public class Order {
         return area.multiply(laborCostPerSqFoot);
     }
     public BigDecimal calculateTax(BigDecimal materialCost, BigDecimal laborCost, BigDecimal taxRate) {
-        return materialCost.add(laborCost).multiply(taxRate.divide(new BigDecimal(100)));
+        int scale = 2;
+        RoundingMode roundingMode = RoundingMode.HALF_UP;
+        BigDecimal tax = materialCost.add(laborCost).multiply(taxRate.divide(new BigDecimal(100)));
+        return tax.setScale(scale, roundingMode);
     }
 
     public BigDecimal calculateTotal(BigDecimal materialCost, BigDecimal laborCost, BigDecimal tax) {
