@@ -27,7 +27,6 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
     @Override
     public Order addOrder(Order order) throws IOException {
-
         // read from text file to get next orderNumber
         Order returnOrder = dao.addOrder(order);
         return returnOrder;
@@ -36,9 +35,15 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
     @Override
     public Order removeOrder(int orderNumber, LocalDate date) {
-        return null;
-    }
+        List<Order> allOrders = dao.getAllOrders();
+        Order orderToRemove = findOrderByNumberAndDate(allOrders, orderNumber, date.toString());
 
+        if (orderToRemove != null) {
+            dao.removeOrder(orderNumber, date);
+        }
+
+        return orderToRemove;
+    }
     @Override
     public Order editOrder(int orderNumber, LocalDate date, EditSpec editSelect) {
         return null;
@@ -112,5 +117,12 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
         return order;
     }
 
-
+    private Order findOrderByNumberAndDate(List<Order> orders, int orderNumber, String orderDate) {
+        for (Order order : orders) {
+            if (order.getOrderNumber() == orderNumber && order.getOrderDate().toString().equals(orderDate)) {
+                return order;
+            }
+        }
+        return null;
+    }
 }
