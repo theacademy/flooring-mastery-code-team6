@@ -19,15 +19,15 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     FlooringMasterDao dao;
     FlooringMasterView view;
 
-    public FlooringMasterServiceLayeriImpl (FlooringMasterDao OrderDao){
+    public FlooringMasterServiceLayeriImpl (FlooringMasterDao OrderDao, FlooringMasterView orderView){
         this.dao= OrderDao;
-//        this.OrderView= OrderView;
+        this.view= orderView;
     }
 
     @Override
     public Order addOrder(Order order) throws IOException {
         // read from text file to get next orderNumber
-        return dao.addOrder(getNewOrderNumber(), order.getOrderDate(), order);
+        return dao.addOrder(1, order.getOrderDate(), order);
     }
 
     @Override
@@ -96,7 +96,8 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
         String productType = view.promptProductType(dao.getAllProducts());
         BigDecimal area = view.promptArea();
 
-        int orderNumber = getNewOrderNumber();
+        int orderNumber = 1;
+//                getNewOrderNumber();
         Order order = new Order(orderNumber, futureDate, customerName, state, productType, area);
 
         view.displayOrderSummary(order);
@@ -109,7 +110,6 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
         addOrder(order);
         view.getIo().print("Order placed successfully. Order number: " + orderNumber);
-
         return order;
     }
 
