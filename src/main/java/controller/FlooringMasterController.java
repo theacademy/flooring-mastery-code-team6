@@ -71,7 +71,6 @@ public class FlooringMasterController {
     private void displayAllOrders() {
 
         // display order
-        System.out.println("display orders");
         //Order test = view.promptUserAddOrder();
         //test.printOrderInfo();
         // ask user for date
@@ -80,6 +79,8 @@ public class FlooringMasterController {
         // if no orders exist, display an error message
         // return to the main menu
         //view.displayMenu();
+
+        view.displayOrders(service.getAllOrders());
 
     }
 

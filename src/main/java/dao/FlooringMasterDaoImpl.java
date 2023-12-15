@@ -95,12 +95,15 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
         ArrayList<Integer> tempArray;
         try {
              tempArray = dateOrder.get(orderDate.toString());
+             if (tempArray== null)
+                 tempArray = new ArrayList<>();
             tempArray.add(orderNumber);
         }
         catch (Exception e){
             tempArray = new ArrayList<>();
             tempArray.add(orderNumber);
         }
+
 
         dateOrder.put(order.getOrderDate().toString(),tempArray);
         writeOrderToFile();

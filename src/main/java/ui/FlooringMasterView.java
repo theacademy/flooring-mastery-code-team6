@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,42 @@ public class FlooringMasterView {
         io.print("Area: " + order.getArea());
         io.print("Tax Rate: $" + order.getTaxRate());
     }
+
+    public void displayOrders(List<Order> orders) {
+        if (orders == null) {
+            io.print("There is no orders at all!");
+            return;
+        }
+
+        io.print("");
+        io.print("Display Orders for a Specific Date: ");
+
+
+        LocalDate dateToDisplay = LocalDate.parse(io.readString("Enter the date (YYYY-MM-DD): "));
+
+        List<Order> ordersForDate = getOrdersForDate(dateToDisplay, orders);
+
+        if (ordersForDate.isEmpty()) {
+            io.print("No orders found for the specified date.");
+        } else {
+            io.print("Orders for " + dateToDisplay + ":");
+            for (Order order : ordersForDate) {
+                displayOrderSummary(order);
+            }
+        }
+    }
+
+        public List<Order> getOrdersForDate(LocalDate date, List<Order> orders) {
+            List<Order> ordersForDate = new ArrayList<>();
+
+            for (Order order : orders) {
+                if (order.getOrderDate().isEqual(date)) {
+                    ordersForDate.add(order);
+                }
+            }
+
+            return ordersForDate;
+        }
 
     public LocalDate promptFutureOrderDate() {
 
