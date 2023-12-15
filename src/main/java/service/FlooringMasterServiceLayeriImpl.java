@@ -2,6 +2,8 @@ package service;
 
 import dao.FlooringMasterDao;
 import dto.Order;
+import dto.Product;
+import dto.Tax;
 import enums.EditSpec;
 import ui.FlooringMasterView;
 
@@ -107,13 +109,16 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
         LocalDate futureDate = view.promptFutureOrderDate();
         String customerName = view.promptCustomerName();
-        String state = view.promptState(dao.getAllTaxRates());
-        String productType = view.promptProductType(dao.getAllProducts());
+        Tax state = view.promptState(dao.getAllTaxRates());
+        Product productType = view.promptProductType(dao.getAllProducts());
         BigDecimal area = view.promptArea();
 
         int orderNumber = 1;
 //                getNewOrderNumber();
-        Order order = new Order(orderNumber, futureDate, customerName, state, productType, area);
+        Order order = new Order(orderNumber, futureDate, customerName, state.getStateAbbreviation(), productType.getProductType(), area);
+        order.setTaxRate(state.getTaxRate());
+        order.setCostPerSqFoot(productType.getCostPerSquareFoot());
+        order.setLaborCostPerSqFoot(productType.getLaborCostPerSquareFoot());
 
         view.displayOrderSummary(order);
 
