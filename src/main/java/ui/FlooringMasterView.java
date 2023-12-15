@@ -56,9 +56,15 @@ public class FlooringMasterView {
         io.print("Order Date: " + order.getOrderDate());
         io.print("Customer Name: " + order.getCustomerName());
         io.print("State: " + order.getState());
+        io.print("State Tax Rate: $" + order.getTaxRate());
         io.print("Product Type: " + order.getProductType());
         io.print("Area: " + order.getArea());
-        io.print("Tax Rate: $" + order.getTaxRate());
+        io.print("Cost per Square Ft: $" + order.getCostPerSqFoot());
+        io.print("Labor Cost Per Square Foot: $" + order.getLaborCostPerSqFoot());
+        io.print("Material Cost: $" + order.getMaterialCost());
+        io.print("Labor Cost: $" + order.getLaborCost());
+        io.print("Tax: $" + order.getTax());
+        io.print("Total: $" + order.getTotal());
     }
 
     public void displayOrders(List<Order> orders) {

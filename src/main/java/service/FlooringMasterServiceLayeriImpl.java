@@ -117,6 +117,7 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
         order.setTaxRate(state.getTaxRate());
         order.setCostPerSqFoot(productType.getCostPerSquareFoot());
         order.setLaborCostPerSqFoot(productType.getLaborCostPerSquareFoot());
+        order.calculateOrderCosts();
 
         view.displayOrderSummary(order);
 
