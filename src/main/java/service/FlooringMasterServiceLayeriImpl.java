@@ -85,14 +85,5 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
         return newNumber;
     }
 
-  
-}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin
-=======
->>>>>>> main

@@ -13,7 +13,7 @@ import javax.swing.*;
 
 public interface FlooringMasterDao {
 
-    Map<String, Product> getAllProducts();
+    Map<String, Product> getAllProducts() throws FileNotFoundException;
 
     Map<String, Tax> getAllTaxRates() throws FileNotFoundException;
 
