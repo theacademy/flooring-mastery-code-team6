@@ -28,7 +28,7 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     @Override
     public Order addOrder(Order order) throws IOException {
         // read from text file to get next orderNumber
-        Order returnOrder = dao.addOrder(getNewOrderNumber(), order.getOrderDate(), order);
+        Order returnOrder = dao.addOrder(order);
         return returnOrder;
 
     }
@@ -46,26 +46,6 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     }
     @Override
     public Order editOrder(int orderNumber, LocalDate date, EditSpec editSelect) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal CalculateMaterialCost(Area area, BigDecimal CostPerSquareFoot) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal CalculateLaborCost(Area area, BigDecimal LaborCostPerSquareFoot) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal CalculateTax(BigDecimal TaxRate) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal CalculateTotal() {
         return null;
     }
 
