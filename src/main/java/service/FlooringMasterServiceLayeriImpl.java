@@ -45,26 +45,6 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     }
 
     @Override
-    public BigDecimal CalculateMaterialCost(Area area, BigDecimal CostPerSquareFoot) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal CalculateLaborCost(Area area, BigDecimal LaborCostPerSquareFoot) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal CalculateTax(BigDecimal TaxRate) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal CalculateTotal() {
-        return null;
-    }
-
-    @Override
     public List<Order> getAllOrders() {
         return dao.getAllOrders();
     }
