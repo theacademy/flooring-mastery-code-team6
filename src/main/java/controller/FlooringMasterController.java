@@ -39,10 +39,10 @@ public class FlooringMasterController {
                         addOrder();
                         break;
                     case 3:
-                        removeOrder();
+                        editOrder();
                         break;
                     case 4:
-                        editOrder();
+                        removeOrder();
                         break;
                     case 5:
                         exportAllData();
