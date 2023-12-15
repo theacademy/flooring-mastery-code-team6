@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,8 @@ public class FlooringMasterView {
         return Integer.parseInt(io.readString("Please select from the choices (1-6): "));
     }
 
-    public void displayAddSuccessBanner() {
+
+    public void displayAddSuccessBanner(){
         io.print("Order has been placed!");
     }
 
@@ -56,7 +58,44 @@ public class FlooringMasterView {
         io.print("State: " + order.getState());
         io.print("Product Type: " + order.getProductType());
         io.print("Area: " + order.getArea());
+        io.print("Tax Rate: $" + order.getTaxRate());
     }
+
+    public void displayOrders(List<Order> orders) {
+        if (orders == null) {
+            io.print("There is no orders at all!");
+            return;
+        }
+
+        io.print("");
+        io.print("Display Orders for a Specific Date: ");
+
+
+        LocalDate dateToDisplay = LocalDate.parse(io.readString("Enter the date (YYYY-MM-DD): "));
+
+        List<Order> ordersForDate = getOrdersForDate(dateToDisplay, orders);
+
+        if (ordersForDate.isEmpty()) {
+            io.print("No orders found for the specified date.");
+        } else {
+            io.print("Orders for " + dateToDisplay + ":");
+            for (Order order : ordersForDate) {
+                displayOrderSummary(order);
+            }
+        }
+    }
+
+        public List<Order> getOrdersForDate(LocalDate date, List<Order> orders) {
+            List<Order> ordersForDate = new ArrayList<>();
+
+            for (Order order : orders) {
+                if (order.getOrderDate().isEqual(date)) {
+                    ordersForDate.add(order);
+                }
+            }
+
+            return ordersForDate;
+        }
 
     public LocalDate promptFutureOrderDate() {
 
@@ -84,18 +123,21 @@ public class FlooringMasterView {
         return customerName;
     }
 
-    public String promptState(Map<String, Tax> taxes) {
+    public Tax promptState(Map<String, Tax> taxes) {
         String state;
+        Tax selectedState = null;
         do {
             state = io.readString("Enter state (e.g., NY for New York): ");
+            selectedState = taxes.get(state);
+
             if (!taxes.containsKey(state)) {
                 io.print("Sorry, we cannot sell in " + state + ". Please choose a different state.");
             }
         } while (!taxes.containsKey(state));
-        return state;
+        return selectedState;
     }
 
-    public String promptProductType(Map<String, Product>  products) {
+    public Product promptProductType(Map<String, Product>  products) {
         io.print("Available Products:");
         boolean keepGoing = true;
         for (String productType : products.keySet()) {
@@ -118,14 +160,14 @@ public class FlooringMasterView {
             }
         } while (keepGoing);
 
-        return selectedProductType;
+        return products.get(selectedProductType);
     }
 
 
     public BigDecimal promptArea() {
         BigDecimal area;
         do {
-            area = io.readBigDecimal("Enter area (minimum 100 sq ft): ");
+            area = new BigDecimal(io.readString("Enter area (minimum 100 sq ft): "));
             if (area.compareTo(new BigDecimal(100.0)) < 0) {
                 io.print("Area must be at least 100 sq ft.");
             }
