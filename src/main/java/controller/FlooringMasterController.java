@@ -63,27 +63,27 @@ public class FlooringMasterController {
         }
     }
 
-        private int getMenuSelection() {
-            return view.displayMenu();
-        }
+    private int getMenuSelection() {
+        return view.displayMenu();
+    }
 
 
-        private void displayAllOrders() {
+    private void displayAllOrders() {
 
-            // display order
-            System.out.println("display orders");
-            //Order test = view.promptUserAddOrder();
-            //test.printOrderInfo();
-            // ask user for date
-            // service get all orders by a particular date
-            // print out all the orders
-            // if no orders exist, display an error message
-            // return to the main menu
-            //view.displayMenu();
+        // display order
+        System.out.println("display orders");
+        //Order test = view.promptUserAddOrder();
+        //test.printOrderInfo();
+        // ask user for date
+        // service get all orders by a particular date
+        // print out all the orders
+        // if no orders exist, display an error message
+        // return to the main menu
+        //view.displayMenu();
 
-        }
+    }
 
-        private void addOrder() throws IOException {
+    private void addOrder() throws IOException {
 
         /*
         Show a summary of the order once the calculations are completed
@@ -96,40 +96,39 @@ public class FlooringMasterController {
         next available order # (so if there are two orders and the max order number is 4,
         the next order number should be 5).
          */
-    /*
+        /*
 
-     */
-            Order retrieved = view.promptUserAddOrder();
-            service.addOrder(retrieved);
-            view.displayAddSuccessBanner();
-            view.pressEnterToGoBack();
-        }
+         */
+        Order retrieved = view.promptUserAddOrder();
+        service.addOrder(retrieved);
+        view.displayAddSuccessBanner();
+        view.pressEnterToGoBack();
+    }
 
-        private void removeOrder() {
-            System.out.println("remove orders");
-            //service.removeOrder();
+    private void removeOrder() {
+        System.out.println("remove orders");
+        //service.removeOrder();
 
-        }
-        private void editOrder() {
-            System.out.println("edit orders");
-            //service.editOrder();
+    }
+    private void editOrder() {
+        System.out.println("edit orders");
+        //service.editOrder();
 
-        }
+    }
 
-        private void unknownCommand() {
-            System.out.println("unknown command");
+    private void unknownCommand() {
+        System.out.println("unknown command");
 
 
-        }
+    }
 
-        private void exportAllData() {
+    private void exportAllData() {
 
-            System.out.println("export all data");
+        System.out.println("export all data");
 
-        }
+    }
 
 
 
 
 }
-

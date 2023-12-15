@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ public interface FlooringMasterDao {
 
     Map<String, Product> getAllProducts();
 
-    Map<String, Tax> getAllTaxRates();
+    Map<String, Tax> getAllTaxRates() throws FileNotFoundException;
 
     boolean checkValidOrder(int orderNumber, LocalDate orderdate);
     Order removeOrder(int orderNumber, LocalDate orderDate);
