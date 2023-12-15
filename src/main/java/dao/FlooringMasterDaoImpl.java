@@ -31,12 +31,15 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
     }
 
     @Override
-    public Map<String, Product> getAllProducts() {
-        return null;
+    public Map<String, Product> getAllProducts() throws FileNotFoundException {
+        readProduct();
+        return products;
     }
 
     @Override
+
     public Map<String, Tax> getAllTaxRates() throws FileNotFoundException {
+
         loadFromTaxFile(); // load the information from the taxes file
         return taxes; // return the state and tax rates information
     }
@@ -110,7 +113,6 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 //        Product selectedProduct = products.get(selectedIndex - 1);
 //        return selectedProduct;
 //    }
-
     /*
     public List<Product> readProduct(String filePath) throws FileNotFoundException {
         List<Product> products = new ArrayList<>();
@@ -138,7 +140,11 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 
             scanner.close();
         } catch (FileNotFoundException e) {
+
             System.err.println("File not found: " + PRODUCT_FILE);
+
+            System.err.println("File not found: " + filePath);
+
             e.printStackTrace();
         }
 
@@ -202,6 +208,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 
             // go through the file
             while(sc.hasNextLine()) {
+
                 Tax tax = unmarshallTax(sc.nextLine());
                 taxes.put(tax.getStateName(), tax);
             }
