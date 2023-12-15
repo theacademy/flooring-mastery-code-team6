@@ -10,10 +10,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
-public class FlooringMasterDaoImpl implements FlooringMasterDao{
+public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
 
-    Map<Integer,String> dateOrder;
+    Map<Integer, String> dateOrder;
     Map<Integer, Order> orderInventory;
     Map<String, Product> products;
     Map<String, Tax> taxes;
@@ -45,16 +45,14 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 
     @Override
     public boolean checkValidOrder(int orderNumber, LocalDate orderdate) {
-        if(dateOrder.containsKey(orderdate.toString())){
-            if (dateOrder.get(orderNumber).equals(orderdate.toString())){
+        if (dateOrder.containsKey(orderdate.toString())) {
+            if (dateOrder.get(orderNumber).equals(orderdate.toString())) {
                 return true;
 
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -75,11 +73,11 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
 
     @Override
     public Order addOrder(int orderNumber, LocalDate orderDate, Order order) {
-        Order added = orderInventory.put(orderNumber,order);
+        Order added = orderInventory.put(orderNumber, order);
 
         //.getOrderDate() returns a LocalDate, needs to convert it to string to print
 
-        dateOrder.put( orderNumber,order.getOrderDate().toString());
+        dateOrder.put(orderNumber, order.getOrderDate().toString());
         return added;
     }
 
@@ -153,7 +151,6 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
     } */
 
 
-
     public void readProduct() throws FileNotFoundException {
 
         try {
@@ -207,7 +204,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
             }
 
             // go through the file
-            while(sc.hasNextLine()) {
+            while (sc.hasNextLine()) {
                 Tax tax = unmarshallTax(sc.nextLine());
                 taxes.put(tax.getStateName(), tax);
             }
@@ -238,4 +235,6 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao{
         return new Tax(stateAbbreviation, stateName, taxRate);
 
     }
+
+}
 
