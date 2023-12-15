@@ -13,8 +13,8 @@ public interface FlooringMasterServiceLayer {
 
     Order addOrder(Order order) throws IOException;
     Order removeOrder(int orderNumber, LocalDate date);
-    Order editOrder(int orderNumber,  LocalDate date, EditSpec editSelect);
+    void editOrder() throws IOException;
     List<Order> getAllOrders();
-    public int getNewOrderNumber() throws IOException;
+    int getNewOrderNumber() throws IOException;
     Order promptUserAddOrder() throws IOException;
 }

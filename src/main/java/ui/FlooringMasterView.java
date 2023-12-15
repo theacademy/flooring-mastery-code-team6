@@ -107,22 +107,42 @@ public class FlooringMasterView {
 
     public LocalDate promptFutureOrderDate() {
 
-        LocalDate futureDate;
+        LocalDate futureDate = LocalDate.now();
         do {
             String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");
-            futureDate = LocalDate.parse(orderDate);
-            if (futureDate.isBefore(LocalDate.now().plusDays(1))) {
-                io.print("Date must be in the future.");
+            try {
+                futureDate = LocalDate.parse(orderDate);
+                if (futureDate.isBefore(LocalDate.now().plusDays(1))) {
+                    io.print("Date must be in the future.");
+                }
+            } catch (Exception e) {
+                io.print("Date format is not correct!");
             }
         } while (futureDate.isBefore(LocalDate.now().plusDays(1)));
         return futureDate;
     }
 
-    public String promptCustomerName() {
+    public LocalDate promptOrderDate() {
+
+        boolean keepGoint = true;
+        LocalDate localDate = LocalDate.now();
+        do {
+            String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");
+            try {
+                localDate = LocalDate.parse(orderDate);
+                keepGoint = false;
+            } catch (Exception e) {
+                io.print("Date format is not correct!");
+            }
+        } while (keepGoint);
+        return localDate;
+    }
+
+    public String promptCustomerName(String prompt) {
         String customerName;
         boolean validName;
         do {
-            customerName = io.readString("Enter customer's name: ");
+            customerName = io.readString(prompt);
             validName = customerName.matches("^[a-zA-Z0-9.,\\s]+$");
             if (!validName) {
                 io.print("Name can only contain numbers, letters, period, and comma.");
@@ -131,11 +151,13 @@ public class FlooringMasterView {
         return customerName;
     }
 
-    public Tax promptState(Map<String, Tax> taxes) {
+
+
+    public Tax promptTax(Map<String, Tax> taxes, String prompt) {
         String state;
         Tax selectedState = null;
         do {
-            state = io.readString("Enter state (e.g., NY for New York): ");
+            state = io.readString(prompt);
             selectedState = taxes.get(state);
 
             if (!taxes.containsKey(state)) {
@@ -145,7 +167,23 @@ public class FlooringMasterView {
         return selectedState;
     }
 
-    public Product promptProductType(Map<String, Product>  products) {
+    public String promptState(Map<String, Tax> taxes, String prompt) {
+        String state;
+        Tax selectedState = null;
+        do {
+            state = io.readString(prompt);
+            selectedState = taxes.get(state);
+
+            if (!taxes.containsKey(state)) {
+                io.print("Sorry, we cannot sell in " + state + ". Please choose a different state.");
+            }
+        } while (!taxes.containsKey(state));
+        return state;
+    }
+
+    public Product promptProductType(Map<String, Product>  products, String prompt) {
+        io.print(prompt);
+
         io.print("Available Products:");
         boolean keepGoing = true;
         for (String productType : products.keySet()) {
@@ -172,10 +210,10 @@ public class FlooringMasterView {
     }
 
 
-    public BigDecimal promptArea() {
+    public BigDecimal promptArea(String prompt) {
         BigDecimal area;
         do {
-            area = new BigDecimal(io.readString("Enter area (minimum 100 sq ft): "));
+            area = new BigDecimal(io.readString(prompt));
             if (area.compareTo(new BigDecimal(100.0)) < 0) {
                 io.print("Area must be at least 100 sq ft.");
             }
@@ -205,7 +243,7 @@ public class FlooringMasterView {
         }
     }
 
-    private Order findOrderByNumberAndDate(List<Order> orders, int orderNumber, String orderDate) {
+    public Order findOrderByNumberAndDate(List<Order> orders, int orderNumber, String orderDate) {
         for (Order order : orders) {
             if (order.getOrderNumber() == orderNumber && order.getOrderDate().toString().equals(orderDate)) {
                 return order;

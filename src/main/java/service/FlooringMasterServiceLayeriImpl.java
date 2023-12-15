@@ -4,10 +4,8 @@ import dao.FlooringMasterDao;
 import dto.Order;
 import dto.Product;
 import dto.Tax;
-import enums.EditSpec;
 import ui.FlooringMasterView;
 
-import java.awt.geom.Area;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -45,8 +43,39 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
         return orderToRemove;
     }
     @Override
-    public Order editOrder(int orderNumber, LocalDate date, EditSpec editSelect) {
-        return null;
+    public void editOrder() throws IOException {
+        LocalDate localDate = view.promptOrderDate();
+        int orderNumber = view.getIo().readInt("Enter Order Number?");
+        Order oldOrder = view.findOrderByNumberAndDate(dao.getAllOrders(), orderNumber, localDate.toString());
+        if (oldOrder != null) {
+            String newCustomerName = view.promptCustomerName("Enter customer name (" + oldOrder.getCustomerName() + "): ");
+            String newState = view.promptState(dao.getAllTaxRates(), "Enter state (" + oldOrder.getState() + "): ");
+            Product product = view.promptProductType(dao.getAllProducts(), "Enter product type (" + oldOrder.getProductType() + "): ");
+            BigDecimal newArea = view.promptArea("Enter area (" + oldOrder.getArea() + "): ");
+
+            Order newOrder = new Order(oldOrder.getOrderNumber(), oldOrder.getOrderDate(), newCustomerName, newState, product.getProductType(), newArea);
+            newOrder.setTaxRate(dao.getAllTaxRates().get(newState).getTaxRate());
+            newOrder.setCostPerSqFoot(product.getCostPerSquareFoot());
+            newOrder.setLaborCostPerSqFoot(product.getLaborCostPerSquareFoot());
+            newOrder.calculateOrderCosts();
+            // Display a summary of the updated order
+            view.displayOrderSummary(newOrder);
+
+            char confirmation = view.getIo().readChar("Do you want to save these changes? (Y/N): ");
+            if (confirmation == 'Y') {
+                // Save the changes (you may implement this part based on your data storage mechanism)
+                dao.editOrder(newOrder, oldOrder);
+                view.getIo().print("Changes saved successfully.");
+            } else {
+                view.getIo().print("Changes discarded.");
+            }
+
+
+
+
+        } else {
+            view.getIo().print("No orders found!");
+        }
     }
 
     @Override
@@ -92,10 +121,10 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
         view.getIo().print("Enter your order details below: ");
 
         LocalDate futureDate = view.promptFutureOrderDate();
-        String customerName = view.promptCustomerName();
-        Tax state = view.promptState(dao.getAllTaxRates());
-        Product productType = view.promptProductType(dao.getAllProducts());
-        BigDecimal area = view.promptArea();
+        String customerName = view.promptCustomerName("Enter customer's name: ");
+        Tax state = view.promptTax(dao.getAllTaxRates(), "Enter state (e.g., NY for New York): ");
+        Product productType = view.promptProductType(dao.getAllProducts(), "");
+        BigDecimal area = view.promptArea("Enter area (minimum 100 sq ft): ");
 
         int orderNumber = getNewOrderNumber();
         Order order = new Order(orderNumber, futureDate, customerName, state.getStateAbbreviation(), productType.getProductType(), area);
