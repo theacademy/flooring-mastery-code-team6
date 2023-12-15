@@ -80,7 +80,9 @@ public class FlooringMasterView {
         } else {
             io.print("Orders for " + dateToDisplay + ":");
             for (Order order : ordersForDate) {
+                io.print("Order Number: " + order.getOrderNumber());
                 displayOrderSummary(order);
+                io.print("============================");
             }
         }
     }
