@@ -130,7 +130,7 @@ public class FlooringMasterView {
     public BigDecimal promptArea() {
         BigDecimal area;
         do {
-            area = io.readBigDecimal("Enter area (minimum 100 sq ft): ");
+            area = new BigDecimal(io.readString("Enter area (minimum 100 sq ft): "));
             if (area.compareTo(new BigDecimal(100.0)) < 0) {
                 io.print("Area must be at least 100 sq ft.");
             }
