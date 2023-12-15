@@ -1,6 +1,7 @@
 package dto;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -160,11 +161,17 @@ public class Order {
         return area.multiply(laborCostPerSqFoot);
     }
     public BigDecimal calculateTax(BigDecimal materialCost, BigDecimal laborCost, BigDecimal taxRate) {
-        return materialCost.multiply(laborCost).multiply((taxRate.divide(BigDecimal.valueOf(100))));
+        int scale = 2;
+        RoundingMode roundingMode = RoundingMode.HALF_UP;
+        BigDecimal tax = materialCost.add(laborCost).multiply(taxRate.divide(new BigDecimal(100)));
+        return tax.setScale(scale, roundingMode);
     }
 
     public BigDecimal calculateTotal(BigDecimal materialCost, BigDecimal laborCost, BigDecimal tax) {
-        return materialCost.add(laborCost).add(tax);
+        int scale = 2;
+        RoundingMode roundingMode = RoundingMode.HALF_UP;
+        BigDecimal total = materialCost.add(laborCost).add(tax);
+        return total.setScale(scale, roundingMode);
     }
 
 
