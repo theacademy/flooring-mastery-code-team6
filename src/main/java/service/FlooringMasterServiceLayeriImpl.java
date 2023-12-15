@@ -19,9 +19,9 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     FlooringMasterDao dao;
     FlooringMasterView view;
 
-    public FlooringMasterServiceLayeriImpl (FlooringMasterDao OrderDao){
+    public FlooringMasterServiceLayeriImpl (FlooringMasterDao OrderDao, FlooringMasterView orderView){
         this.dao= OrderDao;
-//        this.OrderView= OrderView;
+        this.view= orderView;
     }
 
     @Override
