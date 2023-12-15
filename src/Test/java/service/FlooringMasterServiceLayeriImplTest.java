@@ -34,7 +34,7 @@ class FlooringMasterServiceLayeriImplTest {
     }
 
     @org.junit.jupiter.api.Test
-    void addOrder() throws IOException {
+    void addOrderAndRemoveOrderTest() throws IOException {
         // Set up test order
         Order testOrder = new Order(1, LocalDate.now().plusDays(10),"Hoda",
                 "TX", "Laminate", new BigDecimal(120));
@@ -49,13 +49,15 @@ class FlooringMasterServiceLayeriImplTest {
         // Verify that getAllOrders has order
         assertTrue(dao.getAllOrders().contains(testOrder));
 
-        dao.removeOrder()
+        assertTrue(dao.getDateOrder().containsKey(testOrder.getOrderDate().toString()));
+
+        dao.removeOrder(testOrder.getOrderNumber(),testOrder.getOrderDate());
 
 
-    }
+        // delete the order and verify it
+        assertFalse(dao.getAllOrders().contains(testOrder));
 
-    @org.junit.jupiter.api.Test
-    void removeOrder() {
+
     }
 
     @org.junit.jupiter.api.Test

@@ -3,6 +3,7 @@ package dao;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,4 +27,5 @@ public interface FlooringMasterDao {
     List<Order> getAllOrders();
 
 
+     Map<String, ArrayList<Integer>> getDateOrder();
 }
