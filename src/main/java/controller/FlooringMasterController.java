@@ -1,9 +1,5 @@
 package controller;
 
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 import java.io.IOException;
 
 import java.util.Scanner;
@@ -26,7 +22,6 @@ public class FlooringMasterController {
         this.view = view;
 
     }
-
 
     //Menu Selection
     public void run() {
@@ -77,14 +72,14 @@ public class FlooringMasterController {
 
             // display order
             System.out.println("display orders");
-
-            /*
-
-Display orders will ask the user for a date and then display the orders for that date.
-If no orders exist for that date, it will display an error message and return the user
-to the main menu.
-
-             */
+            //Order test = view.promptUserAddOrder();
+            //test.printOrderInfo();
+            // ask user for date
+            // service get all orders by a particular date
+            // print out all the orders
+            // if no orders exist, display an error message
+            // return to the main menu
+            //view.displayMenu();
 
         }
 
@@ -105,14 +100,6 @@ to the main menu.
 
      */
             Order retrieved = view.promptUserAddOrder();
-
-            LocalDate orderDate = retrieved.getOrderDate();
-            String name = retrieved.getCustomerName();
-            String state = retrieved.getState();
-            String productType = retrieved.getProductType();;
-            BigDecimal area = retrieved.getArea();
-
-            //service.addOrder(orderDate, name, state, productType, area);
             service.addOrder(retrieved);
             view.displayAddSuccessBanner();
             view.pressEnterToGoBack();
@@ -120,16 +107,18 @@ to the main menu.
 
         private void removeOrder() {
             System.out.println("remove orders");
+            //service.removeOrder();
 
         }
         private void editOrder() {
-
             System.out.println("edit orders");
+            //service.editOrder();
 
         }
 
         private void unknownCommand() {
             System.out.println("unknown command");
+
 
         }
 

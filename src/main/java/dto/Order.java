@@ -11,20 +11,24 @@ import java.util.Scanner;
 
 public class Order {
 
-    int orderNumber;
-    String customerName;
-    LocalDate orderDate;
-    String state;
-    BigDecimal taxRate;
-    String productType;
-    BigDecimal area;
-    BigDecimal costPerSqFood;
-    BigDecimal laborCostPerSqFoot;
-    BigDecimal materialCost;
-    BigDecimal tax;
-    BigDecimal total;
+    private int orderNumber;
+    private String customerName;
+    private LocalDate orderDate;
+    private String state;
+    private BigDecimal taxRate;
+    private String productType;
+    private BigDecimal area;
+    private BigDecimal costPerSqFoot;
+    private BigDecimal laborCostPerSqFoot;
+    private BigDecimal materialCost;
+    private BigDecimal tax;
+    private BigDecimal total;
 
-    BigDecimal laborCost;
+    private BigDecimal laborCost;
+
+    public Order() {
+
+    }
 
     public Order(LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
         this.orderDate = orderDate;
@@ -32,15 +36,7 @@ public class Order {
         this.state = state;
         this.productType = productType;
         this.area = area;
-
-        // a method that calculates total
-        materialCost = calculateMaterialCost();
-        laborCost = calculateLaborCost();
-        tax = calculateTax();
-        total = calculateTotal();
-
     }
-
 
     // getters
 
@@ -76,8 +72,8 @@ public class Order {
         return area;
     }
 
-    public BigDecimal getCostPerSqFood() {
-        return costPerSqFood;
+    public BigDecimal getCostPerSqFoot() {
+        return costPerSqFoot;
     }
 
     ;
@@ -129,8 +125,7 @@ public class Order {
         this.area = area;
     }
 
-    public void setCostPerSqFood(BigDecimal costPerSqFood) {
-        this.costPerSqFood = costPerSqFood;
+    public void setCostPerSqFoot(BigDecimal costPerSqFoot) {this.costPerSqFoot = costPerSqFoot;
     }
 
     public void setLaborCostPerSqFoot(BigDecimal laborCostPerSqFoot) {
@@ -152,26 +147,44 @@ public class Order {
 
 
     // material cost, labor cost, tax, total
+    public void calculateOrderCosts() {
 
-    public BigDecimal calculateMaterialCost() {
+        materialCost = calculateMaterialCost(area, costPerSqFoot);
+        laborCost = calculateLaborCost(area, laborCostPerSqFoot);
+        tax = calculateTax(materialCost, laborCost, taxRate);
+        total = calculateTotal(materialCost, laborCost, tax);
 
-        return area.multiply(costPerSqFood);
     }
 
-    public BigDecimal calculateLaborCost() {
+    public BigDecimal calculateMaterialCost(BigDecimal area, BigDecimal costPerSqFoot) {
+        return area.multiply(costPerSqFoot);
+    }
+
+    public BigDecimal calculateLaborCost(BigDecimal area, BigDecimal laborCostPerSqFoot) {
         return area.multiply(laborCostPerSqFoot);
     }
-    public BigDecimal calculateTax() {
-        BigDecimal material = this.calculateMaterialCost();
-        BigDecimal labor  = this.calculateLaborCost();
-
-        return material.multiply(labor).multiply((taxRate.divide(BigDecimal.valueOf(100))));
+    public BigDecimal calculateTax(BigDecimal materialCost, BigDecimal laborCost, BigDecimal taxRate) {
+        return materialCost.multiply(laborCost).multiply((taxRate.divide(BigDecimal.valueOf(100))));
     }
 
-    public BigDecimal calculateTotal() {
-        return materialCost.add(calculateLaborCost()).add(tax);
+    public BigDecimal calculateTotal(BigDecimal materialCost, BigDecimal laborCost, BigDecimal tax) {
+        return materialCost.add(laborCost).add(tax);
     }
 
+
+    public void printOrderInfo() {
+
+        String orderInfo = "Order Numer: " + orderNumber
+                + "\nOrder Date: " + orderDate
+                + "\nCustomer Name: " + customerName
+                + "\nState: " + this.state
+                + "\nProduct Type: " + productType
+                + "\nArea: " + area;
+
+
+        System.out.println(orderInfo);
+
+    }
 
 
     // other
@@ -181,13 +194,14 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return orderNumber == order.orderNumber && Objects.equals(customerName, order.customerName) && Objects.equals(orderDate, order.orderDate) && Objects.equals(state, order.state) && Objects.equals(taxRate, order.taxRate) && Objects.equals(productType, order.productType) && Objects.equals(area, order.area) && Objects.equals(costPerSqFood, order.costPerSqFood) && Objects.equals(laborCostPerSqFoot, order.laborCostPerSqFoot) && Objects.equals(materialCost, order.materialCost) && Objects.equals(tax, order.tax) && Objects.equals(total, order.total);
+        return orderNumber == order.orderNumber && Objects.equals(customerName, order.customerName) && Objects.equals(orderDate, order.orderDate) && Objects.equals(state, order.state) && Objects.equals(taxRate, order.taxRate) && Objects.equals(productType, order.productType) && Objects.equals(area, order.area) && Objects.equals(costPerSqFoot, order.costPerSqFoot) && Objects.equals(laborCostPerSqFoot, order.laborCostPerSqFoot) && Objects.equals(materialCost, order.materialCost) && Objects.equals(tax, order.tax) && Objects.equals(total, order.total);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderNumber, customerName, orderDate, state, taxRate, productType, area, costPerSqFood, laborCostPerSqFoot, materialCost, tax, total);
+        return Objects.hash(orderNumber, customerName, orderDate, state, taxRate, productType, area, costPerSqFoot, laborCostPerSqFoot, materialCost, tax, total);
     }
+
 
     public Product getUserSelectedProduct(String filePath) throws FileNotFoundException {
         List<Product> products = readProduct(filePath);
