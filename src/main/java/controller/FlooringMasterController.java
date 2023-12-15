@@ -2,9 +2,11 @@ package controller;
 
 import java.io.IOException;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 import dto.Order;
+import enums.EditSpec;
 import ui.FlooringMasterView;
 
 import service.FlooringMasterServiceLayer;
@@ -108,12 +110,37 @@ public class FlooringMasterController {
 
     private void removeOrder() {
         System.out.println("remove orders");
-        //service.removeOrder();
+        /*
+For removing an order, the system should ask for the date and order number.
+If it exists, the system should display the order information and prompt the user if they are sure.
+If yes, it should be removed from the list.*/
 
+        // ask user for the date and order number and see if they want to remove it
+        LocalDate date;
+        int orderNumber = 0;
+
+        // call view to get date and order number
+
+        // remove the order
+        //service.removeOrder(date, orderNumber);
     }
+
     private void editOrder() {
         System.out.println("edit orders");
-        //service.editOrder();
+
+        // ask user for date and order number
+        LocalDate date;
+        int orderNumber = 0;
+        EditSpec editSelection; // enum stating what to edit
+
+        // call view to get date and order number
+
+
+        // edit the order if necessary
+        //service.editOrder(date, orderNumber, editSelection);
+
+
+
 
     }
 
