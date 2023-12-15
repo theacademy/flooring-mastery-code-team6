@@ -39,10 +39,10 @@ public class FlooringMasterController {
                         addOrder();
                         break;
                     case 3:
-                        removeOrder();
+                        editOrder();
                         break;
                     case 4:
-                        editOrder();
+                        removeOrder();
                         break;
                     case 5:
                         exportAllData();
@@ -106,9 +106,7 @@ public class FlooringMasterController {
     }
 
     private void removeOrder() {
-        System.out.println("remove orders");
-        //service.removeOrder();
-
+        view.removeOrderPrompt(service.getAllOrders());
     }
     private void editOrder() {
         System.out.println("edit orders");

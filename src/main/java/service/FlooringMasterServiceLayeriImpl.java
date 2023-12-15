@@ -9,7 +9,6 @@ import ui.FlooringMasterView;
 
 import java.awt.geom.Area;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -67,7 +66,7 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
     @Override
     public List<Order> getAllOrders() {
-        return null;
+        return dao.getAllOrders();
     }
 
 

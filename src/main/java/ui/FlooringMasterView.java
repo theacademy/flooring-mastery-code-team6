@@ -137,4 +137,45 @@ public class FlooringMasterView {
         } while (area.compareTo(new BigDecimal(100.0)) < 0);
         return area;
     }
+
+    public void removeOrderPrompt(List<Order> orders){
+        io.print("Remove an order: ");
+        String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");
+        LocalDate date = LocalDate.parse(orderDate);
+        int orderNumber = io.readInt("Enter the order number: ");
+
+        Order orderToRemove = findOrderByNumberAndDate(orders, orderNumber, orderDate);
+        if (orderToRemove != null) {
+            displayOrderSummary(orderToRemove);
+
+            char confirmation = io.readChar("Are you sure you want to remove this order? (Y/N): ");
+            if (confirmation == 'Y') {
+                orders.remove(orderToRemove);
+                io.print("Order successfully removed.");
+            } else {
+                io.print("Order removal canceled.");
+            }
+        } else {
+            io.print("Order not found.");
+        }
+    }
+
+    private Order findOrderByNumberAndDate(List<Order> orders, int orderNumber, String orderDate) {
+        for (Order order : orders) {
+            if (order.getOrderNumber() == orderNumber && order.getOrderDate().toString().equals(orderDate)) {
+                return order;
+            }
+        }
+        return null;
+    }
+    public void displayAllOrders(List<Order> orders) {
+        if (orders.isEmpty()) {
+            io.print("No orders found.");
+        } else {
+            io.print("All Orders:");
+            for (Order order : orders) {
+                displayOrderSummary(order);
+            }
+        }
+    }
 }
