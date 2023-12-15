@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public interface FlooringMasterDao {
     boolean checkValidOrder(int orderNumber, LocalDate orderdate);
     Order removeOrder(int orderNumber, LocalDate orderDate);
 
-    Order addOrder(int orderNumber, LocalDate orderDate, Order order);
+    Order addOrder(int orderNumber, LocalDate orderDate, Order order) throws IOException;
 
     Order editOrder(int orderNumber, LocalDate orderDate);
 

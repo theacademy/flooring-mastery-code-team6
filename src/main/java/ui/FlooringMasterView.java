@@ -41,7 +41,8 @@ public class FlooringMasterView {
         return Integer.parseInt(io.readString("Please select from the choices (1-6): "));
     }
 
-    public void displayAddSuccessBanner() {
+
+    public void displayAddSuccessBanner(){
         io.print("Order has been placed!");
     }
 
