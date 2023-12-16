@@ -221,6 +221,129 @@ public class FlooringMasterView {
         return area;
     }
 
+
+    public int promptOrderNumber(String prompt) {
+        return io.readInt(prompt);
+    }
+
+    public Order promptDateAndOrderNumberForOrder(List<Order> orders) {
+        LocalDate orderDate = promptOrderDate();
+        int orderNumber = promptOrderNumber("Enter the order number: ");
+        return findOrderByNumberAndDate(orders, orderNumber, orderDate.toString());
+    }
+
+    public String editCustomerName(String oldName) {
+
+        String prompt = "Enter customer name (" + oldName + "): ";
+        String newName = io.readString(prompt);
+        if(newName.isEmpty() || newName.isBlank()) {
+            return null;
+        } else if (newName.matches("^[a-zA-Z0-9.,\\s]+$")) {
+            return newName;
+        } else {
+            return promptCustomerName(prompt);
+        }
+    }
+
+    public String editState(String oldState, Map<String, Tax> taxes) {
+
+        String prompt = "Enter state (" + oldState + "): ";
+        String newState = io.readString(prompt);
+        if(newState.isEmpty() || newState.isBlank()) {
+            return null;
+        } else if (taxes.containsKey(newState)) {
+            return newState;
+        } else {
+            return promptState(taxes, prompt);
+        }
+    }
+
+    public Product editProduct(String oldProduct, Map<String, Product> products) {
+
+        String prompt = "Enter product type (" + oldProduct + "): ";
+        String newProduct = io.readString(prompt);
+        if(newProduct.isEmpty() || newProduct.isBlank()) {
+            return null;
+        } else if (products.containsKey(newProduct)) {
+            return products.get(newProduct);
+        }
+        else {
+            return promptProductType(products, prompt);
+        }
+    }
+
+    public BigDecimal editArea(BigDecimal oldArea) {
+
+        String prompt = "Enter area (" + oldArea + "): ";
+        String newArea = io.readString(prompt);
+        if(newArea.isEmpty() || newArea.isBlank()) {
+            return null;
+        } else if (new BigDecimal(newArea).compareTo(new BigDecimal(100.0)) >= 0) {
+            return new BigDecimal(newArea);
+        } else {
+            return promptArea(newArea);
+        }
+    }
+
+
+    public Order editOrderPrompt(List<Order> orders, Map<String, Product> products, Map<String, Tax> taxes) {
+
+        // retrieve the order by ask the user for the order date and order number
+        Order orderToEdit = promptDateAndOrderNumberForOrder(orders);
+
+        // If the order exists for that date,
+        if (orderToEdit != null) {
+
+            // ask the user for each piece of order data but display the existing data
+            // any changes will change that particular order
+            // pressing enter, will leave that data unchanged
+            io.print("Edit your new data. Press Enter only if you wish to leave that particular field unchanged.");
+
+            String newCustomerName = editCustomerName(orderToEdit.getCustomerName());
+            String newState = editState(orderToEdit.getState(), taxes);
+            Product newProduct = editProduct(orderToEdit.getProductType(), products);
+            BigDecimal newArea = editArea(orderToEdit.getArea());
+
+            // if there are no changes, return null
+            if (newCustomerName == null && newState == null && newProduct == null && newArea == null) {
+                return null;
+            }
+
+            Order newOrder = new Order();
+            newOrder.setOrderNumber(orderToEdit.getOrderNumber());
+            newOrder.setOrderDate(orderToEdit.getOrderDate());
+            newOrder.setCustomerName(newCustomerName != null ? newCustomerName : orderToEdit.getCustomerName());
+            newOrder.setState(newState != null ? newState : orderToEdit.getState());
+            newOrder.setProductType(newProduct != null ? newProduct.getProductType() : orderToEdit.getProductType());
+            newOrder.setArea(newArea != null ? newArea : orderToEdit.getArea());
+
+            //Order newOrder = new Order(orderToEdit.getOrderNumber(), orderToEdit.getOrderDate(), newCustomerName, newState, product.getProductType(), newArea);
+
+            // perform calculations
+            newOrder.setTaxRate(taxes.get(orderToEdit.getState()).getTaxRate());
+            newOrder.setCostPerSqFoot(products.get(orderToEdit.getProductType()).getCostPerSquareFoot());
+            newOrder.setLaborCostPerSqFoot(products.get(orderToEdit.getProductType()).getLaborCostPerSquareFoot());
+            newOrder.calculateOrderCosts();
+
+            // Display a summary of the updated order
+            displayOrderSummary(newOrder);
+
+            char confirmation = io.readChar("Do you want to save these changes? (Y/N): ");
+            if (confirmation == 'Y') {
+                // Save the changes (you may implement this part based on your data storage mechanism)
+                io.print("Changes saved successfully.");
+                return newOrder;
+            } else {
+                io.print("Changes discarded.");
+            }
+        } else {
+            io.print("No orders found!");
+        }
+
+        return null;
+
+    }
+
     public Order removeOrderPrompt(List<Order> orders){
         io.print("Remove an order: ");
         String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");

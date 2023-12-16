@@ -117,9 +117,8 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     }
 
     @Override
-    public void editOrder(Order newOrder, Order oldOrder) throws IOException {
-        removeOrder(oldOrder.getOrderNumber(), oldOrder.getOrderDate());
-        addOrder(newOrder);
+    public void editOrder(Order newOrder) throws IOException {
+        orderInventory.replace(newOrder.getOrderNumber(), newOrder);
     }
 
     @Override
