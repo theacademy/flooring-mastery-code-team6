@@ -221,7 +221,7 @@ public class FlooringMasterView {
         return area;
     }
 
-    public void removeOrderPrompt(List<Order> orders){
+    public Order removeOrderPrompt(List<Order> orders){
         io.print("Remove an order: ");
         String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");
         LocalDate date = LocalDate.parse(orderDate);
@@ -233,14 +233,21 @@ public class FlooringMasterView {
 
             char confirmation = io.readChar("Are you sure you want to remove this order? (Y/N): ");
             if (confirmation == 'Y') {
-                orders.remove(orderToRemove);
-                io.print("Order successfully removed.");
+                //orders.remove(orderToRemove);
+                io.print("Removing order...");
+                return orderToRemove;
             } else {
                 io.print("Order removal canceled.");
             }
         } else {
             io.print("Order not found.");
         }
+        return null;
+    }
+
+    public void removeOrderResultPrompt(boolean removed) {
+        if (removed) io.print("Order successfully removed.");
+        else io.print("Error: Order removal was unsuccessful.");
     }
 
     public Order findOrderByNumberAndDate(List<Order> orders, int orderNumber, String orderDate) {
