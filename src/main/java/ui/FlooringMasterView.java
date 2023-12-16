@@ -241,6 +241,7 @@ public class FlooringMasterView {
         } else if (newName.matches("^[a-zA-Z0-9.,\\s]+$")) {
             return newName;
         } else {
+            io.print("Name can only contain numbers, letters, period, and comma.");
             return promptCustomerName(prompt);
         }
     }
@@ -254,6 +255,7 @@ public class FlooringMasterView {
         } else if (taxes.containsKey(newState)) {
             return newState;
         } else {
+            io.print("Sorry, we cannot sell in " + newState + ". Please choose a different state.");
             return promptState(taxes, prompt);
         }
     }
@@ -268,6 +270,7 @@ public class FlooringMasterView {
             return products.get(newProduct);
         }
         else {
+            io.print("Invalid product type. Please choose from the available products.");
             return promptProductType(products, prompt);
         }
     }
@@ -281,6 +284,7 @@ public class FlooringMasterView {
         } else if (new BigDecimal(newArea).compareTo(new BigDecimal(100.0)) >= 0) {
             return new BigDecimal(newArea);
         } else {
+            io.print("Area must be at least 100 sq ft.");
             return promptArea(newArea);
         }
     }
@@ -320,9 +324,9 @@ public class FlooringMasterView {
             //Order newOrder = new Order(orderToEdit.getOrderNumber(), orderToEdit.getOrderDate(), newCustomerName, newState, product.getProductType(), newArea);
 
             // perform calculations
-            newOrder.setTaxRate(taxes.get(orderToEdit.getState()).getTaxRate());
-            newOrder.setCostPerSqFoot(products.get(orderToEdit.getProductType()).getCostPerSquareFoot());
-            newOrder.setLaborCostPerSqFoot(products.get(orderToEdit.getProductType()).getLaborCostPerSquareFoot());
+            newOrder.setTaxRate(taxes.get(newOrder.getState()).getTaxRate());
+            newOrder.setCostPerSqFoot(products.get(newOrder.getProductType()).getCostPerSquareFoot());
+            newOrder.setLaborCostPerSqFoot(products.get(newOrder.getProductType()).getLaborCostPerSquareFoot());
             newOrder.calculateOrderCosts();
 
             // Display a summary of the updated order
