@@ -7,11 +7,13 @@ import dto.Tax;
 import ui.FlooringMasterView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLayer{
@@ -45,38 +47,9 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     }
 
     @Override
-    public void editOrder() throws IOException {
-        LocalDate localDate = view.promptOrderDate();
-        int orderNumber = view.getIo().readInt("Enter Order Number?");
-        Order oldOrder = view.findOrderByNumberAndDate(dao.getAllOrders(), orderNumber, localDate.toString());
-        if (oldOrder != null) {
-            String newCustomerName = view.promptCustomerName("Enter customer name (" + oldOrder.getCustomerName() + "): ");
-            String newState = view.promptState(dao.getAllTaxRates(), "Enter state (" + oldOrder.getState() + "): ");
-            Product product = view.promptProductType(dao.getAllProducts(), "Enter product type (" + oldOrder.getProductType() + "): ");
-            BigDecimal newArea = view.promptArea("Enter area (" + oldOrder.getArea() + "): ");
-
-            Order newOrder = new Order(oldOrder.getOrderNumber(), oldOrder.getOrderDate(), newCustomerName, newState, product.getProductType(), newArea);
-            newOrder.setTaxRate(dao.getAllTaxRates().get(newState).getTaxRate());
-            newOrder.setCostPerSqFoot(product.getCostPerSquareFoot());
-            newOrder.setLaborCostPerSqFoot(product.getLaborCostPerSquareFoot());
-            newOrder.calculateOrderCosts();
-            // Display a summary of the updated order
-            view.displayOrderSummary(newOrder);
-
-            char confirmation = view.getIo().readChar("Do you want to save these changes? (Y/N): ");
-            if (confirmation == 'Y') {
-                // Save the changes (you may implement this part based on your data storage mechanism)
-                dao.editOrder(newOrder, oldOrder);
-                view.getIo().print("Changes saved successfully.");
-            } else {
-                view.getIo().print("Changes discarded.");
-            }
-
-
-
-
-        } else {
-            view.getIo().print("No orders found!");
+    public void editOrder(Order newOrder) throws IOException {
+        if (newOrder != null) {
+            dao.editOrder(newOrder);
         }
     }
 
@@ -155,5 +128,13 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
             }
         }
         return null;
+    }
+
+    public Map<String, Product> getAllProducts() throws FileNotFoundException {
+        return dao.getAllProducts();
+    }
+
+    public Map<String, Tax> getAllTaxes() throws FileNotFoundException {
+        return dao.getAllTaxRates();
     }
 }

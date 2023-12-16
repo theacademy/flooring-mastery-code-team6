@@ -1,11 +1,15 @@
 package controller;
 
 import dto.Order;
+import dto.Product;
+import dto.Tax;
 import service.FlooringMasterServiceLayer;
 import ui.FlooringMasterView;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 public class FlooringMasterController {
@@ -88,8 +92,15 @@ public class FlooringMasterController {
         }
     }
 
-    private void editOrder() throws IOException {
-        service.editOrder();
+    private void editOrder() throws IOException, FileNotFoundException {
+
+        List<Order> orders = service.getAllOrders();                // get list of orders
+        Map<String, Product> products = service.getAllProducts();   // get list of products
+        Map<String, Tax> taxes = service.getAllTaxes();                     // get all taxes
+        Order editedOrder = view.editOrderPrompt(orders, products, taxes);  // get edit order
+        if (editedOrder != null) {
+            service.editOrder(editedOrder);                         // edit to new order if new order exists
+        }
 
     }
 

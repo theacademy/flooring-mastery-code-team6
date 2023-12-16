@@ -22,7 +22,7 @@ public interface FlooringMasterDao {
 
     Order addOrder(Order order) throws IOException;
 
-    void editOrder(Order newOrder, Order oldOlder) throws IOException;
+    void editOrder(Order newOrder) throws IOException;
 
     List<Order> getAllOrders();
 

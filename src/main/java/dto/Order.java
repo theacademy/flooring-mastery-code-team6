@@ -22,6 +22,11 @@ public class Order {
 
     private BigDecimal laborCost;
 
+    public Order() {
+
+    }
+
+
     public Order(int orderNumber, LocalDate orderDate, String customerName, String state, String productType, BigDecimal area) {
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
