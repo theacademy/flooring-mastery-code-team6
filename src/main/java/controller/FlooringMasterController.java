@@ -79,9 +79,13 @@ public class FlooringMasterController {
     private void removeOrder() {
         List<Order> orders = service.getAllOrders();
         Order orderToBeRemoved = view.removeOrderPrompt(orders);
-        Order removedOrder = service.removeOrder(orderToBeRemoved.getOrderNumber(), orderToBeRemoved.getOrderDate());
-        boolean removed = removedOrder.equals(orderToBeRemoved);
-        view.removeOrderResultPrompt(removed);
+        if(orderToBeRemoved != null) {
+            Order removedOrder = service.removeOrder(orderToBeRemoved.getOrderNumber(), orderToBeRemoved.getOrderDate());
+            if (removedOrder != null && removedOrder.equals(orderToBeRemoved)) {
+                view.removeOrderResultPrompt(true);
+            }
+            view.removeOrderResultPrompt(false);
+        }
     }
 
     private void editOrder() throws IOException {
