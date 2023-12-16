@@ -5,6 +5,7 @@ import service.FlooringMasterServiceLayer;
 import ui.FlooringMasterView;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class FlooringMasterController {
@@ -76,7 +77,11 @@ public class FlooringMasterController {
     }
 
     private void removeOrder() {
-        view.removeOrderPrompt(service.getAllOrders());
+        List<Order> orders = service.getAllOrders();
+        Order orderToBeRemoved = view.removeOrderPrompt(orders);
+        Order removedOrder = service.removeOrder(orderToBeRemoved.getOrderNumber(), orderToBeRemoved.getOrderDate());
+        boolean removed = removedOrder.equals(orderToBeRemoved);
+        view.removeOrderResultPrompt(removed);
     }
 
     private void editOrder() throws IOException {

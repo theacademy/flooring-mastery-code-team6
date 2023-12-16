@@ -38,10 +38,12 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
         if (orderToRemove != null) {
             dao.removeOrder(orderNumber, date);
+            return orderToRemove;
         }
 
-        return orderToRemove;
+        return null;
     }
+
     @Override
     public void editOrder() throws IOException {
         LocalDate localDate = view.promptOrderDate();
