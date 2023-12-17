@@ -8,6 +8,8 @@ import ui.FlooringMasterView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -74,11 +76,24 @@ public class FlooringMasterController {
 
     private void addOrder() throws IOException {
 
-        Order retrieved = service.promptUserAddOrder();
-        service.addOrder(retrieved);
-        view.displayAddSuccessBanner();
-        view.pressEnterToGoBack();
+        Order order = service.getUserNewOrder();
+
+        view.displayOrderSummary(order);
+
+        char confirmation = view.promptYN();
+        if (confirmation == 'N') {
+            view.displayOrderCanceled();
+        }
+        else{
+            service.addOrder(order);
+            view.displayAddSuccessBanner();
+            view.pressEnterToGoBack();
+            view.displayOrderPlacedSuccessfully(order.getOrderNumber());
+        }
+
+
     }
+
 
     private void removeOrder() {
         List<Order> orders = service.getAllOrders();

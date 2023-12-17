@@ -385,4 +385,100 @@ public class FlooringMasterView {
         }
         return null;
     }
+
+    /**
+     * For AddOrder. Everything here was used by AddOrder
+     */
+    public String promptAddOrderOrderDate() {
+
+
+        return io.readString("Enter the future order date (YYYY-MM-DD): ");
+
+
+    }
+
+    public String promptAddOrderCustomerName() {
+        return io.readString("Enter customer's name: ");
+    }
+
+
+
+    public String promptAddOrderTax() {
+        return io.readString("Enter state (e.g., NY for New York): ");
+    }
+
+    public String promptAddOrdertate(Map<String, Tax> taxes, String prompt) {
+        String state;
+        Tax selectedState = null;
+        do {
+            state = io.readString(prompt);
+            selectedState = taxes.get(state);
+
+            if (!taxes.containsKey(state)) {
+                io.print("Sorry, we cannot sell in " + state + ". Please choose a different state.");
+            }
+        } while (!taxes.containsKey(state));
+        return state;
+    }
+
+    public String promptAddOrderProductType() {
+        return io.readString("Enter the product type: ");
+    }
+
+
+    public String promptAddOrderArea() {
+        return io.readString("Enter area (minimum 100 sq ft): ");
+    }
+
+
+    public int promptAddOrderOrderNumber() {
+        return io.readInt("Enter the order number: ");
+    }
+
+    public void displayAreaMustBeGreater() {
+        io.print("Area must be greater than 100 sq. ft");
+    }
+
+    public void displayCannotSellInState(String state) {
+        io.print("Order is not available to be placed in " + state);
+    }
+
+    public void displayNameMustContain() {
+        io.print("Name must only contain numbers, letters, periods, or comma.");
+    }
+
+    public void displayDateNotInFuture() {
+        io.print("Date entered is not in the future (YYYY-MM-DD)");
+    }
+
+    public void displayDateFormatIncorrect() {
+        io.print("Date format is incorrect, must be in (YYYY-MM-DD) ");
+    }
+
+    public void displayAvailableProduct() {
+        io.print("Available Products:");
+    }
+
+    public void print(String printString) {
+        io.print(printString);
+    }
+
+    public void displayInvalidProductType() {
+        io.print("Invalid Product type");
+    }
+
+    public char promptYN() {
+        return io.readChar("Confirm by pressing Y/N");
+    }
+
+    public void displayOrderCanceled() {
+        io.print("Order cancelled");
+    }
+
+    public void displayOrderPlacedSuccessfully(int orderNumber) {
+        io.print("Order placed successfully: " + orderNumber);
+    }
+    /**
+     * End of AddOrder Suite
+     */
 }

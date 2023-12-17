@@ -20,9 +20,21 @@ public interface FlooringMasterServiceLayer {
     void editOrder(Order newOrder) throws IOException;
     List<Order> getAllOrders();
     int getNewOrderNumber() throws IOException;
-    Order promptUserAddOrder() throws IOException;
     Map<String, Product> getAllProducts() throws FileNotFoundException;
     Map<String, Tax> getAllTaxes() throws FileNotFoundException;
 
     public void exportAllData() throws IOException;
+
+    BigDecimal validateArea();
+
+    Tax validateTaxState() throws FileNotFoundException;
+
+    String validateCustomerName();
+
+    LocalDate validateFutureOrderDate();
+
+
+    Product validateProductType() throws FileNotFoundException;
+
+    Order getUserNewOrder() throws IOException;
 }
