@@ -243,25 +243,8 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
         }
 
-//        String fileName =
-//        File myObj = new File("orderNumberTracker.txt");
     }
-    /*
-    Write both order inventory to file and order date. File name should be the date
-    and every order with that date should be in the same file.
-    OrderNumber – Integer
-    CustomerName – String
-    State – String
-    TaxRate – BigDecimal
-    ProductType – String
-    Area – BigDecimal
-    CostPerSquareFoot – BigDecimal
-    LaborCostPerSquareFoot – BigDecimal
-    MaterialCost – BigDecimal
-    LaborCost – BigDecimal
-    Tax – BigDecimal
-    Total – BigDecimal
-     */
+
     private String marhsallOrder(Order order){
 
         final String DELIMITER = ",";
