@@ -1,22 +1,18 @@
 package service;
 
-import dao.FlooringMasterDaoImpl;
-import enums.FileType;
 import dao.FlooringMasterDao;
+import dao.FlooringMasterDaoImpl;
 import dto.Order;
 import dto.Product;
 import dto.Tax;
 import ui.FlooringMasterView;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import static java.util.Collections.max;
 
@@ -145,23 +141,21 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
     @Override
     public Tax validateTaxState() throws FileNotFoundException {
-        Map<String, Tax> taxes = dao.getAllTaxRates();
         Tax selectedState = null;
         String state;
         do {
             state = view.promptAddOrderTax();
-            selectedState = taxes.get(state);
+            selectedState = dao.getAllTaxRates().get(state);
 
-            if (!taxes.containsKey(state)) {
+            if (!dao.getAllTaxRates().containsKey(state)) {
                 view.displayCannotSellInState(state);
             }
-        } while (!taxes.containsKey(state));
+        } while (!dao.getAllTaxRates().containsKey(state));
         return selectedState;
     }
 
     @Override
     public String validateCustomerName() {
-
         String customerName;
         boolean validName;
         do {
@@ -194,26 +188,20 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
     @Override
     public Product validateProductType() throws FileNotFoundException {
-
         String selectedProductType;
-        Map<String, Product>  products = dao.getAllProducts();
         view.displayAvailableProduct();
         boolean keepGoing = true;
-        for (String productType : products.keySet()) {
-            BigDecimal costPerSquareFoot = products.get(productType).getCostPerSquareFoot();
-            BigDecimal laborCostPerSquareFoot = products.get(productType).getLaborCostPerSquareFoot();
+        for (String productType :  dao.getAllProducts().keySet()) {
+            BigDecimal costPerSquareFoot =  dao.getAllProducts().get(productType).getCostPerSquareFoot();
+            BigDecimal laborCostPerSquareFoot =  dao.getAllProducts().get(productType).getLaborCostPerSquareFoot();
 
-            String productPrintOut = (String.format("%s - Cost: $%.2f per sq ft, Labor Cost: $%.2f per sq ft",
-                    productType, costPerSquareFoot, laborCostPerSquareFoot));
-            view.print(productPrintOut);
-
-
+            view.print(productType, costPerSquareFoot, laborCostPerSquareFoot);
         }
 
 
         do {
             selectedProductType = view.promptAddOrderProductType();
-            if (products.containsKey(selectedProductType)) {
+            if ( dao.getAllProducts().containsKey(selectedProductType)) {
                 keepGoing = false;
             }
             else{
@@ -222,7 +210,7 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
             }
         } while (keepGoing);
 
-        return products.get(selectedProductType);
+        return  dao.getAllProducts().get(selectedProductType);
     }
 
     /**

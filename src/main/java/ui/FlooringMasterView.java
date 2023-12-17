@@ -39,12 +39,13 @@ public class FlooringMasterView {
         io.print("5. Export All Data");
         io.print("6. Quit");
     }
-    public int getUserSelection(){
+
+    public int getUserSelection() {
         return io.readInt("Please select from the choices (1-6): ");
     }
 
 
-    public void displayAddSuccessBanner(){
+    public void displayAddSuccessBanner() {
         io.print("Order has been placed!");
     }
 
@@ -105,17 +106,17 @@ public class FlooringMasterView {
         } while (keepGoing);
     }
 
-        public List<Order> getOrdersForDate(LocalDate date, List<Order> orders) {
-            List<Order> ordersForDate = new ArrayList<>();
+    public List<Order> getOrdersForDate(LocalDate date, List<Order> orders) {
+        List<Order> ordersForDate = new ArrayList<>();
 
-            for (Order order : orders) {
-                if (order.getOrderDate().isEqual(date)) {
-                    ordersForDate.add(order);
-                }
+        for (Order order : orders) {
+            if (order.getOrderDate().isEqual(date)) {
+                ordersForDate.add(order);
             }
-
-            return ordersForDate;
         }
+
+        return ordersForDate;
+    }
 
     public LocalDate promptFutureOrderDate() {
 
@@ -164,7 +165,6 @@ public class FlooringMasterView {
     }
 
 
-
     public Tax promptTax(Map<String, Tax> taxes, String prompt) {
         String state;
         Tax selectedState = null;
@@ -193,7 +193,7 @@ public class FlooringMasterView {
         return state;
     }
 
-    public Product promptProductType(Map<String, Product>  products, String prompt) {
+    public Product promptProductType(Map<String, Product> products, String prompt) {
         io.print(prompt);
 
         io.print("Available Products:");
@@ -210,9 +210,8 @@ public class FlooringMasterView {
         do {
             selectedProductType = io.readString("Enter the product type: ");
             if (products.containsKey(selectedProductType)) {
-               keepGoing = false;
-            }
-            else{
+                keepGoing = false;
+            } else {
                 io.print("Invalid product type. Please choose from the available products.");
 
             }
@@ -248,7 +247,7 @@ public class FlooringMasterView {
 
         String prompt = "Enter customer name (" + oldName + "): ";
         String newName = io.readString(prompt);
-        if(newName.isEmpty() || newName.isBlank()) {
+        if (newName.isEmpty() || newName.isBlank()) {
             return null;
         } else if (newName.matches("^[a-zA-Z0-9.,\\s]+$")) {
             return newName;
@@ -262,7 +261,7 @@ public class FlooringMasterView {
 
         String prompt = "Enter state (" + oldState + "): ";
         String newState = io.readString(prompt);
-        if(newState.isEmpty() || newState.isBlank()) {
+        if (newState.isEmpty() || newState.isBlank()) {
             return null;
         } else if (taxes.containsKey(newState)) {
             return newState;
@@ -276,12 +275,11 @@ public class FlooringMasterView {
 
         String prompt = "Enter product type (" + oldProduct + "): ";
         String newProduct = io.readString(prompt);
-        if(newProduct.isEmpty() || newProduct.isBlank()) {
+        if (newProduct.isEmpty() || newProduct.isBlank()) {
             return null;
         } else if (products.containsKey(newProduct)) {
             return products.get(newProduct);
-        }
-        else {
+        } else {
             io.print("Invalid product type. Please choose from the available products.");
             return promptProductType(products, prompt);
         }
@@ -291,7 +289,7 @@ public class FlooringMasterView {
 
         String prompt = "Enter area (" + oldArea + "): ";
         String newArea = io.readString(prompt);
-        if(newArea.isEmpty() || newArea.isBlank()) {
+        if (newArea.isEmpty() || newArea.isBlank()) {
             return null;
         } else if (new BigDecimal(newArea).compareTo(new BigDecimal(100.0)) >= 0) {
             return new BigDecimal(newArea);
@@ -360,7 +358,7 @@ public class FlooringMasterView {
 
     }
 
-    public Order removeOrderPrompt(List<Order> orders){
+    public Order removeOrderPrompt(List<Order> orders) {
         io.print("Remove an order: ");
         String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");
         LocalDate date = LocalDate.parse(orderDate);
@@ -428,7 +426,6 @@ public class FlooringMasterView {
     }
 
 
-
     public String promptAddOrderTax() {
         return io.readString("Enter state (e.g., NY for New York): ");
     }
@@ -485,8 +482,10 @@ public class FlooringMasterView {
         io.print("Available Products:");
     }
 
-    public void print(String printString) {
-        io.print(printString);
+    public void print(String productType, BigDecimal costPerSquareFoot, BigDecimal laborCostPerSquareFoot) {
+        String productPrintOut = (String.format("%s - Cost: $%.2f per sq ft, Labor Cost: $%.2f per sq ft",
+                productType, costPerSquareFoot, laborCostPerSquareFoot));
+        io.print(productPrintOut);
     }
 
     public void displayInvalidProductType() {
@@ -502,7 +501,7 @@ public class FlooringMasterView {
     }
 
     public void displayOrderPlacedSuccessfully(int orderNumber) {
-        io.print("Order #"  + orderNumber + " placed successfully:");
+        io.print("Order #" + orderNumber + " placed successfully:");
     }
     /**
      * End of AddOrder Suite
