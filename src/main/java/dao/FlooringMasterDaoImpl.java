@@ -110,8 +110,6 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
              else {
                  tempArray.add(order.getOrderNumber());
              }
-        System.out.println("Size"+tempArray.size());
-
 
 
         dateOrder.put(order.getOrderDate().toString(),tempArray);

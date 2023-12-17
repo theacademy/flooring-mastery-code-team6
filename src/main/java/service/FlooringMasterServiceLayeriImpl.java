@@ -28,6 +28,7 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     @Override
     public Order addOrder(Order order) throws IOException {
         // read from text file to get next orderNumber
+
         Order returnOrder = dao.addOrder(order);
         return returnOrder;
 
@@ -91,35 +92,6 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     }
 
 
-    public Order promptUserAddOrder() throws IOException {
-        view.getIo().print("");
-        view.getIo().print("Enter your order details below: ");
-
-        LocalDate futureDate = view.promptFutureOrderDate();
-        String customerName = view.promptCustomerName("Enter customer's name: ");
-        Tax state = view.promptTax(dao.getAllTaxRates(), "Enter state (e.g., NY for New York): ");
-        Product productType = view.promptProductType(dao.getAllProducts(), "");
-        BigDecimal area = view.promptArea("Enter area (minimum 100 sq ft): ");
-
-        int orderNumber = getNewOrderNumber();
-        Order order = new Order(orderNumber, futureDate, customerName, state.getStateAbbreviation(), productType.getProductType(), area);
-        order.setTaxRate(state.getTaxRate());
-        order.setCostPerSqFoot(productType.getCostPerSquareFoot());
-        order.setLaborCostPerSqFoot(productType.getLaborCostPerSquareFoot());
-        order.calculateOrderCosts();
-
-        view.displayOrderSummary(order);
-
-        char confirmation = view.getIo().readChar("Do you want to place this order? (Y/N): ");
-        if (confirmation == 'N') {
-            view.getIo().print("Order canceled.");
-            return null;
-        }
-
-        view.getIo().print("Order placed successfully. Order number: " + orderNumber);
-        return order;
-    }
-
     private Order findOrderByNumberAndDate(List<Order> orders, int orderNumber, String orderDate) {
         for (Order order : orders) {
             if (order.getOrderNumber() == orderNumber && order.getOrderDate().toString().equals(orderDate)) {
@@ -141,4 +113,126 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     public void exportAllData() throws IOException {
         dao.writeOrderToFile();
     }
+
+
+    /**
+     * For AddOrder.Everything here was used by AddOrder
+     */
+
+    @Override
+    public Order getUserNewOrder() throws IOException {
+        LocalDate futureDate = validateFutureOrderDate();
+
+        String customerName = validateCustomerName();
+        Tax state = validateTaxState();
+
+        Product productType = validateProductType();
+        BigDecimal area = validateArea();
+        int orderNumber = getNewOrderNumber();
+        Order order = new Order(orderNumber, futureDate, customerName, state.getStateAbbreviation(), productType.getProductType(), area);
+        order.setTaxRate(state.getTaxRate());
+        order.setCostPerSqFoot(productType.getCostPerSquareFoot());
+        order.setLaborCostPerSqFoot(productType.getLaborCostPerSquareFoot());
+        order.calculateOrderCosts();
+
+        return order;
+    }
+
+    @Override
+    public BigDecimal validateArea() {
+        BigDecimal area;
+        do {
+            area = new BigDecimal(view.promptAddOrderArea());
+            if (area.compareTo(new BigDecimal(100.0)) < 0) {
+                view.displayAreaMustBeGreater();
+            }
+        } while (area.compareTo(new BigDecimal(100.0)) < 0);
+        return area;
+    }
+
+    @Override
+    public Tax validateTaxState() throws FileNotFoundException {
+        Map<String, Tax> taxes = dao.getAllTaxRates();
+        Tax selectedState = null;
+        String state;
+        do {
+            state = view.promptAddOrderTax();
+            selectedState = taxes.get(state);
+
+            if (!taxes.containsKey(state)) {
+                view.displayCannotSellInState(state);
+            }
+        } while (!taxes.containsKey(state));
+        return selectedState;
+    }
+
+    @Override
+    public String validateCustomerName() {
+
+        String customerName;
+        boolean validName;
+        do {
+            customerName = view.promptAddOrderCustomerName();
+            validName = customerName.matches("^[a-zA-Z0-9.,\\s]+$");
+            if (!validName) {
+                view.displayNameMustContain();
+            }
+        } while (!validName);
+        return customerName;
+    }
+
+    @Override
+    public LocalDate validateFutureOrderDate() {
+        LocalDate futureDate = LocalDate.now();
+        do {
+            String orderDate = view.promptAddOrderOrderDate();
+            try {
+                futureDate = LocalDate.parse(orderDate);
+                if (futureDate.isBefore(LocalDate.now().plusDays(1))) {
+                    view.displayDateNotInFuture();
+                }
+            } catch (Exception e) {
+                view.displayDateFormatIncorrect();
+            }
+        } while (futureDate.isBefore(LocalDate.now().plusDays(1)));
+        return futureDate;
+    }
+
+
+    @Override
+    public Product validateProductType() throws FileNotFoundException {
+
+        String selectedProductType;
+        Map<String, Product>  products = dao.getAllProducts();
+        view.displayAvailableProduct();
+        boolean keepGoing = true;
+        for (String productType : products.keySet()) {
+            BigDecimal costPerSquareFoot = products.get(productType).getCostPerSquareFoot();
+            BigDecimal laborCostPerSquareFoot = products.get(productType).getLaborCostPerSquareFoot();
+
+            String productPrintOut = (String.format("%s - Cost: $%.2f per sq ft, Labor Cost: $%.2f per sq ft",
+                    productType, costPerSquareFoot, laborCostPerSquareFoot));
+            view.print(productPrintOut);
+
+
+        }
+
+
+        do {
+            selectedProductType = view.promptAddOrderProductType();
+            if (products.containsKey(selectedProductType)) {
+                keepGoing = false;
+            }
+            else{
+                view.displayInvalidProductType();
+
+            }
+        } while (keepGoing);
+
+        return products.get(selectedProductType);
+    }
+
+    /**
+     * End of AddOrder Suite
+     */
 }
