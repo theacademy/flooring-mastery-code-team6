@@ -1,5 +1,6 @@
 package service;
 
+import controller.FileType;
 import dao.FlooringMasterDao;
 import dto.Order;
 import dto.Product;
@@ -19,7 +20,7 @@ import java.util.Scanner;
 public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLayer{
     FlooringMasterDao dao;
     FlooringMasterView view;
-    private final String ORDER_NUMBER_TRACKER_FILE = "orderNumberTracker.txt";
+    private final String ORDER_NUMBER_TRACKER_FILE = FileType.ORDER_NUMBER_TRACKER.getFileName();
 
     public FlooringMasterServiceLayeriImpl (FlooringMasterDao OrderDao, FlooringMasterView orderView){
         this.dao= OrderDao;

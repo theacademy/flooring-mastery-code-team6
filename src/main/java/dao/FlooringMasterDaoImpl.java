@@ -1,5 +1,6 @@
 package dao;
 
+import controller.FileType;
 import dto.Order;
 import dto.Product;
 import dto.Tax;
@@ -27,10 +28,10 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
     Map<String, Tax> taxes;
 
-    private final String PRODUCT_FILE = "Products.txt";
-    private final String TAX_FILE = "Taxes.txt";
+    private final String PRODUCT_FILE = FileType.PRODUCT.getFileName();
+    private final String TAX_FILE = FileType.TAX.getFileName();
 
-    private final String ORDER_FILE = "Orders";
+    private final String ORDER_FILE = FileType.ORDER.getFileName();
     private final String DELIMITER = ",";
 
 
