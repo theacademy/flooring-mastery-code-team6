@@ -1,11 +1,10 @@
 package dao;
 
-import controller.FileType;
+import enums.FileType;
 import dto.Order;
 import dto.Product;
 import dto.Tax;
 
-import java.awt.geom.Area;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

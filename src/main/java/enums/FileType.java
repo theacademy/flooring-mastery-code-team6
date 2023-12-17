@@ -1,4 +1,4 @@
-package controller;
+package enums;
 
 public enum FileType {
     ORDER_NUMBER_TRACKER("orderNumberTracker.txt"),

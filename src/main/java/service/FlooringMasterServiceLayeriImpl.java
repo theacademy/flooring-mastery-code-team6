@@ -1,6 +1,6 @@
 package service;
 
-import controller.FileType;
+import enums.FileType;
 import dao.FlooringMasterDao;
 import dto.Order;
 import dto.Product;
