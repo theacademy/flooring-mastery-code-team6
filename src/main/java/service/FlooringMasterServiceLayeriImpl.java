@@ -19,6 +19,7 @@ import java.util.Scanner;
 public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLayer{
     FlooringMasterDao dao;
     FlooringMasterView view;
+    private final String ORDER_NUMBER_TRACKER_FILE = "orderNumberTracker.txt";
 
     public FlooringMasterServiceLayeriImpl (FlooringMasterDao OrderDao, FlooringMasterView orderView){
         this.dao= OrderDao;
@@ -64,7 +65,7 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     public int getNewOrderNumber() throws IOException {
 
         //Read in previous order number
-        File myObj = new File("orderNumberTracker.txt");
+        File myObj = new File(ORDER_NUMBER_TRACKER_FILE);
         int newNumber = 0;
 
         //Try reading in the last number in orderNumberTracker.txt
@@ -81,7 +82,7 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
 
         //Write the new order number to file
-        FileWriter myWriter = new FileWriter("orderNumberTracker.txt",false);
+        FileWriter myWriter = new FileWriter(ORDER_NUMBER_TRACKER_FILE,false);
 
         //write the new order back to the file
         myWriter.write(Integer.toString(newNumber));
