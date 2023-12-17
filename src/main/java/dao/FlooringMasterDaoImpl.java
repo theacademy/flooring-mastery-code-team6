@@ -1,10 +1,10 @@
 package dao;
 
+import enums.FileType;
 import dto.Order;
 import dto.Product;
 import dto.Tax;
 
-import java.awt.geom.Area;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -27,8 +27,10 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
     Map<String, Tax> taxes;
 
-    private final String PRODUCT_FILE = "Products.txt";
-    private final String TAX_FILE = "Taxes.txt";
+    private final String PRODUCT_FILE = FileType.PRODUCT.getFileName();
+    private final String TAX_FILE = FileType.TAX.getFileName();
+
+    private final String ORDER_FILE = FileType.ORDER.getFileName();
     private final String DELIMITER = ",";
 
 
@@ -223,9 +225,9 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
             LocalDate fileDate = LocalDate.parse(i);
             DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/dd/YYYY");
-            String fileName = "Orders_" + fileDate.format(formatters);
+            String fileName = ORDER_FILE + "_" + fileDate.format(formatters);
             fileName = fileName.replace("/", "");
-            String folderPath = "Order";
+            String folderPath = ORDER_FILE;
 
             File file = new File(folderPath + "\\" + fileName);
             FileWriter myWriter = new FileWriter(file, false);
@@ -241,25 +243,8 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
         }
 
-//        String fileName =
-//        File myObj = new File("orderNumberTracker.txt");
     }
-    /*
-    Write both order inventory to file and order date. File name should be the date
-    and every order with that date should be in the same file.
-    OrderNumber – Integer
-    CustomerName – String
-    State – String
-    TaxRate – BigDecimal
-    ProductType – String
-    Area – BigDecimal
-    CostPerSquareFoot – BigDecimal
-    LaborCostPerSquareFoot – BigDecimal
-    MaterialCost – BigDecimal
-    LaborCost – BigDecimal
-    Tax – BigDecimal
-    Total – BigDecimal
-     */
+
     private String marhsallOrder(Order order){
 
         final String DELIMITER = ",";
@@ -345,18 +330,23 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
 
     private void readInAllOrderFromFile() throws IOException {
-        File dir = new File("Order");
-        for (File file : dir.listFiles()) {
-            Scanner s = new Scanner(file);
+        File dir = new File(ORDER_FILE);
+        if(dir.listFiles() != null && Objects.requireNonNull(dir.listFiles()).length > 0) {
+            for (File file : Objects.requireNonNull(dir.listFiles())) {
+                Scanner s = new Scanner(file);
 
-            while(s.hasNextLine()) {
-                String nextLine = s.nextLine();
-                String fileName = file.toString();
-                Order retrievedOrder = unmarshallOrder(nextLine, fileName);
+                while (s.hasNextLine()) {
+                    String nextLine = s.nextLine();
+                    String fileName = file.toString();
+                    Order retrievedOrder = unmarshallOrder(nextLine, fileName);
 
-                this.addOrder(retrievedOrder);
+                    this.addOrder(retrievedOrder);
+                }
+                s.close();
             }
-            s.close();
+        }
+        else{
+            dir.mkdir();
         }
     }
 
