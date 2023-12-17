@@ -19,10 +19,8 @@ public class FlooringMasterController {
     private FlooringMasterServiceLayer service;
 
     public FlooringMasterController(FlooringMasterServiceLayer service, FlooringMasterView view) {
-
         this.service = service;
         this.view = view;
-
     }
 
     //Menu Selection
@@ -57,9 +55,9 @@ public class FlooringMasterController {
                 }
 
             }
-            //exitMessage();
+            view.exitMessage();
         } catch (Exception e) {
-            System.out.println("Error");
+            view.print(e.getMessage());
             //Create new exception here for persistence,
             //view should also be used to display messages.
         }
@@ -108,7 +106,6 @@ public class FlooringMasterController {
     }
 
     private void editOrder() throws IOException, FileNotFoundException {
-
         List<Order> orders = service.getAllOrders();                // get list of orders
         Map<String, Product> products = service.getAllProducts();   // get list of products
         Map<String, Tax> taxes = service.getAllTaxes();                     // get all taxes
@@ -116,19 +113,14 @@ public class FlooringMasterController {
         if (editedOrder != null) {
             service.editOrder(editedOrder);                         // edit to new order if new order exists
         }
-
     }
 
     private void unknownCommand() {
-        System.out.println("unknown command");
-
-
+        view.displayUnknownCommandBanner();
     }
 
     private void exportAllData() throws IOException {
-
         service.exportAllData();
-
     }
 
 }
