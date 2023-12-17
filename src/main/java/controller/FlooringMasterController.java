@@ -29,42 +29,35 @@ public class FlooringMasterController {
     }
 
     //Menu Selection
-    public void run() {
+    public void run() throws IOException {
         boolean keepGoing = true;
         int menuSelection;
-        try {
-            while (keepGoing) {
-                menuSelection = getMenuSelection();
+        while (keepGoing) {
+            menuSelection = getMenuSelection();
 
-                switch (menuSelection) {
-                    case 1:
-                        displayAllOrders();
-                        break;
-                    case 2:
-                        addOrder();
-                        break;
-                    case 3:
-                        editOrder();
-                        break;
-                    case 4:
-                        removeOrder();
-                        break;
-                    case 5:
-                        exportAllData();
-                        break;
-                    case 6:
-                        keepGoing = false;
-                        break;
-                    default:
-                        unknownCommand();
-                }
-
+            switch (menuSelection) {
+                case 1:
+                    displayAllOrders();
+                    break;
+                case 2:
+                    addOrder();
+                    break;
+                case 3:
+                    editOrder();
+                    break;
+                case 4:
+                    removeOrder();
+                    break;
+                case 5:
+                    exportAllData();
+                    break;
+                case 6:
+                    keepGoing = false;
+                    break;
+                default:
+                    unknownCommand();
             }
-            view.exitMessage();
-        } catch (Exception e) {
-            view.print(e.getMessage());
-            //Create new exception here for persistence,
-            //view should also be used to display messages.
+
         }
     }
 
