@@ -23,4 +23,6 @@ public interface FlooringMasterServiceLayer {
     Order promptUserAddOrder() throws IOException;
     Map<String, Product> getAllProducts() throws FileNotFoundException;
     Map<String, Tax> getAllTaxes() throws FileNotFoundException;
+
+    public void exportAllData() throws IOException;
 }

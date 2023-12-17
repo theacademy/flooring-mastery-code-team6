@@ -28,4 +28,6 @@ public interface FlooringMasterDao {
 
 
      Map<String, ArrayList<Integer>> getDateOrder();
+
+     public void writeOrderToFile() throws IOException;
 }

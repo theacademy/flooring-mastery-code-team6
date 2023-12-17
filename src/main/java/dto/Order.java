@@ -132,6 +132,8 @@ public class Order {
         this.laborCostPerSqFoot = laborCostPerSqFoot;
     }
 
+
+
     public void setMaterialCost(BigDecimal materialCost) {
         this.materialCost = materialCost;
     }
@@ -142,6 +144,10 @@ public class Order {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public void setLaborCost(BigDecimal laborCost) {
+        this.laborCost = laborCost;
     }
 
     public BigDecimal getLaborCost() {

@@ -4,6 +4,7 @@ import dto.Order;
 import dto.Product;
 import dto.Tax;
 
+import java.awt.geom.Area;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -31,12 +32,15 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     private final String DELIMITER = ",";
 
 
-    public FlooringMasterDaoImpl() {
+    public FlooringMasterDaoImpl() throws IOException {
 
         dateOrder = new HashMap<>();
         orderInventory = new HashMap<>();
         products = new HashMap<>();
         taxes = new HashMap<>();
+
+        //Load in all the info from file
+        readInAllOrderFromFile();
 
     }
 
@@ -98,17 +102,16 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
         orderInventory.put(order.getOrderNumber(), order);
 
-        ArrayList<Integer> tempArray;
-        try {
-             tempArray = dateOrder.get(order.getOrderDate().toString());
-             if (tempArray== null)
+        ArrayList<Integer> tempArray = dateOrder.get(order.getOrderDate().toString());
+             if (tempArray== null) {
                  tempArray = new ArrayList<>();
-            tempArray.add(order.getOrderNumber());
-        }
-        catch (Exception e){
-            tempArray = new ArrayList<>();
-            tempArray.add(order.getOrderNumber());
-        }
+                 tempArray.add(order.getOrderNumber());
+             }
+             else {
+                 tempArray.add(order.getOrderNumber());
+             }
+        System.out.println("Size"+tempArray.size());
+
 
 
         dateOrder.put(order.getOrderDate().toString(),tempArray);
@@ -215,21 +218,27 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
 
 
-    private void writeOrderToFile() throws IOException {
+    @Override
+    public void writeOrderToFile() throws IOException {
+
         for (String i : dateOrder.keySet()){
 
             LocalDate fileDate = LocalDate.parse(i);
             DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/dd/YYYY");
             String fileName = "Orders_" + fileDate.format(formatters);
             fileName = fileName.replace("/", "");
+            String folderPath = "Order";
 
+            File file = new File(folderPath + "\\" + fileName);
+            FileWriter myWriter = new FileWriter(file, false);
             for(int j : dateOrder.get(i)) {
                 String writeString = marhsallOrder(orderInventory.get(j));
 
-                FileWriter myWriter = new FileWriter(fileName, true);
-                myWriter.write(writeString);
-                myWriter.close();
+                myWriter.write(writeString + "\n");
+
             }
+            myWriter.flush();
+            myWriter.close();
 
 
         }
@@ -266,13 +275,13 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
         marshallString = marshallString + order.getTaxRate().toString()+ DELIMITER;
 
+        marshallString = marshallString + order.getProductType().toString()+ DELIMITER;
+
         marshallString = marshallString + order.getArea().toString() + DELIMITER;
 
         marshallString = marshallString + order.getCostPerSqFoot().toString() + DELIMITER;
 
         marshallString = marshallString + order.getLaborCostPerSqFoot().toString() + DELIMITER;
-
-        marshallString = marshallString + order.getOrderNumber() + DELIMITER;
 
         marshallString = marshallString + order.getMaterialCost().toString() + DELIMITER;
 
@@ -284,6 +293,71 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
         return marshallString;
 
     }
+
+    private Order unmarshallOrder(String fileLine, String fileName){
+
+
+        String[] split = (fileLine.split(","));
+        int orderNumber = Integer.parseInt(split[0]);
+
+        // Create proper date from the file name. File name date is mmddyyyy. Convert to Local Date
+        String dateFromFile = fileName.split("_")[1];
+        int year = Integer.parseInt(dateFromFile.substring(4,8));
+        int month = Integer.parseInt(dateFromFile.substring(0,2));
+        int date = Integer.parseInt(dateFromFile.substring(2,4));
+
+
+        LocalDate orderDate = LocalDate.of(year,month,date);
+        String customerName = split[1];
+        String state = split[2];
+        String productType = split[4];
+        BigDecimal area = new BigDecimal(split[5]);
+
+        //Create new order object based on the given information
+        Order retrievedOrder = new Order(orderNumber,orderDate,customerName,state,productType,area);
+
+        BigDecimal taxRate = new BigDecimal(split[3]);
+        retrievedOrder.setTaxRate(taxRate);
+
+        BigDecimal costPerSquareFoot = new BigDecimal(split[6]);
+        retrievedOrder.setCostPerSqFoot(costPerSquareFoot);
+
+        BigDecimal laborPerSquareFoot = new BigDecimal(split[7]);
+        retrievedOrder.setLaborCostPerSqFoot(laborPerSquareFoot);
+
+        BigDecimal materialCost = new BigDecimal(split[8]);
+        retrievedOrder.setMaterialCost(materialCost);
+
+        BigDecimal laborCost = new BigDecimal(split[9]);
+        retrievedOrder.setLaborCost(laborCost);
+
+        BigDecimal tax = new BigDecimal(split[10]);
+        retrievedOrder.setTax(tax);
+
+        BigDecimal total = new BigDecimal(split[11]);
+        retrievedOrder.setTotal(total);
+
+        return retrievedOrder;
+
+    }
+
+
+    private void readInAllOrderFromFile() throws IOException {
+        File dir = new File("Order");
+        for (File file : dir.listFiles()) {
+            Scanner s = new Scanner(file);
+
+            while(s.hasNextLine()) {
+                String nextLine = s.nextLine();
+                String fileName = file.toString();
+                Order retrievedOrder = unmarshallOrder(nextLine, fileName);
+
+                this.addOrder(retrievedOrder);
+            }
+            s.close();
+        }
+    }
+
 
 }
 
