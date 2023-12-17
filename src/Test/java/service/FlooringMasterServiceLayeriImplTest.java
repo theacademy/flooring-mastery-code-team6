@@ -19,7 +19,7 @@ class FlooringMasterServiceLayeriImplTest {
     private FlooringMasterView view;
     private FlooringMasterServiceLayeriImpl service;
     @org.junit.jupiter.api.BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         // defining mock objects
         dao = new FlooringMasterDaoImpl();
         view = mock(FlooringMasterView.class);

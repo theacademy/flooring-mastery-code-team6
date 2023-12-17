@@ -110,9 +110,9 @@ public class FlooringMasterController {
 
     }
 
-    private void exportAllData() {
+    private void exportAllData() throws IOException {
 
-        System.out.println("export all data");
+        service.exportAllData();
 
     }
 

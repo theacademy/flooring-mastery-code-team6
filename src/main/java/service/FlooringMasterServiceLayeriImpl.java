@@ -116,7 +116,6 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
             return null;
         }
 
-        addOrder(order);
         view.getIo().print("Order placed successfully. Order number: " + orderNumber);
         return order;
     }
@@ -136,5 +135,10 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
     public Map<String, Tax> getAllTaxes() throws FileNotFoundException {
         return dao.getAllTaxRates();
+    }
+
+    @Override
+    public void exportAllData() throws IOException {
+        dao.writeOrderToFile();
     }
 }
