@@ -30,7 +30,7 @@ public class FlooringMasterView {
         return io;
     }
 
-    public int displayMenu() {
+    public void displayMenu() {
         io.print("<<Flooring Program>>");
         io.print("1. Display Orders");
         io.print("2. Add an Order");
@@ -38,8 +38,9 @@ public class FlooringMasterView {
         io.print("4. Remove an Order");
         io.print("5. Export All Data");
         io.print("6. Quit");
-
-        return Integer.parseInt(io.readString("Please select from the choices (1-6): "));
+    }
+    public int getUserSelection(){
+        return io.readInt("Please select from the choices (1-6): ");
     }
 
 

@@ -31,11 +31,9 @@ public class FlooringMasterController {
     //Menu Selection
     public void run() throws IOException {
         boolean keepGoing = true;
-        int menuSelection;
-        while (keepGoing) {
-            menuSelection = getMenuSelection();
 
-            switch (menuSelection) {
+        while (keepGoing) {
+            switch (getMenuSelection()) {
                 case 1:
                     displayAllOrders();
                     break;
@@ -62,7 +60,8 @@ public class FlooringMasterController {
     }
 
     private int getMenuSelection() {
-        return view.displayMenu();
+        view.displayMenu();
+        return view.getUserSelection();
     }
 
 
