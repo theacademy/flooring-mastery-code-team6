@@ -386,6 +386,20 @@ public class FlooringMasterView {
         return null;
     }
 
+
+    public void displayUnknownCommandBanner() {
+        io.print("Unknown Command. Please try again.");
+    }
+
+    public void displayErrorMsg(String errorMsg) {
+        io.print("====Error====");
+        io.print(errorMsg);
+    }
+
+    public void exitMessage() {
+        io.print("Thank you for visiting. Goodbye.");
+    }
+
     /**
      * For AddOrder. Everything here was used by AddOrder
      */
