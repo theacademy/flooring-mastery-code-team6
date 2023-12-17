@@ -1,5 +1,6 @@
 package service;
 
+import dao.FlooringMasterDao;
 import dto.Order;
 import dto.Product;
 import dto.Tax;
@@ -20,6 +21,8 @@ public interface FlooringMasterServiceLayer {
     void editOrder(Order newOrder) throws IOException;
     List<Order> getAllOrders();
     int getNewOrderNumber() throws IOException;
+
+
     Map<String, Product> getAllProducts() throws FileNotFoundException;
     Map<String, Tax> getAllTaxes() throws FileNotFoundException;
 
