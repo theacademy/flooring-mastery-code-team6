@@ -1,7 +1,6 @@
 package enums;
 
 public enum FileType {
-    ORDER_NUMBER_TRACKER("orderNumberTracker.txt"),
     PRODUCT("Products.txt"),
     TAX("Taxes.txt"),
     ORDER("Orders");

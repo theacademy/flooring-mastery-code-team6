@@ -22,7 +22,6 @@ import static java.util.Collections.max;
 public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLayer{
     FlooringMasterDao dao;
     FlooringMasterView view;
-    private final String ORDER_NUMBER_TRACKER_FILE = FileType.ORDER_NUMBER_TRACKER.getFileName();
 
     public FlooringMasterServiceLayeriImpl (FlooringMasterDao OrderDao, FlooringMasterView orderView){
         this.dao= OrderDao;
