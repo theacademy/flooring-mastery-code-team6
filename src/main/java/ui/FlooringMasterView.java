@@ -501,7 +501,7 @@ public class FlooringMasterView {
     }
 
     public void displayOrderPlacedSuccessfully(int orderNumber) {
-        io.print("Order placed successfully: " + orderNumber);
+        io.print("Order #"  + orderNumber + " placed successfully:");
     }
     /**
      * End of AddOrder Suite

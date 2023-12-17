@@ -129,6 +129,11 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
         return new ArrayList<>(orderInventory.values());
     }
 
+    @Override
+    public Set<Integer> getAllOrderNumber() {
+        return (orderInventory.keySet());
+    }
+
     public void readProduct() throws FileNotFoundException {
 
         try {
