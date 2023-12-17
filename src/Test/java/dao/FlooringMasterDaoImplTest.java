@@ -1,24 +1,34 @@
 package dao;
 
 import dto.Order;
+import dto.Tax;
+import enums.FileType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FlooringMasterDaoImplTest {
+    FlooringMasterDaoImpl dao ;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
+        dao = new FlooringMasterDaoImpl();
     }
 
     @AfterEach
     void tearDown() {
+        dao = null;
     }
 
     @Test
@@ -30,7 +40,32 @@ class FlooringMasterDaoImplTest {
     }
 
     @Test
-    void getAllTaxRates() {
+    void getAllTaxRates() throws IOException {
+        Map<String, Tax> expectedTaxes = new HashMap<>();
+        File taxFile = new File(FileType.TAX.getFileName());
+        Scanner sc = new Scanner(taxFile);
+
+        // skip the first line - header
+        if (sc.hasNextLine()) {
+            sc.nextLine();
+        }
+
+        // go through the file
+        while (sc.hasNextLine()) {
+            Tax tax = dao.unmarshallTax(sc.nextLine());
+            expectedTaxes.put(tax.getStateAbbreviation(), tax);
+        }
+
+        sc.close();
+        dao.loadFromTaxFile();
+        for (String stateAbbreviation : expectedTaxes.keySet()) {
+            assertTrue(expectedTaxes.containsKey(stateAbbreviation));
+            assertTrue(dao.getTaxes().containsKey(stateAbbreviation));
+
+        }
+        FlooringMasterDaoImpl daoWithInvalidPath = new FlooringMasterDaoImpl();
+
+
     }
 
     @Test
@@ -39,7 +74,6 @@ class FlooringMasterDaoImplTest {
 
     @Test
     void removeOrder() throws IOException {
-        FlooringMasterDaoImpl dao = new FlooringMasterDaoImpl();
 
         int sizeBeforeAdding = dao.getAllOrders().size();
 
@@ -75,19 +109,4 @@ class FlooringMasterDaoImplTest {
         dao.removeOrder(1, order.getOrderDate());
     }
 
-    @Test
-    void editOrder() {
-    }
-
-    @Test
-    void getAllOrders() {
-    }
-
-    @Test
-    void readProduct() {
-    }
-
-    @Test
-    void writeOrderToFile() {
-    }
 }

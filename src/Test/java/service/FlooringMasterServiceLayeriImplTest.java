@@ -85,33 +85,4 @@ class FlooringMasterServiceLayeriImplTest {
         assertFalse(dao.getAllOrders().contains(testOrder));
     }
 
-    @org.junit.jupiter.api.Test
-    void calculateMaterialCost() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void calculateLaborCost() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void calculateTax() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void calculateTotal() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void getAllOrders() {
-
-    }
-
-    @org.junit.jupiter.api.Test
-    void getNewOrderNumber() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void getUserAddOrderTest() {
-
-    }
 }

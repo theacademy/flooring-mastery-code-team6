@@ -25,7 +25,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
     Map<String, Product> products;
 
-    Map<String, Tax> taxes;
+    private Map<String, Tax> taxes;
 
     private final String PRODUCT_FILE = FileType.PRODUCT.getFileName();
     private final String TAX_FILE = FileType.TAX.getFileName();
@@ -50,6 +50,9 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
         return dateOrder;
     }
 
+    public Map<String, Tax> getTaxes(){
+        return taxes;
+    }
     @Override
     public Map<String, Product> getAllProducts () throws FileNotFoundException {
         readProduct();
@@ -175,10 +178,10 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     }
 
 
-    private void loadFromTaxFile() throws FileNotFoundException {
+    public void loadFromTaxFile() throws FileNotFoundException {
 
         try {
-            File taxFile = new File(TAX_FILE);
+            File taxFile = new File(FileType.TAX.getFileName());
             Scanner sc = new Scanner(taxFile);
 
             // skip the first line - header
@@ -195,7 +198,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
             sc.close();
 
         } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + TAX_FILE);
+            System.err.println("File not found: " + FileType.TAX.getFileName());
             e.printStackTrace();
         }
 
@@ -204,7 +207,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
 
     // convert lines in the tax file to a tax object
-    private Tax unmarshallTax(String taxLine) {
+    public Tax unmarshallTax(String taxLine) {
 
         // split the string into state abreviation, state, and tax rate
 

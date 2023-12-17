@@ -1,10 +1,15 @@
 package controller;
 
+import dao.FlooringMasterDao;
+import dao.FlooringMasterDaoImpl;
 import dto.Order;
 import dto.Product;
 import dto.Tax;
 import service.FlooringMasterServiceLayer;
+import service.FlooringMasterServiceLayeriImpl;
 import ui.FlooringMasterView;
+import ui.UserIO;
+import ui.UserIOImpl;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,9 +23,10 @@ public class FlooringMasterController {
     private FlooringMasterView view;
     private FlooringMasterServiceLayer service;
 
-    public FlooringMasterController(FlooringMasterServiceLayer service, FlooringMasterView view) {
-        this.service = service;
-        this.view = view;
+    public FlooringMasterController() throws IOException {
+        this.view = new FlooringMasterView(new UserIOImpl());
+        FlooringMasterDao dao = new FlooringMasterDaoImpl();
+        this.service = new FlooringMasterServiceLayeriImpl(dao, view);
     }
 
     //Menu Selection
