@@ -29,6 +29,8 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
     private final String PRODUCT_FILE = "Products.txt";
     private final String TAX_FILE = "Taxes.txt";
+
+    private final String ORDER_FILE = "Orders";
     private final String DELIMITER = ",";
 
 
@@ -223,9 +225,9 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
             LocalDate fileDate = LocalDate.parse(i);
             DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/dd/YYYY");
-            String fileName = "Orders_" + fileDate.format(formatters);
+            String fileName = ORDER_FILE + "_" + fileDate.format(formatters);
             fileName = fileName.replace("/", "");
-            String folderPath = "Order";
+            String folderPath = ORDER_FILE;
 
             File file = new File(folderPath + "\\" + fileName);
             FileWriter myWriter = new FileWriter(file, false);
@@ -341,9 +343,9 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
 
     private void readInAllOrderFromFile() throws IOException {
-        File dir = new File("Order");
-        if(dir.listFiles() != null && dir.listFiles().length > 0) {
-            for (File file : dir.listFiles()) {
+        File dir = new File(ORDER_FILE);
+        if(dir.listFiles() != null && Objects.requireNonNull(dir.listFiles()).length > 0) {
+            for (File file : Objects.requireNonNull(dir.listFiles())) {
                 Scanner s = new Scanner(file);
 
                 while (s.hasNextLine()) {

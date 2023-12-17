@@ -51,6 +51,7 @@ class FlooringMasterServiceLayeriImplTest {
 
         assertTrue(dao.getDateOrder().containsKey(testOrder.getOrderDate().toString()));
 
+        // remove the order from dao
         dao.removeOrder(testOrder.getOrderNumber(),testOrder.getOrderDate());
 
 
@@ -66,7 +67,6 @@ class FlooringMasterServiceLayeriImplTest {
         Order testOrder = new Order(1, LocalDate.now().plusDays(10),"Hoda",
                 "TX", "Laminate", new BigDecimal(120));
 
-
         // Call the method to add an order
         Order resultOrder = service.addOrder(testOrder);
 
@@ -78,8 +78,8 @@ class FlooringMasterServiceLayeriImplTest {
 
         assertTrue(dao.getDateOrder().containsKey(testOrder.getOrderDate().toString()));
 
-
-
+        // remove the order from dao
+        dao.removeOrder(testOrder.getOrderNumber(),testOrder.getOrderDate());
 
         // delete the order and verify it
         assertFalse(dao.getAllOrders().contains(testOrder));
@@ -103,6 +103,7 @@ class FlooringMasterServiceLayeriImplTest {
 
     @org.junit.jupiter.api.Test
     void getAllOrders() {
+
     }
 
     @org.junit.jupiter.api.Test

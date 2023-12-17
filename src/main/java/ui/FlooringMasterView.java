@@ -72,25 +72,36 @@ public class FlooringMasterView {
             io.print("There is no orders at all!");
             return;
         }
+        boolean keepGoing;
 
-        io.print("");
-        io.print("Display Orders for a Specific Date: ");
+        do {
+            keepGoing = false;
+            io.print("");
+            io.print("Display Orders for a Specific Date: ");
+
+            try {
+
+                LocalDate dateToDisplay = LocalDate.parse(io.readString("Enter the date (YYYY-MM-DD): "));
 
 
-        LocalDate dateToDisplay = LocalDate.parse(io.readString("Enter the date (YYYY-MM-DD): "));
+                List<Order> ordersForDate = getOrdersForDate(dateToDisplay, orders);
 
-        List<Order> ordersForDate = getOrdersForDate(dateToDisplay, orders);
+                if (ordersForDate.isEmpty()) {
+                    io.print("No orders found for the specified date.");
+                } else {
+                    io.print("Orders for " + dateToDisplay + ":");
+                    for (Order order : ordersForDate) {
+                        io.print("Order Number: " + order.getOrderNumber());
+                        displayOrderSummary(order);
+                        io.print("============================");
+                    }
+                }
+            } catch (Exception e) {
+                io.print("Date format is not correct!");
 
-        if (ordersForDate.isEmpty()) {
-            io.print("No orders found for the specified date.");
-        } else {
-            io.print("Orders for " + dateToDisplay + ":");
-            for (Order order : ordersForDate) {
-                io.print("Order Number: " + order.getOrderNumber());
-                displayOrderSummary(order);
-                io.print("============================");
+                keepGoing = true;
             }
-        }
+        } while (keepGoing);
     }
 
         public List<Order> getOrdersForDate(LocalDate date, List<Order> orders) {
