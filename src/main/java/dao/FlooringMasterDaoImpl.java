@@ -272,7 +272,11 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
         marshallString = marshallString + order.getTax().toString() + DELIMITER;
 
-        marshallString = marshallString + order.getTotal().toString();
+        marshallString = marshallString + order.getTotal().toString()  + DELIMITER;
+
+        final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-YYYY", Locale.ENGLISH);
+        String formattedDate = dtf.format(order.getOrderDate());
+        marshallString = marshallString + formattedDate;
         return marshallString;
 
     }
