@@ -5,6 +5,7 @@ import dao.FlooringMasterDaoImpl;
 import dto.Order;
 import dto.Product;
 import dto.Tax;
+import enums.MenuSelectionType;
 import service.FlooringMasterServiceLayer;
 import service.FlooringMasterServiceLayeriImpl;
 import ui.FlooringMasterView;
@@ -33,23 +34,23 @@ public class FlooringMasterController {
         boolean keepGoing = true;
 
         while (keepGoing) {
-            switch (getMenuSelection()) {
-                case 1:
+            switch (chooseSelectionType(getMenuSelection())) {
+                case DISPLAY_ORDERS:
                     displayAllOrders();
                     break;
-                case 2:
+                case ADD_ORDERS:
                     addOrder();
                     break;
-                case 3:
+                case EDIT_ORDERS:
                     editOrder();
                     break;
-                case 4:
+                case REMOVE_ORDERS:
                     removeOrder();
                     break;
-                case 5:
+                case EXPORT_ALL_DATA:
                     exportAllData();
                     break;
-                case 6:
+                case QUIT:
                     keepGoing = false;
                     break;
                 default:
@@ -63,7 +64,6 @@ public class FlooringMasterController {
         view.displayMenu();
         return view.getUserSelection();
     }
-
 
     private void displayAllOrders() {
         view.displayOrders(service.getAllOrders());
@@ -88,7 +88,6 @@ public class FlooringMasterController {
 
 
     }
-
 
     private void removeOrder() {
         List<Order> orders = service.getAllOrders();
@@ -118,6 +117,11 @@ public class FlooringMasterController {
 
     private void exportAllData() throws IOException {
         service.exportAllData();
+    }
+    
+    private MenuSelectionType chooseSelectionType(int i) {
+        MenuSelectionType[] selections = MenuSelectionType.values();
+        return selections[i-1];
     }
 
 }
