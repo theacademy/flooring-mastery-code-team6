@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import static java.util.Collections.max;
+
 public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLayer{
     FlooringMasterDao dao;
     FlooringMasterView view;
@@ -65,32 +67,13 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     @Override
     public int getNewOrderNumber() throws IOException {
 
-        //Read in previous order number
-        File myObj = new File(ORDER_NUMBER_TRACKER_FILE);
-        int newNumber = 0;
-
-        //Try reading in the last number in orderNumberTracker.txt
-        //If there is no number, throw error and set newNumber to 1
-        Scanner myReader = new Scanner(myObj);
-        try {
-            String retrievedNumber = myReader.nextLine();
-            newNumber = Integer.parseInt(retrievedNumber) + 1;
+        if(dao.getAllOrderNumber().isEmpty()){
+            return 1;
         }
-        catch (Exception e){
-            newNumber = newNumber + 1;
+        else {
+            int highestOrderNumber = max(dao.getAllOrderNumber());
+            return highestOrderNumber + 1;
         }
-
-
-
-        //Write the new order number to file
-        FileWriter myWriter = new FileWriter(ORDER_NUMBER_TRACKER_FILE,false);
-
-        //write the new order back to the file
-        myWriter.write(Integer.toString(newNumber));
-        myWriter.close();
-
-
-        return newNumber;
     }
 
 

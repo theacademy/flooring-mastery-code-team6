@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import dto.Order;
 import dto.Product;
@@ -29,5 +30,7 @@ public interface FlooringMasterDao {
 
      Map<String, ArrayList<Integer>> getDateOrder();
 
-     public void writeOrderToFile() throws IOException;
+    Set<Integer> getAllOrderNumber();
+
+    public void writeOrderToFile() throws IOException;
 }
