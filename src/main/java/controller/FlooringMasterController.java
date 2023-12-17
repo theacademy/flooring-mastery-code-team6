@@ -1,7 +1,5 @@
 package controller;
 
-import dao.FlooringMasterDao;
-import dao.FlooringMasterDaoImpl;
 import dto.Order;
 import dto.Product;
 import dto.Tax;
@@ -9,15 +7,12 @@ import enums.MenuSelectionType;
 import service.FlooringMasterServiceLayer;
 import service.FlooringMasterServiceLayeriImpl;
 import ui.FlooringMasterView;
-import ui.UserIO;
-import ui.UserIOImpl;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+
 
 
 public class FlooringMasterController {
@@ -72,8 +67,6 @@ public class FlooringMasterController {
     private void addOrder() throws IOException {
 
         Order order = service.getUserNewOrder();
-
-        view.displayOrderSummary(order);
 
         char confirmation = view.promptYN();
         if (confirmation == 'N') {
