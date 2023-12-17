@@ -360,7 +360,7 @@ public class FlooringMasterView {
 
     public Order removeOrderPrompt(List<Order> orders) {
         io.print("Remove an order: ");
-        String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");
+        String orderDate = io.readString("Enter the order date (YYYY-MM-DD) to be removed: ");
         LocalDate date = LocalDate.parse(orderDate);
         int orderNumber = io.readInt("Enter the order number: ");
 

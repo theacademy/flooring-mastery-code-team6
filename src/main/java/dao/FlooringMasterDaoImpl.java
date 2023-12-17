@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -94,6 +96,14 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     @Override
     public Order removeOrder(int orderNumber, LocalDate orderDate) {
         if (checkValidOrder(orderNumber, orderDate)) {
+            String path = FileType.ORDER.getFileName() + "_" + orderDate.toString();
+            if(Files.exists(Path.of(path))){
+                try {
+                    Files.delete(Path.of(path));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             dateOrder.remove(orderDate);
             return orderInventory.remove(orderNumber);
         } else {
