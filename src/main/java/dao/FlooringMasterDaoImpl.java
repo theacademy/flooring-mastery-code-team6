@@ -342,17 +342,22 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
 
     private void readInAllOrderFromFile() throws IOException {
         File dir = new File("Order");
-        for (File file : dir.listFiles()) {
-            Scanner s = new Scanner(file);
+        if(dir.listFiles() != null && dir.listFiles().length > 0) {
+            for (File file : dir.listFiles()) {
+                Scanner s = new Scanner(file);
 
-            while(s.hasNextLine()) {
-                String nextLine = s.nextLine();
-                String fileName = file.toString();
-                Order retrievedOrder = unmarshallOrder(nextLine, fileName);
+                while (s.hasNextLine()) {
+                    String nextLine = s.nextLine();
+                    String fileName = file.toString();
+                    Order retrievedOrder = unmarshallOrder(nextLine, fileName);
 
-                this.addOrder(retrievedOrder);
+                    this.addOrder(retrievedOrder);
+                }
+                s.close();
             }
-            s.close();
+        }
+        else{
+            dir.mkdir();
         }
     }
 
