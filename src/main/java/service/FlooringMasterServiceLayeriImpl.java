@@ -124,8 +124,6 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
         order.setLaborCostPerSqFoot(productType.getLaborCostPerSquareFoot());
         order.calculateOrderCosts();
 
-        view.displayOrderSummary(order);
-
         return order;
     }
 
@@ -208,7 +206,6 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
             }
             else{
                 view.displayInvalidProductType();
-
             }
         } while (keepGoing);
 

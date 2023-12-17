@@ -68,6 +68,8 @@ public class FlooringMasterController {
 
         Order order = service.getUserNewOrder();
 
+        view.displayOrderSummary(order);
+
         char confirmation = view.promptYN();
         if (confirmation == 'N') {
             view.displayOrderCanceled();
