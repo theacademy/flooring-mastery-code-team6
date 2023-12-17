@@ -1,5 +1,6 @@
 package service;
 
+import dao.FlooringMasterDaoImpl;
 import enums.FileType;
 import dao.FlooringMasterDao;
 import dto.Order;
@@ -20,14 +21,22 @@ import java.util.Scanner;
 import static java.util.Collections.max;
 
 public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLayer{
+
     FlooringMasterDao dao;
     FlooringMasterView view;
 
-    public FlooringMasterServiceLayeriImpl (FlooringMasterDao OrderDao, FlooringMasterView orderView){
-        this.dao= OrderDao;
-        this.view= orderView;
+    public FlooringMasterServiceLayeriImpl () throws IOException {
+        this.dao= new FlooringMasterDaoImpl();
+        this.view= new FlooringMasterView();
     }
 
+    public FlooringMasterDao getDao() {
+        return dao;
+    }
+
+    public FlooringMasterView getView() {
+        return view;
+    }
     @Override
     public Order addOrder(Order order) throws IOException {
         // read from text file to get next orderNumber

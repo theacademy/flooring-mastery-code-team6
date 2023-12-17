@@ -15,21 +15,15 @@ import java.time.LocalDate;
 
 import static org.mockito.Mockito.*;
 class FlooringMasterServiceLayeriImplTest {
-    private FlooringMasterDao dao;
-    private FlooringMasterView view;
     private FlooringMasterServiceLayeriImpl service;
     @org.junit.jupiter.api.BeforeEach
     void setUp() throws IOException {
         // defining mock objects
-        dao = new FlooringMasterDaoImpl();
-        view = mock(FlooringMasterView.class);
-        service = new FlooringMasterServiceLayeriImpl(dao, view);
+        service = new FlooringMasterServiceLayeriImpl();
     }
 
     @org.junit.jupiter.api.AfterEach
     void tearDown() {
-        dao = null;
-        view = null;
         service = null;
     }
 
@@ -47,16 +41,16 @@ class FlooringMasterServiceLayeriImplTest {
         assertEquals(testOrder, resultOrder, "Returned order should match the test order");
 
         // Verify that getAllOrders has order
-        assertTrue(dao.getAllOrders().contains(testOrder));
+        assertTrue(service.getDao().getAllOrders().contains(testOrder));
 
-        assertTrue(dao.getDateOrder().containsKey(testOrder.getOrderDate().toString()));
+        assertTrue(service.getDao().getDateOrder().containsKey(testOrder.getOrderDate().toString()));
 
         // remove the order from dao
-        dao.removeOrder(testOrder.getOrderNumber(),testOrder.getOrderDate());
+        service.getDao().removeOrder(testOrder.getOrderNumber(),testOrder.getOrderDate());
 
 
         // delete the order and verify it
-        assertFalse(dao.getAllOrders().contains(testOrder));
+        assertFalse(service.getDao().getAllOrders().contains(testOrder));
 
 
     }
@@ -74,15 +68,15 @@ class FlooringMasterServiceLayeriImplTest {
         assertEquals(testOrder, resultOrder, "Returned order should match the test order");
 
         // Verify that getAllOrders has order
-        assertTrue(dao.getAllOrders().contains(testOrder));
+        assertTrue(service.getDao().getAllOrders().contains(testOrder));
 
-        assertTrue(dao.getDateOrder().containsKey(testOrder.getOrderDate().toString()));
+        assertTrue(service.getDao().getDateOrder().containsKey(testOrder.getOrderDate().toString()));
 
         // remove the order from dao
-        dao.removeOrder(testOrder.getOrderNumber(),testOrder.getOrderDate());
+        service.getDao().removeOrder(testOrder.getOrderNumber(),testOrder.getOrderDate());
 
         // delete the order and verify it
-        assertFalse(dao.getAllOrders().contains(testOrder));
+        assertFalse(service.getDao().getAllOrders().contains(testOrder));
     }
 
 }

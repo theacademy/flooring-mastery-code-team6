@@ -24,9 +24,8 @@ public class FlooringMasterController {
     private FlooringMasterServiceLayer service;
 
     public FlooringMasterController() throws IOException {
-        this.view = new FlooringMasterView(new UserIOImpl());
-        FlooringMasterDao dao = new FlooringMasterDaoImpl();
-        this.service = new FlooringMasterServiceLayeriImpl(dao, view);
+        this.view = new FlooringMasterView();
+        this.service = new FlooringMasterServiceLayeriImpl();
     }
 
     //Menu Selection
