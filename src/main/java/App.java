@@ -1,22 +1,19 @@
 import controller.FlooringMasterController;
-import dao.FlooringMasterDao;
-import dao.FlooringMasterDaoImpl;
-import dto.Order;
-import service.FlooringMasterServiceLayer;
-import service.FlooringMasterServiceLayeriImpl;
-import ui.FlooringMasterView;
-import ui.UserIO;
-import ui.UserIOImpl;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
+
 
 public class App {
 
     public static void main(String[] args) throws IOException {
-        (new FlooringMasterController()).run();
+
+        ApplicationContext appContext
+                = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+
+        FlooringMasterController controller = appContext.getBean("controller", FlooringMasterController.class);
+        controller.run();
     }
 }
