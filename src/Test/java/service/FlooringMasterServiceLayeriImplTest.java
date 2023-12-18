@@ -182,16 +182,8 @@ class FlooringMasterServiceLayeriImplTest {
         Order testOrder = new Order(1, LocalDate.now().plusDays(10),"Hoda",
                 "TX", "Laminate", new BigDecimal(120));
 
-        // Call the method to add an order
-        Order resultOrder = service.addOrder(testOrder);
-
-
-        assertEquals(2,service.getNewOrderNumber(), "service is creating wrong new order number");
-
+        assertEquals(service.getDao().getAllOrders().size() + 1,service.getNewOrderNumber(), "service is creating wrong new order number");
 
     }
-
-
-
 
 }

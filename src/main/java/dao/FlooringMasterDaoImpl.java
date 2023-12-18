@@ -97,8 +97,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     @Override
     public Order removeOrder(int orderNumber, LocalDate orderDate) {
         if (checkValidOrder(orderNumber, orderDate)) {
-            ArrayList<Integer> orderArray= dateOrder.get(orderDate.toString());
-            orderArray.remove(Integer.valueOf(orderNumber));
+            dateOrder.get(orderDate.toString()).remove(orderInventory.get(orderNumber));
             return orderInventory.remove(orderNumber);
         } else {
             return null;
@@ -112,16 +111,17 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
         orderInventory.put(order.getOrderNumber(), order);
 
         ArrayList<Integer> tempArray = dateOrder.get(order.getOrderDate().toString());
-             if (tempArray== null) {
-                 tempArray = new ArrayList<>();
-                 tempArray.add(order.getOrderNumber());
+             if (dateOrder.get(order.getOrderDate().toString()) == null) {
+                 ArrayList<Integer> temp = new ArrayList<>();
+                 temp.add(order.getOrderNumber());
+                 dateOrder.put(order.getOrderDate().toString(),temp);
              }
              else {
-                 tempArray.add(order.getOrderNumber());
+                 dateOrder.get(order.getOrderDate().toString()).add(order.getOrderNumber());
              }
 
 
-        dateOrder.put(order.getOrderDate().toString(),tempArray);
+
 
         return order;
     }
