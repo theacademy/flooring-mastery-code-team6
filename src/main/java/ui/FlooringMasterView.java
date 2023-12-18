@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -135,12 +132,12 @@ public class FlooringMasterView {
         return futureDate;
     }
 
-    public LocalDate promptOrderDate() {
+    public LocalDate promptOrderDate(String prompt) {
 
         boolean keepGoint = true;
         LocalDate localDate = LocalDate.now();
         do {
-            String orderDate = io.readString("Enter the future order date (YYYY-MM-DD): ");
+            String orderDate = io.readString(prompt);
             try {
                 localDate = LocalDate.parse(orderDate);
                 keepGoint = false;
@@ -248,8 +245,9 @@ public class FlooringMasterView {
         return io.readInt(prompt);
     }
 
+
     public Order promptDateAndOrderNumberForOrder(List<Order> orders) {
-        LocalDate orderDate = promptOrderDate();
+        LocalDate orderDate = promptOrderDate("Enter the order date (YYYY-MM-DD): ");
         int orderNumber = promptOrderNumber("Enter the order number: ");
         return findOrderByNumberAndDate(orders, orderNumber, orderDate.toString());
     }
@@ -371,11 +369,9 @@ public class FlooringMasterView {
 
     public Order removeOrderPrompt(List<Order> orders) {
         io.print("Remove an order: ");
-        String orderDate = io.readString("Enter the order date (YYYY-MM-DD) to be removed: ");
-        LocalDate date = LocalDate.parse(orderDate);
-        int orderNumber = io.readInt("Enter the order number: ");
-
-        Order orderToRemove = findOrderByNumberAndDate(orders, orderNumber, orderDate);
+        LocalDate orderDate = promptOrderDate("Enter the order date (YYYY-MM-DD) to be removed: ");
+        int orderNumber = promptOrderNumber("Enter the order number: ");
+        Order orderToRemove = findOrderByNumberAndDate(orders, orderNumber, orderDate.toString());
         if (orderToRemove != null) {
             displayOrderSummary(orderToRemove);
 
@@ -392,6 +388,7 @@ public class FlooringMasterView {
         }
         return null;
     }
+
 
     public void removeOrderResultPrompt(boolean removed) {
         if (removed) io.print("Order successfully removed.");
