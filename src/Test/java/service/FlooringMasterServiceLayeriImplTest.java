@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import ui.FlooringMasterView;
+
+import ui.UserIO;
 import ui.UserIOImpl;
 
 import java.io.IOException;
@@ -17,14 +19,20 @@ import java.time.LocalDate;
 import static org.mockito.Mockito.*;
 class FlooringMasterServiceLayeriImplTest {
     private FlooringMasterServiceLayeriImpl service;
+
+
+    private UserIO io;
+    private FlooringMasterView view;
+
+    private FlooringMasterDao dao;
     @org.junit.jupiter.api.BeforeEach
     void setUp() throws IOException {
         service = new FlooringMasterServiceLayeriImpl(new FlooringMasterDaoImpl(), new FlooringMasterView(new UserIOImpl()));
+
     }
 
     @org.junit.jupiter.api.AfterEach
     void tearDown() {
-        service = null;
     }
 
     @org.junit.jupiter.api.Test
