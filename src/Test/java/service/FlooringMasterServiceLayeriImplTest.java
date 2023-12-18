@@ -178,9 +178,6 @@ class FlooringMasterServiceLayeriImplTest {
     @org.junit.jupiter.api.Test
     void getNewOrderNumberTest() throws IOException {
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(scanner.nextLine());
-
         // Set up test order
         Order testOrder = new Order(1, LocalDate.now().plusDays(10),"Hoda",
                 "TX", "Laminate", new BigDecimal(120));
@@ -193,7 +190,6 @@ class FlooringMasterServiceLayeriImplTest {
 
 
     }
-
 
 
 
