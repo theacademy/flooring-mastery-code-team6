@@ -53,4 +53,11 @@ public class UserIOImpl implements UserIO{
         sc.nextLine();
         return temp;
     }
+
+    @Override
+    public int readIntFromString(String prompt) {
+        print(prompt);
+        return Integer.parseInt(sc.nextLine());
+    }
+
 }
