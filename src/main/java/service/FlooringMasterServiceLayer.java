@@ -28,16 +28,23 @@ public interface FlooringMasterServiceLayer {
 
     public void exportAllData() throws IOException;
 
-    BigDecimal validateArea();
+    BigDecimal getArea();
+    boolean validateArea(BigDecimal area);
 
-    Tax validateTaxState() throws FileNotFoundException;
+    Tax getTaxState() throws FileNotFoundException;
 
-    String validateCustomerName();
+    boolean validateTaxState(String state, Map<String, Tax> taxes) throws FileNotFoundException;
 
-    LocalDate validateFutureOrderDate();
+    String getCustomerName();
+    boolean validateCustomerName(String customerName);
 
+    LocalDate getFutureDate();
 
-    Product validateProductType() throws FileNotFoundException;
+    boolean validateFutureOrderDate(String orderDate);
+
+    Product getProductType() throws FileNotFoundException;
+
+    boolean validateProductType(String selectedProductType, Map<String,Product> products);
 
     Order getUserNewOrder() throws IOException;
 }

@@ -220,18 +220,29 @@ public class FlooringMasterView {
         return products.get(selectedProductType);
     }
 
-
     public BigDecimal promptArea(String prompt) {
-        BigDecimal area;
+        String areaStr;
+        BigDecimal area = null;
         do {
-            area = new BigDecimal(io.readString(prompt));
-            if (area.compareTo(new BigDecimal(100.0)) < 0) {
-                io.print("Area must be at least 100 sq ft.");
+            areaStr = io.readString(prompt);
+            if (isBigDecimal(areaStr)) {
+                area = new BigDecimal(areaStr);
+                if (area.compareTo(new BigDecimal(100.0)) < 0) {
+                    io.print("Area must be at least 100 sq ft.");
+                }
             }
-        } while (area.compareTo(new BigDecimal(100.0)) < 0);
+        } while (area == null || area.compareTo(new BigDecimal(100.0)) < 0) ;
         return area;
     }
 
+    public boolean isBigDecimal(String area) {
+        try {
+            BigDecimal areaBD = new BigDecimal(area);
+            return true;
+        } catch(NumberFormatException | NullPointerException e) {
+            return false;
+        }
+    }
 
     public int promptOrderNumber(String prompt) {
         return io.readInt(prompt);
@@ -289,13 +300,13 @@ public class FlooringMasterView {
 
         String prompt = "Enter area (" + oldArea + "): ";
         String newArea = io.readString(prompt);
-        if (newArea.isEmpty() || newArea.isBlank()) {
+        if(newArea.isEmpty() || newArea.isBlank()) {
             return null;
-        } else if (new BigDecimal(newArea).compareTo(new BigDecimal(100.0)) >= 0) {
+        } else if (isBigDecimal(newArea) && new BigDecimal(newArea).compareTo(new BigDecimal(100.0)) >= 0) {
             return new BigDecimal(newArea);
         } else {
             io.print("Area must be at least 100 sq ft.");
-            return promptArea(newArea);
+            return promptArea(prompt);
         }
     }
 
