@@ -19,7 +19,7 @@ class FlooringMasterServiceLayeriImplTest {
     @org.junit.jupiter.api.BeforeEach
     void setUp() throws IOException {
         // defining mock objects
-        service = new FlooringMasterServiceLayeriImpl();
+//        service = new FlooringMasterServiceLayeriImpl();
     }
 
     @org.junit.jupiter.api.AfterEach

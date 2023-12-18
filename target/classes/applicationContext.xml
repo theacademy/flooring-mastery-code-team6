@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="io" class="ui.UserIOImpl" />
+    <bean id="dao" class="dao.FlooringMasterDaoImpl" />
+
+    <bean id="view" class="ui.FlooringMasterView">
+        <constructor-arg ref="io" />
+    </bean>
+    <bean id="service" class="service.FlooringMasterServiceLayeriImpl">
+        <constructor-arg ref="dao" />
+        <constructor-arg ref="view" />
+    </bean>
+    <bean id="controller" class="controller.FlooringMasterController">
+        <constructor-arg ref="service" />
+        <constructor-arg ref="view" />
+    </bean>
+
+
+</beans>
