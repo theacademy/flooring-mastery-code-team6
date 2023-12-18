@@ -110,13 +110,13 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
 
     @Override
     public Order getUserNewOrder() throws IOException {
-        LocalDate futureDate = validateFutureOrderDate();
+        LocalDate futureDate = getFutureDate();
 
-        String customerName = validateCustomerName();
-        Tax state = validateTaxState();
+        String customerName = getCustomerName();
+        Tax state = getTaxState();
 
-        Product productType = validateProductType();
-        BigDecimal area = validateArea();
+        Product productType = getProductType();
+        BigDecimal area = getArea();
         int orderNumber = getNewOrderNumber();
         Order order = new Order(orderNumber, futureDate, customerName, state.getStateAbbreviation(), productType.getProductType(), area);
         order.setTaxRate(state.getTaxRate());
@@ -128,88 +128,126 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     }
 
     @Override
-    public BigDecimal validateArea() {
-        BigDecimal area;
+    public BigDecimal getArea() {
+        String areaStr;
+        BigDecimal area = null;
         do {
-            area = new BigDecimal(view.promptAddOrderArea());
-            if (area.compareTo(new BigDecimal(100.0)) < 0) {
-                view.displayAreaMustBeGreater();
+            areaStr = view.promptAddOrderArea();
+            if (view.isBigDecimal(areaStr)) {
+                area = new BigDecimal(areaStr);
             }
-        } while (area.compareTo(new BigDecimal(100.0)) < 0);
+        } while (area == null || !validateArea(area)) ;
         return area;
     }
 
     @Override
-    public Tax validateTaxState() throws FileNotFoundException {
+    public boolean validateArea(BigDecimal area) {
+        if (area.compareTo(new BigDecimal(100.0)) >= 0) {
+            return true;
+        } else {
+            view.displayAreaMustBeGreater();
+            return false;
+        }
+    }
+
+    @Override
+    public Tax getTaxState() throws FileNotFoundException {
+        Map<String, Tax> taxes = dao.getAllTaxRates();
         Tax selectedState = null;
         String state;
         do {
             state = view.promptAddOrderTax();
-            selectedState = dao.getAllTaxRates().get(state);
-
-            if (!dao.getAllTaxRates().containsKey(state)) {
-                view.displayCannotSellInState(state);
-            }
-        } while (!dao.getAllTaxRates().containsKey(state));
+            selectedState = taxes.get(state);
+        } while (!validateTaxState(state, taxes));
         return selectedState;
     }
 
     @Override
-    public String validateCustomerName() {
+    public boolean validateTaxState(String state, Map<String, Tax> taxes) throws FileNotFoundException {
+        if (taxes.containsKey(state)) {
+            return true;
+        } else {
+            view.displayCannotSellInState(state);
+        }
+        return false;
+    }
+
+    @Override
+    public String getCustomerName() {
         String customerName;
-        boolean validName;
         do {
             customerName = view.promptAddOrderCustomerName();
-            validName = customerName.matches("^[a-zA-Z0-9.,\\s]+$");
-            if (!validName) {
-                view.displayNameMustContain();
-            }
-        } while (!validName);
+        } while (!validateCustomerName(customerName));
         return customerName;
     }
 
     @Override
-    public LocalDate validateFutureOrderDate() {
+    public boolean validateCustomerName(String customerName) {
+        if(customerName.matches("^[a-zA-Z0-9.,\\s]+$")) {
+            return true;
+        } else {
+            view.displayNameMustContain();
+        }
+        return false;
+    }
+
+    @Override
+    public LocalDate getFutureDate() {
         LocalDate futureDate = LocalDate.now();
+        String orderDate;
         do {
-            String orderDate = view.promptAddOrderOrderDate();
-            try {
-                futureDate = LocalDate.parse(orderDate);
-                if (futureDate.isBefore(LocalDate.now().plusDays(1))) {
-                    view.displayDateNotInFuture();
-                }
-            } catch (Exception e) {
-                view.displayDateFormatIncorrect();
+            orderDate = view.promptAddOrderOrderDate();
+        } while (!validateFutureOrderDate(orderDate));
+        return LocalDate.parse(orderDate);
+    }
+
+    @Override
+    public boolean validateFutureOrderDate(String orderDate) {
+        LocalDate futureDate;
+        try {
+            futureDate = LocalDate.parse(orderDate);
+            if (!futureDate.isBefore(LocalDate.now().plusDays(1))) {
+                return true;
+            } else {
+                view.displayDateNotInFuture();
             }
-        } while (futureDate.isBefore(LocalDate.now().plusDays(1)));
-        return futureDate;
+        } catch (Exception e) {
+            view.displayDateFormatIncorrect();
+        }
+        return false;
     }
 
 
     @Override
-    public Product validateProductType() throws FileNotFoundException {
+    public Product getProductType() throws FileNotFoundException {
+
         String selectedProductType;
+        Map<String, Product>  products = dao.getAllProducts();
         view.displayAvailableProduct();
-        boolean keepGoing = true;
-        for (String productType :  dao.getAllProducts().keySet()) {
-            BigDecimal costPerSquareFoot =  dao.getAllProducts().get(productType).getCostPerSquareFoot();
-            BigDecimal laborCostPerSquareFoot =  dao.getAllProducts().get(productType).getLaborCostPerSquareFoot();
+
+        for (String productType : products.keySet()) {
+            BigDecimal costPerSquareFoot = products.get(productType).getCostPerSquareFoot();
+            BigDecimal laborCostPerSquareFoot = products.get(productType).getLaborCostPerSquareFoot();
 
             view.print(productType, costPerSquareFoot, laborCostPerSquareFoot);
         }
 
-
         do {
             selectedProductType = view.promptAddOrderProductType();
-            if ( dao.getAllProducts().containsKey(selectedProductType)) {
-                keepGoing = false;
-            }
-            else{
-                view.displayInvalidProductType();
-            }
-        } while (keepGoing);
+        } while (!validateProductType(selectedProductType, products));
 
-        return  dao.getAllProducts().get(selectedProductType);
+        return products.get(selectedProductType);
+    }
+
+    @Override
+    public boolean validateProductType(String selectedProductType, Map<String,Product> products) {
+
+        if (products.containsKey(selectedProductType)) {
+            return true;
+        } else{
+            view.displayInvalidProductType();
+        }
+        return false;
     }
 
     /**
