@@ -251,9 +251,12 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
             File file = new File(folderPath + "\\" + fileName);
             FileWriter myWriter = new FileWriter(file, false);
             for(int j : dateOrder.get(i)) {
-                String writeString = marhsallOrder(orderInventory.get(j));
 
-                myWriter.write(writeString + "\n");
+                if(orderInventory.get(j) != null) {
+                    String writeString = marhsallOrder(orderInventory.get(j));
+
+                    myWriter.write(writeString + "\n");
+                }
 
             }
             myWriter.flush();
