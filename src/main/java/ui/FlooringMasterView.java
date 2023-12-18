@@ -19,8 +19,8 @@ public class FlooringMasterView {
     private final UserIO io;
 
     // @Autowired
-    public FlooringMasterView() {
-        this.io = new UserIOImpl();
+    public FlooringMasterView(UserIO io) {
+        this.io = io;
     }
 
     public UserIO getIo() {

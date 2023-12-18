@@ -19,9 +19,9 @@ public class FlooringMasterController {
     private FlooringMasterView view;
     private FlooringMasterServiceLayer service;
 
-    public FlooringMasterController() throws IOException {
-        this.view = new FlooringMasterView();
-        this.service = new FlooringMasterServiceLayeriImpl();
+    public FlooringMasterController(FlooringMasterView view, FlooringMasterServiceLayer service) throws IOException {
+        this.view = view;
+        this.service = service;
     }
 
     //Menu Selection

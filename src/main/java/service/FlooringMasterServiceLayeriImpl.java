@@ -21,9 +21,9 @@ public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLay
     FlooringMasterDao dao;
     FlooringMasterView view;
 
-    public FlooringMasterServiceLayeriImpl () throws IOException {
-        this.dao= new FlooringMasterDaoImpl();
-        this.view= new FlooringMasterView();
+    public FlooringMasterServiceLayeriImpl (FlooringMasterDao dao, FlooringMasterView view) throws IOException {
+        this.dao= dao;
+        this.view= view;
     }
 
     public FlooringMasterDao getDao() {
