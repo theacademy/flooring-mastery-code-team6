@@ -6,6 +6,7 @@ import dto.Order;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import dto.Product;
 import dto.Tax;
 import ui.FlooringMasterView;
 
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 class FlooringMasterServiceLayeriImplTest {
     private FlooringMasterServiceLayerImpl service;
@@ -153,23 +155,45 @@ class FlooringMasterServiceLayeriImplTest {
         assertEquals(result,false,"validateCustomerName on incorrect data should return false");
     }
 
-//    @org.junit.jupiter.api.Test
-//    void validateStateTest() throws IOException {
-//
-//        Tax myTax = new Tax("TX","Texas",new BigDecimal(4.02));
-//        Map<String,Tax> myMap = new HashMap<>();
-//        myMap.put("TX", myTax);
-//        //Validate on correct data
-//        String testState = "TX";
-//        boolean result = service.validateTaxState(testState,myMap);
-//        assertEquals(result,true,"validateTaxState on correct data should return true");
-//
-//
-//        //Validate on incorrect data
-//        testState = "NY";
-//        result = service.validateTaxState(testState,myMap);
-//        assertEquals(result,false,"validateTaxState on incorrect data should return false");
-//    }
+    @org.junit.jupiter.api.Test
+    void validateProductTypeTest(){
+
+        Product myProduct = new Product("Tile",new BigDecimal("5.00"), new BigDecimal("15.00"));
+        Map<String,Product> myMap = new HashMap<>();
+        myMap.put(myProduct.getProductType(), myProduct);
+        //Validate on correct data
+        String testProduct = "Tile";
+        boolean result = service.validateProductType(testProduct,myMap);
+        assertEquals(result,true,"validateTaxState on correct data should return true");
+
+
+        //Validate on incorrect data
+        testProduct = "tile";
+        result = service.validateProductType(testProduct,myMap);
+        assertEquals(result,false,"validateTaxState on incorrect data should return false");
+    }
+
+
+
+    @org.junit.jupiter.api.Test
+    void getNewOrderNumberTest() throws IOException {
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(scanner.nextLine());
+
+        // Set up test order
+        Order testOrder = new Order(1, LocalDate.now().plusDays(10),"Hoda",
+                "TX", "Laminate", new BigDecimal(120));
+
+        // Call the method to add an order
+        Order resultOrder = service.addOrder(testOrder);
+
+
+        assertEquals(2,service.getNewOrderNumber(), "service is creating wrong new order number");
+
+
+    }
+
 
 
 
