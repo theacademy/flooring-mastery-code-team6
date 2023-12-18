@@ -1,7 +1,6 @@
 package service;
 
 import dao.FlooringMasterDao;
-import dao.FlooringMasterDaoImpl;
 import dto.Order;
 import dto.Product;
 import dto.Tax;
@@ -16,12 +15,12 @@ import java.util.Map;
 
 import static java.util.Collections.max;
 
-public class FlooringMasterServiceLayeriImpl implements FlooringMasterServiceLayer{
+public class FlooringMasterServiceLayerImpl implements FlooringMasterServiceLayer{
 
     FlooringMasterDao dao;
     FlooringMasterView view;
 
-    public FlooringMasterServiceLayeriImpl (FlooringMasterDao dao, FlooringMasterView view) throws IOException {
+    public FlooringMasterServiceLayerImpl(FlooringMasterDao dao, FlooringMasterView view) throws IOException {
         this.dao= dao;
         this.view= view;
     }

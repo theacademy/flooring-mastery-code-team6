@@ -10,7 +10,7 @@ public class App {
     public static void main(String[] args) throws IOException {
 
         ApplicationContext appContext
-                = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+                = new ClassPathXmlApplicationContext("applicationContext.xml");
 
         FlooringMasterController controller = appContext.getBean("controller", FlooringMasterController.class);
         controller.run();

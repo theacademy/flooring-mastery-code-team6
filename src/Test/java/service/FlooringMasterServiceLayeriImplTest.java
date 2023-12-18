@@ -6,7 +6,6 @@ import dto.Order;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import ui.FlooringMasterView;
 
 import ui.UserIO;
@@ -16,9 +15,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.mockito.Mockito.*;
 class FlooringMasterServiceLayeriImplTest {
-    private FlooringMasterServiceLayeriImpl service;
+    private FlooringMasterServiceLayerImpl service;
 
 
     private UserIO io;
@@ -27,7 +25,7 @@ class FlooringMasterServiceLayeriImplTest {
     private FlooringMasterDao dao;
     @org.junit.jupiter.api.BeforeEach
     void setUp() throws IOException {
-        service = new FlooringMasterServiceLayeriImpl(new FlooringMasterDaoImpl(), new FlooringMasterView(new UserIOImpl()));
+        service = new FlooringMasterServiceLayerImpl(new FlooringMasterDaoImpl(), new FlooringMasterView(new UserIOImpl()));
 
     }
 
