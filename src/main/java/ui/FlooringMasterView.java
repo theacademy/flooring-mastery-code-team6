@@ -242,7 +242,15 @@ public class FlooringMasterView {
     }
 
     public int promptOrderNumber(String prompt) {
-        return io.readInt(prompt);
+        int i = -999;
+        do {
+            try {
+                i =io.readIntFromString(prompt);
+            } catch (Exception e) {
+                io.print("Not a valid order number");
+            }
+        } while(i == -999);
+        return i;
     }
 
 

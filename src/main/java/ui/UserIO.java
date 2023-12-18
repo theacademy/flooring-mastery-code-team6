@@ -14,4 +14,5 @@ public interface UserIO {
     char readChar(String prompt);
 
     int readInt(String prompt);
+    int readIntFromString(String prompt);
 }
