@@ -1,5 +1,7 @@
 package ui;
 
+import enums.MenuSelectionType;
+
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -49,9 +51,16 @@ public class UserIOImpl implements UserIO{
     @Override
     public int readInt(String prompt){
         print(prompt);
-        int temp = sc.nextInt();
-        sc.nextLine();
-        return temp;
+        int num;
+        try {
+            num = sc.nextInt();
+            sc.nextLine();
+        }
+        catch (Exception e){
+            sc = new Scanner(System.in);
+            return MenuSelectionType.UNKNOWNCOMMANDS.getSelection();
+        }
+        return num >= MenuSelectionType.values().length ? MenuSelectionType.UNKNOWNCOMMANDS.getSelection(): num;
     }
 
     @Override

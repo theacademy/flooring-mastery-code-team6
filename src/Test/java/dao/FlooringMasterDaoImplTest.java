@@ -75,15 +75,17 @@ class FlooringMasterDaoImplTest {
     void removeOrder() throws IOException {
 
         int sizeBeforeAdding = dao.getAllOrders().size();
+        int orderNumber = (new Random()).nextInt();
+
 
         // Create a sample order
-        Order order = new Order(1, LocalDate.now(), "HH", "TX", "Wood", BigDecimal.TEN);
+        Order order = new Order(orderNumber, LocalDate.now(), "HH", "TX", "Wood", BigDecimal.TEN);
 
         // Add the order
         dao.addOrder(order);
 
         // Remove the order
-        Order removedOrder = dao.removeOrder(1, LocalDate.now());
+        Order removedOrder = dao.removeOrder(orderNumber, LocalDate.now());
 
         // Check if the order is removed successfully
         assertNotNull(removedOrder);
@@ -96,8 +98,9 @@ class FlooringMasterDaoImplTest {
         FlooringMasterDaoImpl dao = new FlooringMasterDaoImpl();
 
         int sizeBeforeAdding = dao.getAllOrders().size();
+        int orderNumber = (new Random()).nextInt();
         // Create a sample order
-        Order order = new Order(1, LocalDate.now(), "HH", "TX", "Laminate", BigDecimal.valueOf(101.0));
+        Order order = new Order(orderNumber, LocalDate.now(), "HH", "TX", "Laminate", BigDecimal.valueOf(101.0));
 
         // Add the order
         dao.addOrder(order);

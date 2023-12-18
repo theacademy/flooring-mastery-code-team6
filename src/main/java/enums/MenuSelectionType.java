@@ -6,7 +6,8 @@ public enum MenuSelectionType {
     EDIT_ORDERS (3),
     REMOVE_ORDERS (4),
     EXPORT_ALL_DATA (5),
-    QUIT (6);
+    QUIT (6),
+    UNKNOWNCOMMANDS (7);
 
     public final int selection;
 

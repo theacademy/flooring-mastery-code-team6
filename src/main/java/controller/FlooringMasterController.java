@@ -44,8 +44,10 @@ public class FlooringMasterController {
                 case QUIT:
                     keepGoing = false;
                     break;
-                default:
+                case UNKNOWNCOMMANDS:
                     unknownCommand();
+                    break;
+
             }
         }
     }
