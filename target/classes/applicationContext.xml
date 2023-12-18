@@ -11,7 +11,7 @@
     <bean id="view" class="ui.FlooringMasterView">
         <constructor-arg ref="io" />
     </bean>
-    <bean id="service" class="service.FlooringMasterServiceLayeriImpl">
+    <bean id="service" class="service.FlooringMasterServiceLayerImpl">
         <constructor-arg ref="dao" />
         <constructor-arg ref="view" />
     </bean>
