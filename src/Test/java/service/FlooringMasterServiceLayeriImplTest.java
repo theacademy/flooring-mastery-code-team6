@@ -11,7 +11,9 @@ import ui.FlooringMasterView;
 import ui.UserIO;
 import ui.UserIOImpl;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -84,5 +86,19 @@ class FlooringMasterServiceLayeriImplTest {
         // delete the order and verify it
         assertFalse(service.getDao().getAllOrders().contains(testOrder));
     }
+
+    @org.junit.jupiter.api.Test
+    void validateAreaTest() throws IOException {
+
+        BigDecimal testArea = new BigDecimal("101");
+        boolean result = service.validateArea(testArea);
+        assertEquals(result,true,"validateArea on correct area should return true");
+
+        testArea = new BigDecimal("99");
+        result = service.validateArea(testArea);
+        assertEquals(result,false,"validateArea on incorrect area should return false");
+    }
+
+
 
 }
