@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import ui.FlooringMasterView;
+
 import ui.UserIO;
 import ui.UserIOImpl;
 
@@ -26,9 +27,8 @@ class FlooringMasterServiceLayeriImplTest {
     private FlooringMasterDao dao;
     @org.junit.jupiter.api.BeforeEach
     void setUp() throws IOException {
-        io = new UserIOImpl();
-        view = new FlooringMasterView(io);
-        service = new FlooringMasterServiceLayeriImpl(dao, view);
+        service = new FlooringMasterServiceLayeriImpl(new FlooringMasterDaoImpl(), new FlooringMasterView(new UserIOImpl()));
+
     }
 
     @org.junit.jupiter.api.AfterEach
