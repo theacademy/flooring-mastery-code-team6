@@ -148,7 +148,6 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     }
 
     public void readProduct() throws FileNotFoundException {
-
         try {
             File file = new File(PRODUCT_FILE);
             Scanner sc = new Scanner(file);
@@ -158,11 +157,14 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
                 sc.nextLine(); // Skip the first line (header)
             }
 
-            // Read and store product information
-            while (sc.hasNextLine()) {
-                Product product = unmarshallProduct(sc.nextLine());
-                products.put(product.getProductType(), product);
-            }
+            // Set the delimiter of the Scanner to the system line separator
+            sc.useDelimiter(System.lineSeparator());
+            // Convert the stream of tokens (or lines) from the Scanner
+            sc.tokens()
+                    // Map each token (or line) to a Product with the unMarshallProduct method
+                    .map(this::unmarshallProduct)
+                    // For each Product, add it to the products map with productType as key
+                    .forEach(product -> products.put(product.getProductType(), product));
 
             sc.close();
         } catch (FileNotFoundException e) {
