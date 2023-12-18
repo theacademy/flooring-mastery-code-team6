@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -96,15 +97,8 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     @Override
     public Order removeOrder(int orderNumber, LocalDate orderDate) {
         if (checkValidOrder(orderNumber, orderDate)) {
-            String path = FileType.ORDER.getFileName() + "_" + orderDate.toString();
-            if(Files.exists(Path.of(path))){
-                try {
-                    Files.delete(Path.of(path));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            dateOrder.remove(orderDate);
+            ArrayList<Integer> orderArray= dateOrder.get(orderDate.toString());
+            orderArray.remove(Integer.valueOf(orderNumber));
             return orderInventory.remove(orderNumber);
         } else {
             return null;
@@ -246,6 +240,7 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
     public void writeOrderToFile() throws IOException {
 
         for (String i : dateOrder.keySet()){
+
 
             LocalDate fileDate = LocalDate.parse(i);
             DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MM/dd/YYYY");

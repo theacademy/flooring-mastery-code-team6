@@ -6,6 +6,7 @@ import dto.Order;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import dto.Tax;
 import ui.FlooringMasterView;
 
 import ui.UserIO;
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 class FlooringMasterServiceLayeriImplTest {
     private FlooringMasterServiceLayerImpl service;
@@ -90,14 +93,84 @@ class FlooringMasterServiceLayeriImplTest {
     @org.junit.jupiter.api.Test
     void validateAreaTest() throws IOException {
 
+
+        //Validate on correct data
         BigDecimal testArea = new BigDecimal("101");
         boolean result = service.validateArea(testArea);
         assertEquals(result,true,"validateArea on correct area should return true");
 
+        //Validate on incorrect data
         testArea = new BigDecimal("99");
         result = service.validateArea(testArea);
         assertEquals(result,false,"validateArea on incorrect area should return false");
     }
+
+    @org.junit.jupiter.api.Test
+    void validateNameTest() throws IOException {
+
+        //Validate on correct data
+        String testName = "Acme5, Inc.";
+        boolean result = service.validateCustomerName(testName);
+        assertEquals(result,true,"validateCustomerName on correct data should return true");
+
+
+        //Validate on incorrect data
+        testName = "Acme5, Inc.%";
+        result = service.validateCustomerName(testName);
+        assertEquals(result,false,"validateCustomerName on incorrect data should return false");
+    }
+
+    @org.junit.jupiter.api.Test
+    void validateStateTest() throws IOException {
+
+        Tax myTax = new Tax("TX","Texas",new BigDecimal(4.02));
+        Map<String,Tax> myMap = new HashMap<>();
+        myMap.put("TX", myTax);
+        //Validate on correct data
+        String testState = "TX";
+        boolean result = service.validateTaxState(testState,myMap);
+        assertEquals(result,true,"validateTaxState on correct data should return true");
+
+
+        //Validate on incorrect data
+        testState = "NY";
+        result = service.validateTaxState(testState,myMap);
+        assertEquals(result,false,"validateTaxState on incorrect data should return false");
+    }
+
+    @org.junit.jupiter.api.Test
+    void validateDateTest() throws IOException {
+
+        //Validate on correct data
+        String testDate = LocalDate.now().plusDays(5).toString();
+        boolean result = service.validateFutureOrderDate(testDate);
+        assertEquals(result,true,"validateCustomerName on correct data should return true");
+
+
+        //Validate on incorrect data
+        testDate = LocalDate.now().minusDays(5).toString();
+        result = service.validateCustomerName(testDate);
+        assertEquals(result,false,"validateCustomerName on incorrect data should return false");
+    }
+
+//    @org.junit.jupiter.api.Test
+//    void validateStateTest() throws IOException {
+//
+//        Tax myTax = new Tax("TX","Texas",new BigDecimal(4.02));
+//        Map<String,Tax> myMap = new HashMap<>();
+//        myMap.put("TX", myTax);
+//        //Validate on correct data
+//        String testState = "TX";
+//        boolean result = service.validateTaxState(testState,myMap);
+//        assertEquals(result,true,"validateTaxState on correct data should return true");
+//
+//
+//        //Validate on incorrect data
+//        testState = "NY";
+//        result = service.validateTaxState(testState,myMap);
+//        assertEquals(result,false,"validateTaxState on incorrect data should return false");
+//    }
+
 
 
 
