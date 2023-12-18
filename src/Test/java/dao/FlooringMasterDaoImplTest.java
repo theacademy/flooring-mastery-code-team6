@@ -62,7 +62,6 @@ class FlooringMasterDaoImplTest {
             assertTrue(dao.getTaxes().containsKey(stateAbbreviation));
 
         }
-        FlooringMasterDaoImpl daoWithInvalidPath = new FlooringMasterDaoImpl();
 
 
     }
