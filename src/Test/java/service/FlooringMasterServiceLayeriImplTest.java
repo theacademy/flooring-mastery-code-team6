@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import ui.FlooringMasterView;
+import ui.UserIO;
+import ui.UserIOImpl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -16,15 +18,21 @@ import java.time.LocalDate;
 import static org.mockito.Mockito.*;
 class FlooringMasterServiceLayeriImplTest {
     private FlooringMasterServiceLayeriImpl service;
+
+
+    private UserIO io;
+    private FlooringMasterView view;
+
+    private FlooringMasterDao dao;
     @org.junit.jupiter.api.BeforeEach
     void setUp() throws IOException {
-        // defining mock objects
-//        service = new FlooringMasterServiceLayeriImpl();
+        io = new UserIOImpl();
+        view = new FlooringMasterView(io);
+        service = new FlooringMasterServiceLayeriImpl(dao, view);
     }
 
     @org.junit.jupiter.api.AfterEach
     void tearDown() {
-        service = null;
     }
 
     @org.junit.jupiter.api.Test
