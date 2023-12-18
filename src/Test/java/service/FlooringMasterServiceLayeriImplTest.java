@@ -4,6 +4,7 @@ import dao.FlooringMasterDao;
 import dao.FlooringMasterDaoImpl;
 import dto.Order;
 
+import static java.util.Collections.max;
 import static org.junit.jupiter.api.Assertions.*;
 
 import dto.Product;
@@ -181,8 +182,16 @@ class FlooringMasterServiceLayeriImplTest {
         // Set up test order
         Order testOrder = new Order(1, LocalDate.now().plusDays(10),"Hoda",
                 "TX", "Laminate", new BigDecimal(120));
+        Order testOrder2 = new Order(2, LocalDate.now().plusDays(10),"Luan",
+                "TX", "Laminate", new BigDecimal(120));
+        Order testOrder3 = new Order(3, LocalDate.now().plusDays(10),"Ivy",
+                "TX", "Laminate", new BigDecimal(120));
+        service.addOrder(testOrder);
+        service.addOrder(testOrder2);
+        service.addOrder(testOrder3);
+        service.removeOrder(3,testOrder3.getOrderDate());
 
-        assertEquals(service.getDao().getAllOrders().size() + 1,service.getNewOrderNumber(), "service is creating wrong new order number");
+        assertEquals(max(service.getDao().getAllOrderNumber()) + 1,service.getNewOrderNumber(), "service is creating wrong new order number");
 
     }
 
