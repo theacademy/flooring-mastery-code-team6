@@ -201,11 +201,15 @@ public class FlooringMasterDaoImpl implements FlooringMasterDao {
                 sc.nextLine();
             }
 
-            // go through the file
-            while (sc.hasNextLine()) {
-                Tax tax = unmarshallTax(sc.nextLine());
-                taxes.put(tax.getStateAbbreviation(), tax);
-            }
+
+            // Set the delimiter of the Scanner to the system line separator
+            sc.useDelimiter(System.lineSeparator());
+            // Convert the stream of tokens (or lines) from the Scanner
+            sc.tokens()
+                    // Map each token (or line) to a Tax with the unMarshallTax method
+                    .map(this::unmarshallTax)
+                    // For each Tax, add it to the tax map with state abbreviation as key
+                    .forEach(tax -> taxes.put(tax.getStateAbbreviation(), tax));
 
             sc.close();
 
