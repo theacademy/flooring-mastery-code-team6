@@ -91,8 +91,9 @@ public class FlooringMasterController {
             Order removedOrder = service.removeOrder(orderToBeRemoved.getOrderNumber(), orderToBeRemoved.getOrderDate());
             if (removedOrder != null && removedOrder.equals(orderToBeRemoved)) {
                 view.removeOrderResultPrompt(true);
+            } else {
+                view.removeOrderResultPrompt(false);
             }
-            view.removeOrderResultPrompt(false);
         }
     }
 
