@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import ui.FlooringMasterView;
+import ui.UserIOImpl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -18,8 +19,7 @@ class FlooringMasterServiceLayeriImplTest {
     private FlooringMasterServiceLayeriImpl service;
     @org.junit.jupiter.api.BeforeEach
     void setUp() throws IOException {
-        // defining mock objects
-//        service = new FlooringMasterServiceLayeriImpl();
+        service = new FlooringMasterServiceLayeriImpl(new FlooringMasterDaoImpl(), new FlooringMasterView(new UserIOImpl()));
     }
 
     @org.junit.jupiter.api.AfterEach
